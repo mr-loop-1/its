@@ -1,0 +1,19 @@
+{
+  "name": "its-git-server",
+  "version": "1.0.0",
+  "description": "server for its-git",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mr-loop-1/its.git"
+  },
+  "author": "abdul samad",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/mr-loop-1/its/issues"
+  },
+  "homepage": "https://github.com/mr-loop-1/its#readme"
+}
