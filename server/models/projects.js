@@ -16,11 +16,18 @@ var projectsSchema = new mongoose.Schema(
         projectManager: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Users",
+            required: true,
         },
         projectMembers: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Users",
+            },
+        ],
+        issues: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "bugs",
             },
         ],
     },

@@ -18,6 +18,7 @@ var userSchema = new mongoose.Schema(
         stream: [
             {
                 type: {
+                    //! has to be enum for all the stream types
                     type: String,
                 },
                 values: {
@@ -46,6 +47,6 @@ var userSchema = new mongoose.Schema(
     }
 );
 
-UsersModel = mongoose.model("bugs", userSchema);
+UsersModel = mongoose.model("bugs", bugSchema);
 
 module.exports = UsersModel;
