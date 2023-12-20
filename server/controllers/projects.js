@@ -1,14 +1,9 @@
-const getProjects = async (req, res, next) => {};
+const config = require("../config");
+const { projectsModel, usersModel } = require("./../models");
 
-const getProject = async (req, res, next) => {};
-
-const getProjectBugs = async (req, res, next) => {};
-
-const getProjectMembers = async (req, res, next) => {};
-
-module.exports = {
-    getProjects,
-    getProject,
-    getProjectBugs,
-    getProjectMembers,
-};
+exports.getProjects = async (req, res, next) => {};
+exports.getProject = async (req, res, next) => {};
+exports.getProjectBugs = async (req, res, next) => {};
+exports.getProjectMembers = async (req, res, next) => {};
+exports.updateProject = async (req, res, next) => {};
+exports.deleteProject = async (req, res, next) => {};

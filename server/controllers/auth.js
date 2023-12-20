@@ -1,0 +1,11 @@
+const config = require("../config");
+const bcrypt = require("bcryptjs");
+const { userModel } = require("./../models");
+
+exports.register = async (req, res) => {
+    const hashedPassword = bcrypt.hash(inputs.password);
+};
+
+exports.login = async (req, res) => {};
+exports.forgotPassword = async (req, res) => {};
+exports.resetPassword = async (req, res) => {};
