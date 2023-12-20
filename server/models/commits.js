@@ -12,7 +12,13 @@ var userSchema = new mongoose.Schema(
             type: Date,
         },
         //? bugs that are started or closed at this commit
-        bugIds: [
+        bugsOpened: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Bugs",
+            },
+        ],
+        bugsClosed: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Bugs",
@@ -24,6 +30,6 @@ var userSchema = new mongoose.Schema(
     }
 );
 
-UsersModel = mongoose.model("users", userSchema);
+UsersModel = mongoose.model("commits", commitSchema);
 
 module.exports = UsersModel;
