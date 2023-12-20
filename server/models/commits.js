@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-var userSchema = new mongoose.Schema(
+const commitSchema = new mongoose.Schema(
     {
         commitId: {
             type: String,
@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema(
         author: {
             type: String,
         },
-        commitTimestamp: {
+        timestamp: {
             type: Date,
         },
         //? bugs that are started or closed at this commit
@@ -30,6 +30,6 @@ var userSchema = new mongoose.Schema(
     }
 );
 
-UsersModel = mongoose.model("commits", commitSchema);
+const commitsModel = mongoose.model("commits", commitSchema);
 
-module.exports = UsersModel;
+module.exports = commitsModel;
