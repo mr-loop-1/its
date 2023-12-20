@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/:bugId");
-router.get("");
+router.get("/:bugId"); //* bug details with stream
+router.get(""); //* all bugs in all projects
 
-router.patch("/:bugId");
+router.post("/:bugId/stream"); //* add stream element
 
-router.delete("/:bugId");
-// router.post("")
+router.patch("/:bugId"); //* update bug details
+
+router.delete("/:bugId"); //* delete bug

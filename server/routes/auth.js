@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+router.get("/invite");
+
 router.post("/register");
 router.post("/login");
 router.post("/forgot-password");
