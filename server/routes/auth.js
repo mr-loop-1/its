@@ -1,7 +1,8 @@
 const express = require("express");
-
 const router = express.Router();
 
 router.post("/register");
+router.post("/login");
+router.post("/forgot-password");
 
-// router.post("")
+router.patch("/reset-password");
