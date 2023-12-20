@@ -1,11 +1,13 @@
 const express = require("express");
+const { bugsController } = require("./../../controllers/index");
+
 const router = express.Router();
 
-router.get("/:bugId"); //* bug details with stream
-router.get(""); //* all bugs in all projects
+router.get("/:bugId", bugsController.getBug); //* bug details with stream
+router.get(bugsController.getBugs); //* all bugs in all projects
 
-router.post("/:bugId/stream"); //* add stream element
+router.post("/:bugId/comment", bugsController.addComment); //* add stream element
 
-router.patch("/:bugId"); //* update bug details
+router.patch("/:bugId", bugsController.updateBug); //* update bug details
 
-router.delete("/:bugId"); //* delete bug
+router.delete("/:bugId", bugsController.deleteBug); //* delete bug

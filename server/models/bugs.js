@@ -41,6 +41,10 @@ const bugSchema = new mongoose.Schema(
             ref: "Users",
             required: true,
         },
+        status: {
+            type: Number,
+            default: 1,
+        },
     },
     {
         timestamps: true,

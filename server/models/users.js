@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema(
                 ref: "Bugs",
             },
         ],
+        status: {
+            type: Number,
+            default: 1,
+        },
     },
     {
         timestamps: true,
