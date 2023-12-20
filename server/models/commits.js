@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-mongoose.Types.ObjectId();
 
 var userSchema = new mongoose.Schema(
     {
@@ -12,6 +11,13 @@ var userSchema = new mongoose.Schema(
         commitTimestamp: {
             type: Date,
         },
+        //? bugs that are started or closed at this commit
+        bugIds: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Bugs",
+            },
+        ],
     },
     {
         timestamps: true,

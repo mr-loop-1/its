@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-mongoose.Types.ObjectId();
 
 var userSchema = new mongoose.Schema(
     {
@@ -28,6 +27,12 @@ var userSchema = new mongoose.Schema(
                     type: String,
                     required: true,
                 },
+            },
+        ],
+        bugs: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Bugs",
             },
         ],
     },
