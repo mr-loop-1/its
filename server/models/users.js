@@ -1,33 +1,29 @@
 const mongoose = require("mongoose");
 mongoose.Types.ObjectId();
 
-var userSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
+var userSchema = new mongoose.Schema(
+    {
+        empId: {
+            type: String,
+        },
+        email: {
+            type: String,
+        },
+        hashedPassword: {
+            type: String,
+        },
+        name: {
+            type: String,
+        },
+        roleId: {
+            type: String,
+        },
     },
-    empId: {
-        type: String,
-    },
-    email: {
-        type: String,
-    },
-    password: {
-        type: String,
-    },
-    name: {
-        type: String,
-    },
-    roleId: {
-        type: String,
-    },
-    dateRegistered: {
-        type: String,
-    },
-    ipAddress: {
-        type: String,
-    },
-});
+    {
+        timestamps: true,
+    }
+);
 
-UsersModel = mongoose.model("usersCollection", userSchema);
+UsersModel = mongoose.model("users", userSchema);
 
 module.exports = UsersModel;
