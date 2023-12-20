@@ -14,10 +14,40 @@ exports.getBugs = async (req, res, next) => {
     return data;
 };
 
-exports.getBug = async (req, res, next) => {};
+exports.getBug = async (req, res, next) => {
+    const inputs = {
+        bugId: req.body?.bugId,
+    };
+    const document = await bugsModel.findById(inputs.bugId);
 
-exports.updateBug = async (req, res, next) => {};
+    //! pass to transformers
 
-exports.addStream = async (req, res, next) => {};
+    return data;
+};
 
-exports.deleteBug = async (req, res, next) => {};
+exports.updateBug = async (req, res, next) => {
+    const inputs = {
+        ...(req.body?.assignedTo && { assignedTo: req.body?.assignedTo }),
+        //! add others too
+    };
+    const result = await bugsModel.findByIdAndUpdate(req.body?.bugId, inputs);
+
+    //! pass to transformers
+
+    return data;
+};
+
+exports.addComment = async (req, res, next) => {};
+
+exports.deleteBug = async (req, res, next) => {
+    //! first check the user access level
+    if (req?.user.ROLE === config.accessLevel.accessCode.MEMBER) {
+        throw new error();
+    }
+
+    const result = await bugsModel.findByIdAndUpdate(req.body?.bugId, {
+        status: config.status.INACTIVE,
+    });
+
+    return res.send();
+};
