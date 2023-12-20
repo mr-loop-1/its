@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-var userSchema = new mongoose.Schema(
+const bugSchema = new mongoose.Schema(
     {
         bugId: {
             type: String,
@@ -47,6 +47,6 @@ var userSchema = new mongoose.Schema(
     }
 );
 
-UsersModel = mongoose.model("bugs", bugSchema);
+const bugsModel = mongoose.model("bugs", bugSchema);
 
-module.exports = UsersModel;
+module.exports = bugsModel;
