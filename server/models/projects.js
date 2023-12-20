@@ -24,12 +24,16 @@ const projectsSchema = new mongoose.Schema(
                 ref: "Users",
             },
         ],
-        issues: [
+        bugs: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "bugs",
             },
         ],
+        status: {
+            type: Number,
+            default: 1,
+        },
     },
     {
         timestamps: true,

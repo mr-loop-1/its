@@ -19,6 +19,10 @@ const config = {
         statusEnum: [OPEN, TRIAGE, IN_PROGRESS, REVIEW_REQUESTED, CLOSED],
         statusCodeEnum: [1, 2, 3, 4, 5],
     },
+    status: {
+        ACTIVE: 1,
+        INACTIVE: 2,
+    },
 };
 
 module.exports = config;
