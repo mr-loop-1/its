@@ -18,6 +18,18 @@ var userSchema = new mongoose.Schema(
         roleId: {
             type: String,
         },
+        projects: [
+            {
+                projectId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Projects",
+                },
+                role: {
+                    type: String,
+                    required: true,
+                },
+            },
+        ],
     },
     {
         timestamps: true,

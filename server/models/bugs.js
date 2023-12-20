@@ -5,12 +5,24 @@ var userSchema = new mongoose.Schema(
         bugId: {
             type: String,
         },
-        bugTitle: {
+        title: {
             type: String,
+        },
+        description: {
+            type: String,
+        },
+        projectId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Projects",
         },
         stream: [
             {
-                type: String,
+                type: {
+                    type: String,
+                },
+                values: {
+                    type: mongoose.Schema.Types.Mixed,
+                },
             },
         ],
         commits: {

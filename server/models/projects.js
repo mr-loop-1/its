@@ -1,29 +1,34 @@
 const mongoose = require("mongoose");
-mongoose.Types.ObjectId();
 
-var userSchema = new mongoose.Schema(
+var projectsSchema = new mongoose.Schema(
     {
-        empId: {
+        projectId: {
             type: String,
         },
-        email: {
+        projectTitle: {
             type: String,
         },
-        hashedPassword: {
-            type: String,
+        createdBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Users",
+            required: true,
         },
-        name: {
-            type: String,
+        projectManager: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Users",
         },
-        roleId: {
-            type: String,
-        },
+        projectMembers: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Users",
+            },
+        ],
     },
     {
         timestamps: true,
     }
 );
 
-UsersModel = mongoose.model("users", userSchema);
+const projectsModel = mongoose.model("projects", projectsSchema);
 
-module.exports = UsersModel;
+module.exports = projectsModel;
