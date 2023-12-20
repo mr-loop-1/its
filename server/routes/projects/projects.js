@@ -1,15 +1,17 @@
 const express = require("express");
+const { projectController } = require("./../../controllers/index");
+
 const router = express.Router();
 
-router.get("/:projectId/bugs"); //* all bugs in a project
-router.get("/:projectId/user"); //* list all members of project
-router.get("/:projectId"); //* project details
-router.get(""); //* list all projects
+router.get("/:projectId/bugs", projectController.getProjectBugs); //* all bugs in a project
+router.get("/:projectId/user", projectController.getProjectMembers); //* list all members of project
+router.get("/:projectId", projectController.getProject); //* project details
+router.get(projectController.getProjects); //* list all projects
 
-router.post("/:projectId/bug"); //* create a bug in a project
-router.post("/:projectId/user"); //* add member or manager to a project
-router.post(""); //* create a project
+router.post("/:projectId/bug", projectController.createBug); //* create a bug in a project
+router.post("/:projectId/user", projectController.addMember); //* add member or manager to a project
+router.post(projectController.createProject); //* create a project
 
-router.patch("/:projectId"); //* update project details
+router.patch("/:projectId", projectController.updateProject); //* update project details
 
-router.delete("/:projectId"); //* delete project
+router.delete("/:projectId", projectController.deleteProject); //* delete project
