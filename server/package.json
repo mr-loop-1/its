@@ -2,6 +2,7 @@
   "name": "its-git-server",
   "version": "1.0.0",
   "description": "server for its-git",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,7 +17,7 @@
     "url": "https://github.com/mr-loop-1/its/issues"
   },
   "homepage": "https://github.com/mr-loop-1/its#readme",
-  "engine": {
+  "engines": {
     "node": ">=18.12.0",
     "npm": ">=8.19.2"
   },
