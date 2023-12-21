@@ -11,7 +11,7 @@ exports.authenticateToken = (req, res, next) => {
             .json({ error: "Unauthorized - Token not provided" });
     }
 
-    jwt.verify(token, "asdsdadweq", async (err, payload) => {
+    jwt.verify(token, config.jwt.secret, async (err, payload) => {
         if (err) {
             return res.status(403).json({ error: "Forbidden - Invalid token" });
         }

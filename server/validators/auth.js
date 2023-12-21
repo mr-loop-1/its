@@ -1,13 +1,6 @@
 const validator = require("validator");
 
 exports.register = (req, res, next) => {
-    /**
-     * * name
-     * * email
-     * * password
-     * * empId
-     */
-
     const body = req?.body;
 
     if (
@@ -20,8 +13,7 @@ exports.register = (req, res, next) => {
     if (
         !body?.password ||
         validator.isEmpty(body?.password) ||
-        body?.password.length < 5 ||
-        body?.password.length > 30
+        !validator.isLength(body?.password, { min: 5, max: 30 })
     ) {
         throw new error("password invalid");
     }
@@ -29,11 +21,12 @@ exports.register = (req, res, next) => {
         !body?.name ||
         validator.isEmpty(body?.name) ||
         !validator.isAlpha(body?.name) ||
-        body?.name.length < 5 ||
-        body?.name.length > 30
+        !validator.isLength(body?.name, { min: 5, max: 30 })
     ) {
         throw new error("password invalid");
     }
 
     return next();
 };
+
+exports.login = (req, res, next) => {};
