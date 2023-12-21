@@ -22,7 +22,7 @@ const bugSchema = new mongoose.Schema(
                     type: String,
                 },
                 values: {
-                    type: mongoose.Schema.Types.Mixed,
+                    type: mongoose.Schema.Types.Mixed, //* any
                 },
             },
         ],

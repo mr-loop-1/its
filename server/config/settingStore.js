@@ -5,7 +5,7 @@ const config = {
             MANAGER: 2,
             MEMBER: 3,
         },
-        accessEnum: [ADMIN, MANAGER, MEMBER],
+        accessEnum: ["ADMIN", "MANAGER", "MEMBER"],
         accessCodeEnum: [1, 2, 3],
     },
     bugs: {
