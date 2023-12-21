@@ -1,4 +1,4 @@
-const config = require("../config/settingStore");
+const config = require("../config");
 const { bugsModel } = require("./../models");
 
 exports.getBugs = async (req, res, next) => {

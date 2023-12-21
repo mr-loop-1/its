@@ -1,4 +1,7 @@
 const express = require("express");
+const { jwtStrategy, accessGuard } = require("./../middleware");
+const config = require("../config");
+
 const router = express.Router();
 
 router.get(""); //* user info

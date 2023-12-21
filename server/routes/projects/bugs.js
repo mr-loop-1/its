@@ -1,9 +1,16 @@
 const express = require("express");
 const { bugsController } = require("./../../controllers/index");
+const { jwtStrategy, accessGuard } = require("./../middleware");
+const config = require("./../../config");
 
 const router = express.Router();
 
-router.get("/:bugId", bugsController.getBug); //* bug details with stream
+router.get(
+    "/:bugId",
+    jwtStrategy,
+    accessGuard([config.accessLevel.ANY]),
+    bugsController.getBug
+); //* bug details with stream
 router.get(bugsController.getBugs); //* all bugs in all projects
 
 router.post("/:bugId/comment", bugsController.addComment); //* add stream element
