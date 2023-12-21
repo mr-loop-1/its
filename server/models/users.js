@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 
+// userType: {}, // v2
 const userSchema = new mongoose.Schema(
     {
-        empId: {
-            type: String,
-        },
         email: {
             type: String,
         },
@@ -14,9 +12,6 @@ const userSchema = new mongoose.Schema(
         name: {
             type: String,
         },
-        roleId: {
-            type: String,
-        },
         projects: [
             {
                 projectId: {
@@ -24,21 +19,30 @@ const userSchema = new mongoose.Schema(
                     ref: "Projects",
                 },
                 role: {
+                    //* three types - admin, manager, member
                     type: String,
                     required: true,
                 },
             },
         ],
-        bugs: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Bugs",
-            },
-        ],
-        status: {
-            type: Number,
-            default: 1,
+        bugs: {
+            created: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Bugs",
+                },
+            ],
+            assigned: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Bugs",
+                },
+            ],
         },
+        // status: {
+        //     type: Number,
+        //     default: 1,
+        // },
     },
     {
         timestamps: true,

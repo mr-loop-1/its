@@ -2,23 +2,22 @@ const mongoose = require("mongoose");
 
 const projectsSchema = new mongoose.Schema(
     {
-        projectId: {
-            type: String,
-        },
         projectTitle: {
             type: String,
+        },
+        github: {
+            //! todo
         },
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Users",
-            required: true,
         },
-        projectManager: {
+        manager: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Users",
-            required: true,
         },
-        projectMembers: [
+        members: [
+            //* including manager
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Users",
@@ -32,7 +31,6 @@ const projectsSchema = new mongoose.Schema(
         ],
         status: {
             type: Number,
-            default: 1,
         },
     },
     {
