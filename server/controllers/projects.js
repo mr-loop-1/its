@@ -146,6 +146,4 @@ exports.getProjectMembers = async (req, res, next) => {
     res.status(200).json(data);
 };
 
-exports.addProjectMember = async (req, res) => {
-    const body = req?.body;
-};
+exports.listCommits = (req, res) => {};

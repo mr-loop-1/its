@@ -1,4 +1,9 @@
-const { projectsModel, userModel, bugsModel } = require("./../models");
+const {
+    projectsModel,
+    userModel,
+    bugsModel,
+    commitsModel,
+} = require("./../models");
 const config = require("../config");
 
 exports.addStream = async (req, res) => {
@@ -25,6 +30,20 @@ exports.addStream = async (req, res) => {
             }
             case "PROGRESS": {
                 const { author, prev, now, timestamp } = body;
+                if (now === "CLOSE") {
+                    const commitId = body.commitId;
+                    await bugsModel.findByIdAndUpdate(params.bugId, {
+                        progress: now,
+                        $push: { "commits.close": commitId },
+                    });
+                    await commitsModel.findByIdAndUpdate(commitId, {
+                        $push: { "bugs.close": params.bugsId },
+                    });
+                } else {
+                    await bugsModel.findByIdAndUpdate(params.bugId, {
+                        progress: now,
+                    });
+                }
                 document = await bugsModel.findByIdAndUpdate(params.bugId, {
                     $push: {
                         stream: {
@@ -33,6 +52,7 @@ exports.addStream = async (req, res) => {
                         },
                     },
                 });
+
                 break;
             }
             case "ASSIGNED": {
