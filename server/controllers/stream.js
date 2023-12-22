@@ -23,7 +23,7 @@ exports.addStream = async (req, res) => {
                 });
                 break;
             }
-            case "STATUS": {
+            case "PROGRESS": {
                 const { author, prev, now, timestamp } = body;
                 document = await bugsModel.findByIdAndUpdate(params.bugId, {
                     $push: {

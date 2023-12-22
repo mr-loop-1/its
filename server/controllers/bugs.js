@@ -36,8 +36,15 @@ exports.getBugs = async (req, res, next) => {
     const body = req?.body;
     const user = req?.user;
 
+    const filters = {
+        ...(body?.assignedTo && { assginedTo: body.assignedTo }),
+        ...(body?.priority && { priority: body.priority }),
+        ...(body?.progress && { progrss: body.progress }),
+    };
+
     const documents = await userModel
         .findById(user.id)
+        .find(filters)
         .populate({ path: "bugs", model: "projects" });
 
     const options = {
