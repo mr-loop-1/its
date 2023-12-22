@@ -3,4 +3,5 @@ module.exports = {
     projectsModel: require("./projects"),
     bugsModel: require("./bugs"),
     commitsModel: require("./commits"),
+    invitesModel: require("./invite"),
 };
