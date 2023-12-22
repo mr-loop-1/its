@@ -3,10 +3,12 @@ const mongoose = require("mongoose");
 const bugSchema = new mongoose.Schema(
     {
         bugId: {
-            type: String,
+            type: Number, //* auto increment from 101 for each project
+            index: true,
         },
         title: {
             type: String,
+            index: true,
         },
         description: {
             type: String,
@@ -18,11 +20,11 @@ const bugSchema = new mongoose.Schema(
         stream: [
             {
                 type: {
-                    //! has to be enum for all the stream types
-                    type: String,
+                    type: Number, //* all types of stream
+                    enum: [],
                 },
                 values: {
-                    type: mongoose.Schema.Types.Mixed, //* any
+                    type: mongoose.Schema.Types.Mixed,
                 },
             },
         ],
@@ -39,11 +41,9 @@ const bugSchema = new mongoose.Schema(
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Users",
-            required: true,
         },
         status: {
-            type: Number,
-            default: 1,
+            type: Boolean,
         },
     },
     {

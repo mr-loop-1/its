@@ -11,6 +11,7 @@ const {
 const bodyParser = require("body-parser");
 
 require("./database");
+const { userModel, projectsModel } = require("./models");
 
 const app = express();
 app.use(bodyParser.json());

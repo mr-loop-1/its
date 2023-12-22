@@ -26,8 +26,12 @@ const config = {
         statusCodeEnum: [1, 2, 3, 4, 5],
     },
     status: {
-        ACTIVE: 1,
-        INACTIVE: 2,
+        statusCode: {
+            ACTIVE: 1,
+            INACTIVE: 2,
+        },
+        statusEnum: ["ACTIVE", "INACTIVE"],
+        statusCodeEnum: [1, 2],
     },
 };
 

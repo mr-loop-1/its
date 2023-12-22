@@ -5,7 +5,10 @@ exports.allProjects = (documents, options) => {
         dataArray = documents.slice(offset, offset + options.perPage);
     }
 
+    return dataArray;
+
     return dataArray.map((data) => ({
-        projectTitle: data.title,
+        name: data.name,
+        projects: data.projects,
     }));
 };
