@@ -2,19 +2,30 @@ const config = require("../config");
 const { projectTransformer } = require("../transformers");
 const { projectsModel, userModel } = require("./../models");
 
+exports.createProject = async (req, res) => {
+    const body = req?.body;
+
+    const newProject = new projectsModel({
+        title: body.title,
+        description: body.description,
+        github: body.github,
+        admin: req.user.id,
+        manager: body.manager,
+        members: body.members,
+        status: true,
+    });
+    const document = await newProject.save();
+
+    const data = projectTransformer.project(document, options);
+
+    res.status(200).json(data);
+};
+
 exports.getProjects = async (req, res, next) => {
     const body = req?.body;
-    /**
-     * * only active ones
-     * * only those where the person is a member, manager or admin
-     * * hence instead of projectModel, use UserModel and then join with projectModel
-     */
-    const inputs = {
-        //     status: ACTIVE,
-    };
-    const proj = await projectsModel.find();
-    const documents = await userModel
-        .findById(body?.userId)
+
+    const document = await userModel
+        .findById(body.userId)
         .populate({ path: "projects.projectId", model: "projects" });
 
     const options = {
@@ -22,16 +33,50 @@ exports.getProjects = async (req, res, next) => {
         page: body?.page,
         perPage: body?.perPage,
     };
-    const data = projectTransformer.allProjects(documents, options);
+    const data = projectTransformer.allProjects(document.projects, options);
 
-    res.json(data);
+    res.status(200).json(data);
 };
 exports.getProject = async (req, res, next) => {
-    const inputs = {
-        status: req.body?.status,
-    };
+    const body = req?.body;
+
+    const document = await projectsModel
+        .findById(body.projectId)
+        .populate({ path: "bugs", model: "bugs" });
+
+    const data = projectTransformer.project(document, options);
+
+    res.status(200).json(data);
 };
-exports.getProjectBugs = async (req, res, next) => {};
-exports.getProjectMembers = async (req, res, next) => {};
+exports.getProjectBugs = async (req, res, next) => {
+    const body = req?.body;
+
+    const document = await projectsModel
+        .findById(body.projectId)
+        .populate({ path: "bugs", model: "bugs" });
+    const options = {
+        paginate: body?.paginate || false,
+        page: body?.page,
+        perPage: body?.perPage,
+    };
+    const data = projectTransformer.bugs(document.bugs, options);
+
+    res.status(200).json(data);
+};
+exports.getProjectMembers = async (req, res, next) => {
+    const body = req?.body;
+
+    const document = await projectsModel
+        .findById(body.projectId)
+        .populate({ path: "bugs", model: "bugs" });
+    const options = {
+        paginate: body?.paginate || false,
+        page: body?.page,
+        perPage: body?.perPage,
+    };
+    const data = projectTransformer.bugs(document.bugs, options);
+
+    res.status(200).json(data);
+};
 exports.updateProject = async (req, res, next) => {};
 exports.deleteProject = async (req, res, next) => {};
