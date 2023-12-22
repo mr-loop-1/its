@@ -23,7 +23,7 @@ const bugSchema = new mongoose.Schema(
                     type: Number, //* all types of stream
                     enum: [],
                 },
-                values: {
+                value: {
                     type: mongoose.Schema.Types.Mixed,
                 },
             },

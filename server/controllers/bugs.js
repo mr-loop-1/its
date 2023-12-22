@@ -1,37 +1,51 @@
 const config = require("../config");
-const { bugsModel } = require("./../models");
+const { bugsModel, userModel, projectsModel } = require("./../models");
 
 exports.createBugs = async (req, res) => {
     const body = req?.body;
+    const user = req?.user;
+    const params = req?.params;
 
     const newBug = new bugsModel({
         title: body.title,
-        description: body.description,
-        github: body.github,
-        admin: req.user.id,
-        manager: body.manager,
-        members: body.members,
+        description: body?.description,
+        projectId: params.projectId,
+        createdBy: user.id,
+        assignedTo: body?.assignedTo,
         status: true,
     });
     const document = await newBug.save();
 
-    document.members.forEach(async (memberId) => {
-        await userModel.findByIdAndUpdate(memberId, {
+    await projectsModel.findByIdAndUpdate(body?.projectId, {
+        $push: { projects: document._id },
+    });
+    await userModel.findByIdAndUpdate(body?.createdBy, {
+        $push: { projects: document._id },
+    });
+    if (body?.assignedTo) {
+        await userModel.findByIdAndUpdate(body?.assignedTo, {
             $push: { projects: document._id },
         });
-    });
+    }
 
-    const data = projectTransformer.project(document, options);
+    const data = bugTranformer.bug(document);
 
     res.status(200).json(data);
 };
 exports.getBugs = async (req, res, next) => {
-    const filters = req.body.filters;
+    const body = req?.body;
+    const user = req?.user;
+    const params = req?.params;
 
-    const inputs = {
-        status: filters?.status || config.status.ACTIVE,
+    const document = await userModel
+        .findById(user.id)
+        .populate({ path: "bugs", model: "projects" });
+
+    const options = {
+        paginate: body?.paginate || false,
+        page: body?.page,
+        perPage: body?.perPage,
     };
-    const documents = await bugsModel.find(inputs);
 
     //! pass to transformers
 

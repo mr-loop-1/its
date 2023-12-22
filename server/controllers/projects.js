@@ -8,10 +8,10 @@ exports.createProject = async (req, res) => {
 
     const newProject = new projectsModel({
         title: body.title,
-        description: body.description,
-        github: body.github,
+        description: body?.description,
+        github: body?.github,
         admin: user.id,
-        manager: body.manager,
+        manager: body?.manager,
         members: body.members,
         status: true,
     });
