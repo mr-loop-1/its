@@ -124,13 +124,13 @@ exports.getProjectMembers = async (req, res, next) => {
 
     const document = await projectsModel
         .findById(params.projectId)
-        .populate({ path: "bugs", model: "bugs" });
+        .populate({ path: "members", model: "users" });
     const options = {
         paginate: body?.paginate || false,
         page: body?.page,
         perPage: body?.perPage,
     };
-    const data = projectTransformer.bugs(document.members, options);
+    const data = projectTransformer.members(document.members, options);
 
     res.status(200).json(data);
 };

@@ -39,22 +39,26 @@ const userSchema = new mongoose.Schema(
                 },
             },
         ],
-        bugAssigned: [],
-        bugsCreated: [],
-        // bugs: {
-        //     created: [
-        //         {
-        //             type: mongoose.Schema.Types.ObjectId,
-        //             ref: "Bugs",
-        //         },
-        //     ],
-        //     assigned: [
-        //         {
-        //             type: mongoose.Schema.Types.ObjectId,
-        //             ref: "Bugs",
-        //         },
-        //     ],
-        // },
+        bugs: {
+            created: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Bugs",
+                },
+            ],
+            assigned: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Bugs",
+                },
+            ],
+            mentioned: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Bugs",
+                },
+            ],
+        },
     },
     {
         timestamps: true,

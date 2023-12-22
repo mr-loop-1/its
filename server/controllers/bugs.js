@@ -75,8 +75,6 @@ exports.updateBug = async (req, res, next) => {
     return data;
 };
 
-exports.addComment = async (req, res, next) => {};
-
 exports.deleteBug = async (req, res, next) => {
     //! first check the user access level
     if (req?.user.ROLE === config.accessLevel.accessCode.MEMBER) {

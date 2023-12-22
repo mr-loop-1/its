@@ -3,4 +3,5 @@ module.exports = {
     userController: require("./users"),
     projectController: require("./projects"),
     bugsController: require("./bugs"),
+    streamController: require("./stream"),
 };
