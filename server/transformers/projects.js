@@ -67,4 +67,15 @@ exports.projectMembers = (doc) => {
     };
 };
 
-exports.projectCommits = (docs) => {};
+exports.projectCommits = (docs) => {
+    return docs.map((doc) => ({
+        sha: doc.commitId,
+        message: doc.message,
+        timestamp: doc.timestamp,
+        author: doc.author,
+        bugsCount: {
+            open: doc.bugs.open.length,
+            close: doc.bugs.close.length,
+        },
+    }));
+};
