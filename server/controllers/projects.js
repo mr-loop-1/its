@@ -1,7 +1,7 @@
 const config = require("../config");
 const { githubService } = require("../services");
 const { projectTransformer } = require("../transformers");
-const { projectsModel, userModel } = require("./../models");
+const { projectsModel, userModel, commitsModel } = require("./../models");
 
 exports.createProject = async (req, res) => {
     const body = req?.body;
@@ -51,6 +51,21 @@ exports.deleteProject = async (req, res, next) => {
         await userModel.findByIdAndUpdate(bug.createdBy, {
             $pull: { bugsCreated: bug._id },
         });
+
+        const open = await commitsModel.findByIdAndUpdate(bug.commits.open, {
+            $pull: { "bugs.open": document.id },
+        });
+        if (!open.bugs.open.length && !open.bugs.close.length) {
+            open.status = false;
+            await open.save();
+        }
+        const close = await commitsModel.findByIdAndUpdate(bug.commits.close, {
+            $pull: { "bugs.open": document.id },
+        });
+        if (!close.bugs.open.length && !close.bugs.close.length) {
+            close.status = false;
+            await close.save();
+        }
     });
 
     res.status(200).json("DELETED");
@@ -147,7 +162,7 @@ exports.getProjectMembers = async (req, res, next) => {
     res.status(200).json(data);
 };
 
-exports.listCommits = async (req, res) => {
+exports.getLatestCommit = async (req, res) => {
     const params = req.params;
 
     const document = await projectsModel.findById(params.projectId);

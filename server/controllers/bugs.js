@@ -21,6 +21,8 @@ exports.createBugs = async (req, res) => {
             open: body.commits.id,
         },
         status: true,
+        progress: 1,
+        priority: body?.priority,
     });
     const document = await newBug.save();
 
@@ -35,6 +37,9 @@ exports.createBugs = async (req, res) => {
             author: body.commit.author,
             timestamp: body.commit.timestamp,
             bugsOpened: [document.id],
+        });
+        await projectsModel.findByIdAndUpdate(body?.projectId, {
+            $push: { commits: body.commitId },
         });
         await createCommit.save();
     }

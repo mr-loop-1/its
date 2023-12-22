@@ -31,13 +31,16 @@ exports.addStream = async (req, res) => {
             case "PROGRESS": {
                 const { author, prev, now, timestamp } = body;
                 if (now === "CLOSE") {
-                    const commitId = body.commitId;
+                    const { commitId, projectId } = body;
                     await bugsModel.findByIdAndUpdate(params.bugId, {
                         progress: now,
                         $push: { "commits.close": commitId },
                     });
                     await commitsModel.findByIdAndUpdate(commitId, {
                         $push: { "bugs.close": params.bugsId },
+                    });
+                    await projectsModel.findByIdAndUpdate(projectId, {
+                        $push: { commits: commitId },
                     });
                 } else {
                     await bugsModel.findByIdAndUpdate(params.bugId, {

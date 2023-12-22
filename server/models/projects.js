@@ -36,6 +36,12 @@ const projectsSchema = new mongoose.Schema(
                 ref: "bugs",
             },
         ],
+        commits: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "bugs",
+            },
+        ],
         status: {
             type: Boolean,
         },

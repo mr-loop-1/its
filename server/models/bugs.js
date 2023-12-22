@@ -13,12 +13,12 @@ const bugSchema = new mongoose.Schema(
         priority: {
             type: Number,
             index: true,
-            enum: [],
+            enum: [1, 2, 3],
         },
         progress: {
             type: Number,
             index: true,
-            enum: [],
+            enum: [1, 2, 3, 4, 5],
         },
         description: {
             type: String,
@@ -31,7 +31,7 @@ const bugSchema = new mongoose.Schema(
             {
                 type: {
                     type: Number, //* all types of stream
-                    enum: [],
+                    enum: [1, 2, 3],
                 },
                 value: {
                     type: mongoose.Schema.Types.Mixed,
