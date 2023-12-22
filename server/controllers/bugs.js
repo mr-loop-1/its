@@ -1,5 +1,10 @@
 const config = require("../config");
-const { bugsModel, userModel, projectsModel } = require("./../models");
+const {
+    bugsModel,
+    userModel,
+    projectsModel,
+    commitsModel,
+} = require("./../models");
 
 exports.createBugs = async (req, res) => {
     const body = req?.body;
@@ -12,10 +17,27 @@ exports.createBugs = async (req, res) => {
         projectId: params.projectId,
         createdBy: user.id,
         assignedTo: body?.assignedTo,
+        commits: {
+            open: body.commits.id,
+        },
         status: true,
     });
     const document = await newBug.save();
 
+    const commit = await commitsModel.findById(body.commits.id);
+    if (commit) {
+        commit.bugs.open.push(document.id);
+    } else {
+        const createCommit = new commitsModel({
+            commitId: body.commit.id,
+            projectId: params.projectId,
+            message: body.commit.message,
+            author: body.commit.author,
+            timestamp: body.commit.timestamp,
+            bugsOpened: [document.id],
+        });
+        await createCommit.save();
+    }
     await projectsModel.findByIdAndUpdate(body?.projectId, {
         $push: { projects: document._id },
     });
