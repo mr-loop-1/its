@@ -1,3 +1,6 @@
+const { userTransformer } = require(".");
+const config = require("../config");
+
 exports.user = (doc) => {
     return {
         id: doc._id,
@@ -6,4 +9,14 @@ exports.user = (doc) => {
     };
 };
 
-exports.invites = (docs) => {};
+exports.invites = (docs) => {
+    return docs.map((doc) => {
+        return {
+            invitedBy: userTransformer.user(doc.invitedBy),
+            timestamp: doc.timestamp,
+            project: projectTransformer.project(doc.projectId),
+            role: config.inviteName[doc.role],
+            status: config.inviteStatus[doc.status],
+        };
+    });
+};

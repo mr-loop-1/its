@@ -1,5 +1,11 @@
 const config = require("../config");
-const { usersModel, invitesModel } = require("./../models");
+const { userTransformer } = require("../transformers");
+const {
+    usersModel,
+    invitesModel,
+    projectsModel,
+    userModel,
+} = require("./../models");
 
 exports.getInvites = async (req, res) => {
     const user = req.user;
@@ -9,12 +15,12 @@ exports.getInvites = async (req, res) => {
             invited: user.id,
         })
         .populate([
-            { path: "invited", model: "users" },
+            // { path: "invited", model: "users" },
             { path: "invitedBy", model: "users" },
             { path: "projectId", model: "projects" },
         ]);
 
-    // const data = //! TRANFROMEr
+    const data = userTransformer.invites(documents);
 
     return res.json(data);
 };
@@ -26,6 +32,7 @@ exports.sendInvite = async (req, res) => {
         invited: body.invited,
         invitedBy: user.id,
         projectId: body.projectId,
+        role: config.inviteCode[body.inviteRole],
         status: false,
     });
     const newInvite = await createInvite.save();
@@ -35,11 +42,26 @@ exports.sendInvite = async (req, res) => {
 exports.acceptInvite = async (req, res) => {
     const user = req.user;
     const params = req.params;
-    const documents = await invitesModel.findByIdAndUpdate(params.inviteId, {
+    const body = req.body;
+    const document = await invitesModel.findByIdAndUpdate(params.inviteId, {
         status: true,
     });
 
-    return res.json("DONEINVITE");
+    await projectsModel.findByIdAndUpdate(document.projectId, {
+        $push: { members: user.id },
+        ...(document.role === "ADMIN" && { admin: user.id }),
+        ...(document.role === "MANAGEr" && { manager: user.id }),
+    });
+    await userModel.findByIdAndUpdate(user.id, {
+        $push: {
+            projects: {
+                projectId: document.projectId,
+                role: config.inviteRole[document.role],
+            },
+        },
+    });
+
+    return res.json("ACC INVITE");
 };
 
 exports.rejectInvite = async (req, res) => {
@@ -47,6 +69,16 @@ exports.rejectInvite = async (req, res) => {
 
     const documents = await invitesModel.findByIdAndUpdate(params.inviteId, {
         status: false,
+    });
+    await projectsModel.findByIdAndUpdate(document.projectId, {
+        $pull: { members: user.id },
+        ...(document.role === "ADMIN" && { admin: null }),
+        ...(document.role === "MANAGER" && { manager: null }),
+    });
+    await userModel.findByIdAndUpdate(user.id, {
+        $pull: {
+            "projects.projectId": document.projectId,
+        },
     });
 
     return res.json("REMOVED INV");
