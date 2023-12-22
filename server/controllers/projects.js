@@ -92,7 +92,7 @@ exports.getProject = async (req, res, next) => {
 
     const document = await projectsModel
         .findById(params.projectId)
-        .populate({ path: "bugs", model: "bugs" });
+        .populate({ path: "bugs", model: "bugs" }); //* for only giving the latest bugs
 
     const data = projectTransformer.project(document, options);
 
@@ -152,6 +152,7 @@ exports.getProjectMembers = async (req, res, next) => {
     const document = await projectsModel
         .findById(params.projectId)
         .populate({ path: "members", model: "users" });
+
     const options = {
         paginate: body?.paginate || false,
         page: body?.page,
@@ -160,17 +161,4 @@ exports.getProjectMembers = async (req, res, next) => {
     const data = projectTransformer.members(document.members, options);
 
     res.status(200).json(data);
-};
-
-exports.getLatestCommit = async (req, res) => {
-    const params = req.params;
-
-    const document = await projectsModel.findById(params.projectId);
-
-    const commit = githubService.getCommits(
-        document.github.token,
-        document.github.url
-    );
-
-    return commit;
 };
