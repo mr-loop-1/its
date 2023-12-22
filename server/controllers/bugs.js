@@ -35,9 +35,8 @@ exports.createBugs = async (req, res) => {
 exports.getBugs = async (req, res, next) => {
     const body = req?.body;
     const user = req?.user;
-    const params = req?.params;
 
-    const document = await userModel
+    const documents = await userModel
         .findById(user.id)
         .populate({ path: "bugs", model: "projects" });
 
@@ -53,10 +52,9 @@ exports.getBugs = async (req, res, next) => {
 };
 
 exports.getBug = async (req, res, next) => {
-    const inputs = {
-        bugId: req.body?.bugId,
-    };
-    const document = await bugsModel.findById(inputs.bugId);
+    const params = req?.params;
+
+    const document = await bugsModel.findById(params.bugId);
 
     //! pass to transformers
 
@@ -76,14 +74,17 @@ exports.updateBug = async (req, res, next) => {
 };
 
 exports.deleteBug = async (req, res, next) => {
-    //! first check the user access level
-    if (req?.user.ROLE === config.accessLevel.accessCode.MEMBER) {
-        throw new error();
-    }
+    const params = req?.params;
 
-    const result = await bugsModel.findByIdAndUpdate(req.body?.bugId, {
-        status: config.status.INACTIVE,
+    const document = await bugsModel.findByIdAndUpdate(params.bugId, {
+        status: false, //! Soft delete
+    });
+    await userModel.findByIdAndUpdate(document.assignedTo, {
+        $pull: { bugsAssigned: document._id },
+    });
+    await userModel.findByIdAndUpdate(document.createdBy, {
+        $pull: { bugsCreated: document._id },
     });
 
-    return res.send();
+    return res.status(200).json("DELETED BUG");
 };

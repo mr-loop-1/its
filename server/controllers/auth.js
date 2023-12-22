@@ -29,7 +29,6 @@ exports.login = async (req, res) => {
     if (!user) {
         res.status(404).json("Not found");
     }
-
     if (!(await bcrypt.compare(body.password, user.hashedPassword))) {
         res.status(401).json("Unauthorized");
     }

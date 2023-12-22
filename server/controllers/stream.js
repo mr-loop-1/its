@@ -10,24 +10,14 @@ exports.addStream = async (req, res) => {
     if (body.streamType) {
         switch (body.streamType) {
             case "COMMENT": {
+                //* mentioning a user in a comment
+                //* V2
                 const { author, comment, timestamp } = body;
                 document = await bugsModel.findByIdAndUpdate(params.bugId, {
                     $push: {
                         stream: {
                             type: body.streamType,
                             value: { author, comment, timestamp },
-                        },
-                    },
-                });
-                break;
-            }
-            case "MENTION": {
-                const { author, bugId, timestamp } = body;
-                document = await bugsModel.findByIdAndUpdate(params.bugId, {
-                    $push: {
-                        stream: {
-                            type: body.streamType,
-                            value: { author, bugId, timestamp },
                         },
                     },
                 });
