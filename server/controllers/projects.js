@@ -4,21 +4,55 @@ const { projectsModel, userModel } = require("./../models");
 
 exports.createProject = async (req, res) => {
     const body = req?.body;
+    const user = req?.user;
 
     const newProject = new projectsModel({
         title: body.title,
         description: body.description,
         github: body.github,
-        admin: req.user.id,
+        admin: user.id,
         manager: body.manager,
         members: body.members,
         status: true,
     });
     const document = await newProject.save();
 
+    document.members.forEach(async (memberId) => {
+        await userModel.findByIdAndUpdate(memberId, {
+            $push: { projects: document._id },
+        });
+    });
+
     const data = projectTransformer.project(document, options);
 
     res.status(200).json(data);
+};
+
+exports.deleteProject = async (req, res, next) => {
+    const params = req?.params;
+
+    const document = await projectsModel.findByIdAndUpdate(params.projectId, {
+        status: false,
+    });
+
+    document.members.forEach(async (memberId) => {
+        await userModel.findByIdAndUpdate(memberId, {
+            $pull: { projects: document._id },
+        });
+    });
+    document.bugs.forEach(async (bugId) => {
+        const bug = await bugsModel.findByIdAndUpdate(bugId, {
+            status: false,
+        });
+        await userModel.findByIdAndUpdate(bug.assignedTo, {
+            $pull: { bugsAssigned: bug._id },
+        });
+        await userModel.findByIdAndUpdate(bug.createdBy, {
+            $pull: { bugsCreated: bug._id },
+        });
+    });
+
+    res.status(200).json("DELETED");
 };
 
 exports.getProjects = async (req, res, next) => {
@@ -38,10 +72,10 @@ exports.getProjects = async (req, res, next) => {
     res.status(200).json(data);
 };
 exports.getProject = async (req, res, next) => {
-    const body = req?.body;
+    const params = req?.params;
 
     const document = await projectsModel
-        .findById(body.projectId)
+        .findById(params.projectId)
         .populate({ path: "bugs", model: "bugs" });
 
     const data = projectTransformer.project(document, options);
@@ -50,9 +84,10 @@ exports.getProject = async (req, res, next) => {
 };
 exports.getProjectBugs = async (req, res, next) => {
     const body = req?.body;
+    const params = req?.params;
 
     const document = await projectsModel
-        .findById(body.projectId)
+        .findById(params.projectId)
         .populate({ path: "bugs", model: "bugs" });
     const options = {
         paginate: body?.paginate || false,
@@ -63,20 +98,43 @@ exports.getProjectBugs = async (req, res, next) => {
 
     res.status(200).json(data);
 };
+
+exports.updateProject = async (req, res, next) => {
+    const body = req?.body;
+    const params = req?.params;
+
+    const update = new projectsModel({
+        ...(body?.title && { title: body.title }),
+        ...(body?.description && { description: body.description }),
+        ...(body?.github && { github: body.github }),
+    });
+    const document = await projectsModel.findByIdAndUpdate(
+        params.projectId,
+        update
+    );
+
+    const data = projectTransformer.project(document, options);
+
+    res.status(200).json(data);
+};
+
 exports.getProjectMembers = async (req, res, next) => {
+    const params = req?.params;
     const body = req?.body;
 
     const document = await projectsModel
-        .findById(body.projectId)
+        .findById(params.projectId)
         .populate({ path: "bugs", model: "bugs" });
     const options = {
         paginate: body?.paginate || false,
         page: body?.page,
         perPage: body?.perPage,
     };
-    const data = projectTransformer.bugs(document.bugs, options);
+    const data = projectTransformer.bugs(document.members, options);
 
     res.status(200).json(data);
 };
-exports.updateProject = async (req, res, next) => {};
-exports.deleteProject = async (req, res, next) => {};
+
+exports.addProjectMember = async (req, res) => {
+    const body = req?.body;
+};

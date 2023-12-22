@@ -34,12 +34,27 @@ const userSchema = new mongoose.Schema(
                     ref: "Bugs",
                 },
                 relation: {
-                    //* created, assigned, mentioned
                     type: Number,
                     enum: [],
                 },
             },
         ],
+        bugAssigned: [],
+        bugsCreated: [],
+        // bugs: {
+        //     created: [
+        //         {
+        //             type: mongoose.Schema.Types.ObjectId,
+        //             ref: "Bugs",
+        //         },
+        //     ],
+        //     assigned: [
+        //         {
+        //             type: mongoose.Schema.Types.ObjectId,
+        //             ref: "Bugs",
+        //         },
+        //     ],
+        // },
     },
     {
         timestamps: true,

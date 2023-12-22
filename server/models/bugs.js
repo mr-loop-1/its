@@ -42,6 +42,10 @@ const bugSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Users",
         },
+        assignedTo: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Users",
+        },
         status: {
             type: Boolean,
         },

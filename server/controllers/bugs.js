@@ -1,6 +1,30 @@
 const config = require("../config");
 const { bugsModel } = require("./../models");
 
+exports.createBugs = async (req, res) => {
+    const body = req?.body;
+
+    const newBug = new bugsModel({
+        title: body.title,
+        description: body.description,
+        github: body.github,
+        admin: req.user.id,
+        manager: body.manager,
+        members: body.members,
+        status: true,
+    });
+    const document = await newBug.save();
+
+    document.members.forEach(async (memberId) => {
+        await userModel.findByIdAndUpdate(memberId, {
+            $push: { projects: document._id },
+        });
+    });
+
+    const data = projectTransformer.project(document, options);
+
+    res.status(200).json(data);
+};
 exports.getBugs = async (req, res, next) => {
     const filters = req.body.filters;
 
