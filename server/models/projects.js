@@ -8,8 +8,12 @@ const projectsSchema = new mongoose.Schema(
             index: true,
         },
         github: {
-            type: String,
-            required: true,
+            token: {
+                type: String,
+            },
+            url: {
+                type: String,
+            },
         },
         admin: {
             type: mongoose.Schema.Types.ObjectId,

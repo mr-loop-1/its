@@ -1,4 +1,5 @@
 const config = require("../config");
+const { githubService } = require("../services");
 const { projectTransformer } = require("../transformers");
 const { projectsModel, userModel } = require("./../models");
 
@@ -146,4 +147,15 @@ exports.getProjectMembers = async (req, res, next) => {
     res.status(200).json(data);
 };
 
-exports.listCommits = (req, res) => {};
+exports.listCommits = async (req, res) => {
+    const params = req.params;
+
+    const document = await projectsModel.findById(params.projectId);
+
+    const commit = githubService.getCommits(
+        document.github.token,
+        document.github.url
+    );
+
+    return commit;
+};
