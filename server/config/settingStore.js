@@ -16,7 +16,13 @@ const config = {
             REVIEW_REQUIRED: 4,
             CLOSED: 5,
         },
-        statusEnum: [OPEN, TRIAGE, IN_PROGRESS, REVIEW_REQUIRED, CLOSED],
+        statusEnum: [
+            "OPEN",
+            "TRIAGE",
+            "IN_PROGRESS",
+            "REVIEW_REQUIRED",
+            "CLOSED",
+        ],
         statusCodeEnum: [1, 2, 3, 4, 5],
     },
     status: {

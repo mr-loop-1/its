@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const projectsSchema = new mongoose.Schema(
     {
-        projectTitle: {
+        title: {
             type: String,
         },
         github: {

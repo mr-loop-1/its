@@ -1,6 +1,6 @@
 module.exports = {
     userModel: require("./users"),
-    projectsModel: reqiure("./projects"),
+    projectsModel: require("./projects"),
     bugsModel: require("./bugs"),
     commitsModel: require("./commits"),
 };
