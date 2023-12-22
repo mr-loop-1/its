@@ -83,7 +83,7 @@ exports.getProjects = async (req, res, next) => {
         page: body?.page,
         perPage: body?.perPage,
     };
-    const data = projectTransformer.allProjects(document.projects, options);
+    const data = projectTransformer.projects(document.projects, options);
 
     res.status(200).json(data);
 };
@@ -121,7 +121,7 @@ exports.getProjectBugs = async (req, res, next) => {
         page: body?.page,
         perPage: body?.perPage,
     };
-    const data = projectTransformer.bugs(document.bugs, options);
+    const data = projectTransformer.bugs(document, options);
 
     res.status(200).json(data);
 };
@@ -158,7 +158,7 @@ exports.getProjectMembers = async (req, res, next) => {
         page: body?.page,
         perPage: body?.perPage,
     };
-    const data = projectTransformer.members(document.members, options);
+    const data = projectTransformer.members(document, options);
 
     res.status(200).json(data);
 };
