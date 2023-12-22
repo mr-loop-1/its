@@ -53,8 +53,11 @@ exports.getBugs = async (req, res, next) => {
 
 exports.getBug = async (req, res, next) => {
     const params = req?.params;
-
-    const document = await bugsModel.findById(params.bugId);
+    const document = await bugsModel
+        .findById(params.bugId)
+        .populate("projectId")
+        .populate("createdBy")
+        .populate("assignedTo");
 
     //! pass to transformers
 
@@ -63,10 +66,10 @@ exports.getBug = async (req, res, next) => {
 
 exports.updateBug = async (req, res, next) => {
     const inputs = {
-        ...(req.body?.assignedTo && { assignedTo: req.body?.assignedTo }),
-        //! add others too
+        ...(body?.title && { title: body?.title }),
+        ...(body?.description && { description: body?.description }),
     };
-    const result = await bugsModel.findByIdAndUpdate(req.body?.bugId, inputs);
+    const document = await bugsModel.findByIdAndUpdate(req.body?.bugId, inputs);
 
     //! pass to transformers
 

@@ -86,9 +86,20 @@ exports.getProjectBugs = async (req, res, next) => {
     const body = req?.body;
     const params = req?.params;
 
-    const document = await projectsModel
-        .findById(params.projectId)
-        .populate({ path: "bugs", model: "bugs" });
+    const document = await projectsModel.findById(params.projectId).populate({
+        path: "bugs",
+        model: "bugs",
+        populate: [
+            {
+                path: "createdBy",
+                model: "users",
+            },
+            {
+                path: "assignedTo",
+                model: "users",
+            },
+        ],
+    });
     const options = {
         paginate: body?.paginate || false,
         page: body?.page,

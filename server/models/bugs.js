@@ -10,6 +10,16 @@ const bugSchema = new mongoose.Schema(
             type: String,
             index: true,
         },
+        priority: {
+            type: Number,
+            index: true,
+            enum: [],
+        },
+        progress: {
+            type: Number,
+            index: true,
+            enum: [],
+        },
         description: {
             type: String,
         },
@@ -29,11 +39,11 @@ const bugSchema = new mongoose.Schema(
             },
         ],
         commits: {
-            commitOpen: {
+            open: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Commits",
             },
-            commitClose: {
+            close: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Commits",
             },

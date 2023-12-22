@@ -37,6 +37,12 @@ exports.addStream = async (req, res) => {
             }
             case "ASSIGNED": {
                 const { author, prev, now, timestamp } = body;
+                await userModel.findByIdAndUpdate(old, {
+                    $pull: { assigned: params.bugId },
+                });
+                await userModel.findByIdAndUpdate(now, {
+                    $push: { assigned: params.bugId },
+                });
                 document = await bugsModel.findByIdAndUpdate(params.bugId, {
                     $push: {
                         stream: {
@@ -44,8 +50,11 @@ exports.addStream = async (req, res) => {
                             value: { author, prev, now, timestamp },
                         },
                     },
+                    assignedTo: now,
                 });
                 break;
+            }
+            case "PRIORITY": {
             }
         }
     }
