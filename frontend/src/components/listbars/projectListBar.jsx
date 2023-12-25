@@ -32,7 +32,7 @@ const renderLinkItem = (project) => {
         }
       >
         <div className="flex items-center w-full">
-          <img className="w-8 h-8" src="/folder.svg" />
+          <img className="w-6 h-6" src="/folder.svg" />
           <div className="ml-4">{project.title}</div>
         </div>
       </NavLink>
