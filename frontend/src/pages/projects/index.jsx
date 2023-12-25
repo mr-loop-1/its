@@ -21,11 +21,9 @@ export default function Project() {
     <>
       asdqewq
       <ProjectListBar contents={contents} />
-      {/* <Router> */}
       <Routes>
         <Route path="123" Component={Hi} />
       </Routes>
-      {/* </Router> */}
     </>
   );
 }
