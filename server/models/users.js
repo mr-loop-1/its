@@ -5,6 +5,9 @@ const userSchema = new mongoose.Schema(
     {
         email: {
             type: String,
+            unique: true,
+            required: true,
+            index: true,
         },
         hashedPassword: {
             type: String,
@@ -16,12 +19,23 @@ const userSchema = new mongoose.Schema(
             {
                 projectId: {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: "Projects",
+                    ref: "projects",
                 },
                 role: {
-                    //* three types - admin, manager, member
-                    type: String,
-                    required: true,
+                    type: Number,
+                    enum: [],
+                },
+            },
+        ],
+        bugs: [
+            {
+                bugId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Bugs",
+                },
+                relation: {
+                    type: Number,
+                    enum: [],
                 },
             },
         ],
@@ -38,11 +52,13 @@ const userSchema = new mongoose.Schema(
                     ref: "Bugs",
                 },
             ],
+            mentioned: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Bugs",
+                },
+            ],
         },
-        // status: {
-        //     type: Number,
-        //     default: 1,
-        // },
     },
     {
         timestamps: true,

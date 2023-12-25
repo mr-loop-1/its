@@ -9,19 +9,21 @@ const config = {
         accessCodeEnum: [1, 2, 3],
     },
     bugs: {
-        statusCode: {
+        progressCode: {
             OPEN: 1,
             TRIAGE: 2,
             IN_PROGRESS: 3,
             REVIEW_REQUIRED: 4,
             CLOSED: 5,
         },
-        statusEnum: [OPEN, TRIAGE, IN_PROGRESS, REVIEW_REQUIRED, CLOSED],
-        statusCodeEnum: [1, 2, 3, 4, 5],
-    },
-    status: {
-        ACTIVE: 1,
-        INACTIVE: 2,
+        progressEnum: [
+            "OPEN",
+            "TRIAGE",
+            "IN_PROGRESS",
+            "REVIEW_REQUIRED",
+            "CLOSED",
+        ],
+        progressCodeEnum: [1, 2, 3, 4, 5],
     },
 };
 

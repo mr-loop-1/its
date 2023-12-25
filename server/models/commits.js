@@ -4,6 +4,12 @@ const commitSchema = new mongoose.Schema(
     {
         commitId: {
             type: String,
+            index: true,
+        },
+        projectId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "projects",
+            index: true,
         },
         author: {
             type: String,
@@ -12,18 +18,23 @@ const commitSchema = new mongoose.Schema(
             type: Date,
         },
         //? bugs that are started or closed at this commit
-        bugsOpened: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Bugs",
-            },
-        ],
-        bugsClosed: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Bugs",
-            },
-        ],
+        bugs: {
+            open: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "bugs",
+                },
+            ],
+            close: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "bugs",
+                },
+            ],
+        },
+        status: {
+            type: Boolean,
+        },
     },
     {
         timestamps: true,

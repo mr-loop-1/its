@@ -2,25 +2,32 @@ const mongoose = require("mongoose");
 
 const projectsSchema = new mongoose.Schema(
     {
-        projectTitle: {
+        title: {
             type: String,
+            required: true,
+            index: true,
         },
         github: {
-            //! todo
+            token: {
+                type: String,
+            },
+            url: {
+                type: String,
+            },
         },
-        createdBy: {
+        admin: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Users",
+            ref: "users",
         },
         manager: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Users",
+            ref: "users",
         },
         members: [
-            //* including manager
+            //* including admin & manager
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Users",
+                ref: "users",
             },
         ],
         bugs: [
@@ -29,8 +36,14 @@ const projectsSchema = new mongoose.Schema(
                 ref: "bugs",
             },
         ],
+        commits: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "bugs",
+            },
+        ],
         status: {
-            type: Number,
+            type: Boolean,
         },
     },
     {

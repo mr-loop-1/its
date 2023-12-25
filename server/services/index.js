@@ -1,4 +1,4 @@
 module.exports = {
-    streamService: require("./stream"),
     jwtService: require("./jwt"),
+    githubService: require("./github"),
 };

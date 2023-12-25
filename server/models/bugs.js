@@ -3,10 +3,22 @@ const mongoose = require("mongoose");
 const bugSchema = new mongoose.Schema(
     {
         bugId: {
-            type: String,
+            type: Number, //* auto increment from 101 for each project
+            index: true,
         },
         title: {
             type: String,
+            index: true,
+        },
+        priority: {
+            type: Number,
+            index: true,
+            enum: [1, 2, 3],
+        },
+        progress: {
+            type: Number,
+            index: true,
+            enum: [1, 2, 3, 4, 5],
         },
         description: {
             type: String,
@@ -18,20 +30,20 @@ const bugSchema = new mongoose.Schema(
         stream: [
             {
                 type: {
-                    //! has to be enum for all the stream types
-                    type: String,
+                    type: Number, //* all types of stream
+                    enum: [1, 2, 3],
                 },
-                values: {
-                    type: mongoose.Schema.Types.Mixed, //* any
+                value: {
+                    type: mongoose.Schema.Types.Mixed,
                 },
             },
         ],
         commits: {
-            commitOpen: {
+            open: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Commits",
             },
-            commitClose: {
+            close: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Commits",
             },
@@ -39,11 +51,13 @@ const bugSchema = new mongoose.Schema(
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Users",
-            required: true,
+        },
+        assignedTo: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Users",
         },
         status: {
-            type: Number,
-            default: 1,
+            type: Boolean,
         },
     },
     {

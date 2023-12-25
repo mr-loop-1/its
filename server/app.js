@@ -1,30 +1,36 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-// const {
-//     adminRouter,
-//     authRouter,
-//     userRouter,
-//     bugRouter,
-//     projectRouter,
-// } = require("./routes");
+const {
+    //     adminRouter,
+    //     authRouter,
+    //     userRouter,
+    //     bugRouter,
+    projectRouter,
+} = require("./routes");
+const bodyParser = require("body-parser");
+
 require("./database");
+const { userModel, projectsModel } = require("./models");
 
 const app = express();
+app.use(bodyParser.json());
+
 app.use(express.urlencoded({ extended: false }));
 
-app.use("ping", (req, res) => {
-    res.statusCode(200).send("Server Is Up!");
+app.get("/ping", (req, res) => {
+    console.log("adsada ");
+    res.status(200).send("Server Is Up!");
 });
 
 // app.use("auth", authRouter);
 // app.use("user", userRouter);
-// app.use("project", projectRouter);
+app.use("/projects", projectRouter);
 // app.use("bug", bugRouter);
 // app.use("admin", adminRouter);
 
 app.use("", (req, res) => {
-    res.statusCode(404).send("Not Found");
+    res.status(404).send("Not Found");
 });
 
 app.listen(process.env.PORT || 5000, () => {
