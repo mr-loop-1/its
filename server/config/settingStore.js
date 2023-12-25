@@ -25,6 +25,12 @@ const config = {
         ],
         progressCodeEnum: [1, 2, 3, 4, 5],
     },
+    bcrypt: {
+        saltRounds: 10,
+    },
+    jwt: {
+        secret: "asdhgbjasf",
+    },
 };
 
 module.exports = config;
