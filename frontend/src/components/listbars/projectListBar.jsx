@@ -6,7 +6,9 @@ export default function ProjectListBar({ contents }) {
       {contents.map((con) => {
         return (
           <>
-            <h2>{con.title}</h2>
+            <a href="http://localhost:5173/projects/123">
+              <h2>{con.title}</h2>
+            </a>
             <h4>{con.role}</h4>
           </>
         );

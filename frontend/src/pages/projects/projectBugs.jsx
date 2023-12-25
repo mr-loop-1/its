@@ -1,10 +1,5 @@
 import react from 'react';
 import ProjectListBar from '../../components/listbars/projectListBar';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-function Hi() {
-  return <h1>qwerty</h1>;
-}
 
 export default function Project() {
   const contents = [
@@ -21,11 +16,6 @@ export default function Project() {
     <>
       asdqewq
       <ProjectListBar contents={contents} />
-      {/* <Router> */}
-      <Routes>
-        <Route path="123" Component={Hi} />
-      </Routes>
-      {/* </Router> */}
     </>
   );
 }

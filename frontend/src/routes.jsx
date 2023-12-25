@@ -1,6 +1,18 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Project from './pages/projects';
 
-const Routes = () => <Router history={history}></Router>;
-
-export default Routes;
+export default function Routing() {
+  return (
+    <Router>
+      {/* <Switch> */}
+      <Routes>
+        <Route path="stream" Component={Project} />
+        <Route path="projects/*" Component={Project} />
+        <Route path="invites/*" Component={Project} />
+        {/* <Route path="projects" Component={Project} /> */}
+      </Routes>
+      {/* </Switch> */}
+    </Router>
+  );
+}
