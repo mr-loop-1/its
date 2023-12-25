@@ -1,6 +1,7 @@
 import React from 'react';
 import Dividing from './dividing';
 import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default function ProjectListBar({ contents }) {
   return (
@@ -10,16 +11,31 @@ export default function ProjectListBar({ contents }) {
         <div className="pl-2.5 pr-0 pt-[3px] pb-0">all projects</div>
       </div>
       <Dividing />
-      {contents.map((con) => {
-        return (
-          <>
-            <Link to="http://localhost:5173/projects/123">
-              <h2>{con.title}</h2>
-            </Link>
-            <h4>{con.role}</h4>
-          </>
-        );
+      {contents.map((project) => {
+        return renderLinkItem(project);
       })}
     </div>
   );
 }
+
+const renderLinkItem = (project) => {
+  return (
+    <div
+      key={project.id}
+      className="relative my-2 cursor-pointer active:bg-[#ebecf0] hover:text-[#0052cc] active:text-[#0052cc] hover:bg-[#ebecf0]"
+    >
+      <NavLink
+        exact
+        to={`/projects/${project.id}`}
+        className={({ isActive }) =>
+          [isActive ? 'text-[#0052cc] bg-[#ebecf0]' : ''].join(' ')
+        }
+      >
+        <div className="flex items-center w-full">
+          <img className="w-8 h-8" src="/folder.svg" />
+          <div className="ml-4">{project.title}</div>
+        </div>
+      </NavLink>
+    </div>
+  );
+};

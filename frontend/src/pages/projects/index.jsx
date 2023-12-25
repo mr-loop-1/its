@@ -13,6 +13,11 @@ export default function Project() {
       title: 'ASD',
       role: 'member',
     },
+    {
+      id: '124',
+      title: 'DSED',
+      role: 'member',
+    },
   ];
 
   const bugsList = [{}];
