@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const {
     //     adminRouter,
-    //     authRouter,
+    authRouter,
     //     userRouter,
     //     bugRouter,
     projectRouter,
@@ -14,6 +14,8 @@ require("./database");
 const { userModel, projectsModel } = require("./models");
 
 const app = express();
+
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.urlencoded({ extended: false }));
@@ -23,7 +25,7 @@ app.get("/ping", (req, res) => {
     res.status(200).send("Server Is Up!");
 });
 
-// app.use("auth", authRouter);
+app.use("/auth", authRouter);
 // app.use("user", userRouter);
 app.use("/projects", projectRouter);
 // app.use("bug", bugRouter);

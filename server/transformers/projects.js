@@ -1,4 +1,4 @@
-const userTransformer = require("./users");
+// const userTransformer = require("./users");
 const bugTransformer = require("./bugs");
 const config = require("../config");
 

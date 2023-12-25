@@ -1,4 +1,4 @@
-const { userTransformer } = require(".");
+// const { userTransformer } = require(".");
 const config = require("../config");
 
 exports.bug = (doc) => {

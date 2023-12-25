@@ -2,11 +2,12 @@ const config = require("../config");
 const bcrypt = require("bcryptjs");
 const { userModel } = require("./../models");
 const { jwtService } = require("../services");
+const { userTransformer } = require("../transformers");
 
 exports.register = async (req, res) => {
     const body = req.body;
-    const hashedPassword = bcrypt.hash(
-        inputs.password,
+    const hashedPassword = await bcrypt.hash(
+        body.password,
         config.bcrypt.saltRounds
     );
     const createUser = new userModel({
@@ -17,24 +18,25 @@ exports.register = async (req, res) => {
     const newUser = await createUser.save();
     const token = await jwtService.generateToken(newUser);
 
-    //! transformer
+    const data = userTransformer.userToken(newUser, token);
 
-    return res.json(user);
+    return res.json(data);
 };
 
 exports.login = async (req, res) => {
+    console.log("insd akd");
     const body = req.body;
     const user = await userModel.findOne({ email: body.email });
 
     if (!user) {
-        res.status(404).json("Not found");
+        return res.status(404).json("Not found");
     }
     if (!(await bcrypt.compare(body.password, user.hashedPassword))) {
-        res.status(401).json("Unauthorized");
+        return res.status(401).json("Unauthorized");
     }
-    const token = await jwtService.generateToken(newUser);
+    const token = await jwtService.generateToken(user);
 
-    //! transformer
+    const data = userTransformer.userToken(user, token);
 
-    return res.json(user);
+    return res.json(data);
 };

@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Abdul Samad",
+        "email": "abdulsamad@abdul.com",
+        "hashedPassword": "$2y$10$..0jtxmgqBJTnclowx6V1.vGoHArSO/ciO3GZqJsxvChbVCwxDy/u"
+    },
+    {
+        "name": "Ahmad Khan",
+        "email": "ahmadkhan@abdul.com",
+        "hashedPassword": "$2y$10$..0jtxmgqBJTnclowx6V1.vGoHArSO/ciO3GZqJsxvChbVCwxDy/u"
+    },
+    {
+        "name": "Sam",
+        "email": "sam@abdul.com",
+        "hashedPassword": "$2y$10$..0jtxmgqBJTnclowx6V1.vGoHArSO/ciO3GZqJsxvChbVCwxDy/u"
+    },
+    {
+        "name": "John",
+        "email": "john@abdul.com",
+        "hashedPassword": "$2y$10$..0jtxmgqBJTnclowx6V1.vGoHArSO/ciO3GZqJsxvChbVCwxDy/u"
+    }
+]
