@@ -1,14 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// const initialState = {
-//   value: [],
-// };
+const fetchUserById = createAsyncThunk(
+  'users/fetchByIdStatus',
+  async (userId, { getState, requestId }) => {
+    const { currentRequestId, loading } = getState().users;
+    if (loading !== 'pending' || requestId !== currentRequestId) {
+      return;
+    }
+    const response = await userAPI.fetchById(userId);
+    return response.data;
+  },
+);
 
 export const projectSlice = createSlice({
   name: 'projects',
   initialState: [],
   reducers: {
-    increment: (state) => {
+    increment: async (state) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new

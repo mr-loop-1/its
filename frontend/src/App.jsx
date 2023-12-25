@@ -8,8 +8,6 @@ import Routing from './routes';
 import { Counter } from './components/counter';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <h1>asd</h1>
