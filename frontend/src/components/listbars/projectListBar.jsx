@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dividing from './dividing';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import Modal from '../Modal';
 
 export default function ProjectListBar({ contents }) {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const projectCreateModalOpen = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <div className="fixed bg-[rgb(244,245,247)] z-[49] h-screen w-[230px] lg:w-96 overflow-x-hidden overflow-y-auto pt-0 pb-6 px-4 border-r-[#dfe1e6] border-r border-solid left-16 top-0">
       <div className="flex mt-7 mb-5 items-center">
@@ -14,6 +24,13 @@ export default function ProjectListBar({ contents }) {
       {contents.map((project) => {
         return renderLinkItem(project);
       })}
+      <button
+        className="w-[80%] h-10 bg-blue-500 text-white text-lg rounded-md mx-auto"
+        onClick={projectCreateModalOpen}
+      >
+        New Project
+      </button>
+      {modalOpen && <Modal isOpen={modalOpen} onClose={closeModal} />}
     </div>
   );
 }

@@ -9,11 +9,14 @@ export default function Routing() {
   return (
     <Router>
       <Routes>
-        <Route path="/register" Component={Register} />
-        <Route path="/login" Component={Login} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={Login} />
         <Route element={<RouteGuard />}>
-          <Route path="projects/*" Component={Project} />
-          <Route path="invites/*" Component={Project} />
+          <Route path="/projects/*" element={<Project />} />
+          <Route path="/invites/*" element={<Project />} />
+          <Route path="/bugs" element={<Project />}>
+            <Route path="/bugs/:bugId" element={<Project />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
