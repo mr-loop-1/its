@@ -12,8 +12,11 @@ export default function Routing() {
         <Route path="/register" Component={Register} />
         <Route path="/login" Component={Login} />
         <Route element={<RouteGuard />}>
-          <Route path="projects/*" Component={Project} />
-          <Route path="invites/*" Component={Project} />
+          <Route path="/projects/*" Component={Project} />
+          <Route path="/invites/*" Component={Project} />
+          <Route path="/bugs" Component={Project}>
+            <Route path="/bugs/:bugId" Component={Project} />
+          </Route>
         </Route>
       </Routes>
     </Router>
