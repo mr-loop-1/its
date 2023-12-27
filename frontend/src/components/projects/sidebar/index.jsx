@@ -49,6 +49,8 @@ import {
   CardContent,
 } from './../modal/card';
 import { Cross1Icon } from '@radix-ui/react-icons';
+import { useSelector } from 'react-redux';
+import { createProject } from '@/api/projects';
 
 export default function ProjectSidebar({ projects }) {
   // console.log(
@@ -60,21 +62,39 @@ export default function ProjectSidebar({ projects }) {
   // const form = useForm();
 
   const formSchema = z.object({
-    title: z.string().min(2, {
-      message: 'Username must be at least 2 characters.',
+    title: z.string().min(3, {
+      message: 'atlease 2 char',
     }),
+    //   .max(40, { message: 'atmost 40 chars' }),
+    // description: z.string().max(150, { message: 'atmost 150 chars' }),
+    // githubUrl: z.string().url({ message: 'valid url please' }).max(100),
+    // githubPAT: z.string().max(100),
     // members: z.array(z.string().email('All invitations must be email')),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: '',
-    },
+    // defaultValues: {
+    //   username: '',
+    // },
     shouldUnregister: true,
   });
+  const user = useSelector((state) => state.auth.userInfo);
+  console.log('🚀 ~ file: index.jsx:82 ~ ProjectSidebar ~ user:', user);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (inputs) => {
+    console.log(inputs);
+
+    const data = {
+      title: inputs.title,
+      github: {
+        url: inputs.url,
+        token: inputs.token,
+      },
+      admin: user.id,
+      members: [user.id],
+    };
+
+    await createProject(localStorage.getItem('token'), data);
   };
 
   const addElement = () => {
@@ -168,21 +188,16 @@ export default function ProjectSidebar({ projects }) {
                           <Select
                             onValueChange={field.onChange}
                             value={field.value}
+                            required
                           >
                             <SelectTrigger className="w-[180px]">
-                              <SelectValue placeholder="Select a fruit" />
+                              <SelectValue placeholder="Select Priority Level" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
-                                <SelectItem value="apple">Apple</SelectItem>
-                                <SelectItem value="banana">Banana</SelectItem>
-                                <SelectItem value="blueberry">
-                                  Blueberry
-                                </SelectItem>
-                                <SelectItem value="grapes">Grapes</SelectItem>
-                                <SelectItem value="pineapple">
-                                  Pineapple
-                                </SelectItem>
+                                <SelectItem value="LOW">Low</SelectItem>
+                                <SelectItem value="NORMAL">Medium</SelectItem>
+                                <SelectItem value="SEVERE">Severe</SelectItem>
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -193,29 +208,25 @@ export default function ProjectSidebar({ projects }) {
                   />
 
                   <Card className="py-2 px-3">
-                    <FormLabel>Github Info</FormLabel>
+                    <FormLabel>Github Repo</FormLabel>
                     <FormField
                       control={form.control}
                       name="githubUrl"
                       render={({ field }) => (
                         <FormItem className="my-4">
-                          <FormLabel>repo url</FormLabel>
+                          <FormLabel>Url</FormLabel>
                           <FormControl>
-                            <Input
-                              type="url"
-                              placeholder="github url"
-                              {...field}
-                            />
+                            <Input placeholder="github url" {...field} />
                           </FormControl>
                         </FormItem>
                       )}
                     />
                     <FormField
                       control={form.control}
-                      name="githubPat"
+                      name="githubPAT"
                       render={({ field }) => (
                         <FormItem className="my-4">
-                          <FormLabel>public access token</FormLabel>
+                          <FormLabel>Access Token</FormLabel>
                           <FormControl>
                             <Input
                               type="text"
@@ -233,14 +244,12 @@ export default function ProjectSidebar({ projects }) {
                     name="invite"
                     render={({ field }) => (
                       <FormItem className="my-4">
-                        <FormLabel>Add members</FormLabel>
+                        <FormLabel>Invite members by email</FormLabel>
                         <div className="flex justify-between">
                           <FormControl>
                             <Input
-                              type="email"
                               placeholder="value"
                               className="mr-2"
-                              name="members"
                               {...field}
                             />
                           </FormControl>
@@ -315,7 +324,7 @@ export default function ProjectSidebar({ projects }) {
               <NavLink
                 to={`/projects/${project.project.id}`}
                 className={({ isActive }) =>
-                  [isActive ? 'text-[#0052cc] bg-[#ebecf0]' : ''].join(' ')
+                  [isActive ? 'text-[#8b4ea8] bg-[#ebecf0]' : ''].join(' ')
                 }
               >
                 {/* <Card className="py-2 px-4 cursor-pointer rounded-none bg-inherit"> */}

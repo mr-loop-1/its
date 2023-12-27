@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import loginUser from './../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './../../app/reducers/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const {
@@ -13,6 +14,7 @@ export default function Login() {
   } = useForm();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     const res = await loginUser(data);
@@ -20,6 +22,7 @@ export default function Login() {
     dispatch(setUser(res));
     localStorage.setItem('token', res.token);
     console.log('🚀 ~ file: login.jsx:16 ~ onSubmit ~ res:', res);
+    navigate('/projects');
   };
   return (
     <div class="flex flex-col h-screen bg-gray-100">

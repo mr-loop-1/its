@@ -24,7 +24,7 @@ exports.createProject = async (req, res) => {
         });
     });
 
-    const data = projectTransformer.project(document, options);
+    const data = projectTransformer.project(document);
 
     res.status(200).json(data);
 };
