@@ -1,39 +1,7 @@
-import React, { useState } from 'react';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from './ui';
-import { Button } from '@/components/ui/button';
+import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-import { Input } from '@/components/ui/input';
-
-export default function ProjectHeader({ project }) {
-  const [invite, setInvite] = useState('');
-  const sendInvite = () => {};
-
-  return (
-    <div className="mt-5">
-      <Accordion type="single" collapsible>
-        <AccordionItem value="item-1" className="w-80 border-b-0">
-          <AccordionTrigger>Add Member</AccordionTrigger>
-          <AccordionContent>
-            <div className="flex items-center justify-between">
-              <Input
-                type="email"
-                className="my-1 ml-1"
-                placeholder="hello@gmail.com"
-                value={invite}
-                onChange={(e) => setInvite(e.target.value)}
-              />
-              <Button className="ml-2 mr-1 my-1" onClick={sendInvite}>
-                Invite
-              </Button>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </div>
-  );
+export default function ProjectHeader({ title, id }) {
+  return <div className="w-full"></div>;
 }

@@ -5,6 +5,7 @@ import { ReloadIcon } from '@radix-ui/react-icons';
 import ProjectTopNav from './topNav';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import ProjectPeople from './people';
 
 const backendURL = 'http://127.0.0.1:5000';
 
@@ -40,6 +41,7 @@ export default function ProjectMain() {
         <div className="w-full flex flex-col">
           <ProjectTopNav title={project.title} id={project.id} />
           <ProjectHeader project={project} />
+          <ProjectPeople project={project} />
         </div>
       )}
     </div>
