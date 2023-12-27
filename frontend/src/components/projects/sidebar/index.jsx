@@ -37,6 +37,8 @@ import {
 } from '../modal/select';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Textarea } from '../modal/textarea';
+import { Command } from '../modal/command';
 
 export default function ProjectSidebar({ projects }) {
   const form = useForm();
@@ -52,6 +54,34 @@ export default function ProjectSidebar({ projects }) {
   //     username: '',
   //   },
   // });
+
+  const hello = [
+    {
+      id: 1,
+      name: 'sda',
+    },
+    {
+      id: 2,
+      name: 'asde',
+    },
+  ];
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  const addElement = () => {
+    const currentValues = form.getValues('members') || [];
+    const newVal = form.watch('invite');
+    console.log('🚀 ~ file: index.jsx:76 ~ addElement ~ newVal:', newVal);
+    form.setValue('members', [...currentValues, newVal]);
+  };
+
+  const removeElement = (member) => {
+    const currentValues = form.getValues('members') || [];
+    const newValues = currentValues.filter((val) => val !== member);
+    form.setValue('members', newValues);
+  };
 
   const navigate = useNavigate();
   return (
@@ -75,7 +105,7 @@ export default function ProjectSidebar({ projects }) {
           <ModalTrigger asChild>
             <Button variant="outline">Edit Profile</Button>
           </ModalTrigger>
-          <ModalContent className="max-w-96">
+          <ModalContent className="block box-border w-[70vw] h-[80vh]">
             <ModalHeader>
               <ModalTitle>Create a Project</ModalTitle>
               <ModalDescription>
@@ -83,49 +113,141 @@ export default function ProjectSidebar({ projects }) {
               </ModalDescription>
             </ModalHeader>
             <div className="">
-              sad
-              <form>
-                <input defaultValue="test" {...form.register('example')} />
-              </form>
               <Form {...form}>
-                <form>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>Title</FormLabel>
                         <FormControl>
                           <Input placeholder="shadcn" {...field} />
                         </FormControl>
-                        <FormDescription>
-                          This is your public display name.
-                        </FormDescription>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="summary"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Short Summary</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="summary" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormLabel>Github Info</FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="githubUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>repo url</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="url"
+                            placeholder="github url"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="githubPat"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>public access token</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="github pat"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="priority"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Priority</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger className="w-[180px]" {...field}>
+                              <SelectValue
+                                placeholder="Select a fruit"
+                                {...field}
+                              />
+                            </SelectTrigger>
+                            <SelectContent {...field}>
+                              <SelectGroup {...field}>
+                                <SelectItem value="apple">Apple</SelectItem>
+                                <SelectItem value="banana">Banana</SelectItem>
+                                <SelectItem value="blueberry">
+                                  Blueberry
+                                </SelectItem>
+                                <SelectItem value="grapes">Grapes</SelectItem>
+                                <SelectItem value="pineapple">
+                                  Pineapple
+                                </SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                    required
+                  />
+                  <FormField
+                    control={form.control}
+                    name="invite"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Add members</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="value" {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="button" onClick={addElement}>
+                    Add
+                  </Button>
+
+                  <ul>
+                    {form.watch('members') &&
+                      form.watch('members').map((member) => {
+                        return (
+                          <li key={member}>
+                            {member}
+                            <Button
+                              type="button"
+                              onClick={removeElement.bind(null, member)}
+                            >
+                              Remove
+                            </Button>
+                          </li>
+                        );
+                      })}
+                  </ul>
+
+                  <Button type="submit">Submit</Button>
                 </form>
               </Form>
             </div>
           </ModalContent>
         </Modal>
       </main>
-      eqw
-      <Form
-        // control={form.control}
-        name="username"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Username</FormLabel>
-            <FormControl>
-              <Input placeholder="shadcn" {...field} />
-            </FormControl>
-            <FormDescription>This is your public display name.</FormDescription>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
     </div>
   );
 }
