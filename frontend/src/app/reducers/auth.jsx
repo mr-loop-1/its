@@ -11,12 +11,17 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
+      console.log('🚀 ~ file: auth.jsx:18 ~ action:', action);
       state.userInfo = action.payload.user;
       state.userToken = action.payload.token;
+    },
+    fillUser: (state, action) => {
+      console.log('🚀 ~ file: auth.jsx:18 ~ action:', action);
+      state.userInfo = action.payload;
     },
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, fillUser } = authSlice.actions;
 
 export default authSlice.reducer;
