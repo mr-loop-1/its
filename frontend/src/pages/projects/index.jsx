@@ -4,6 +4,7 @@ import Bugs from '../../components/projects/bugs';
 import { Button } from './../../components/ui/button';
 import ProjectSidebar from './../../components/projects/sidebar/index.jsx';
 import axios from 'axios';
+import ProjectMain from '@/components/projects/main';
 const backendURL = 'http://127.0.0.1:5000';
 
 function Hi() {
@@ -49,11 +50,9 @@ export default function Project() {
 
   return (
     <>
-      asdqewq
       <ProjectSidebar projects={projects} />
-      <Button className="ml-96">Click me</Button>
       <Routes>
-        <Route path="/:projectId" Component={Bugs} />
+        <Route path="/:projectId" Component={ProjectMain} />
       </Routes>
     </>
   );

@@ -101,15 +101,23 @@ exports.getProjects = async (req, res, next) => {
     res.status(200).json(data);
 };
 exports.getProject = async (req, res, next) => {
+    console.log("HEREEEEEEEEEEEEEEEEe");
     const params = req?.params;
+    console.log(
+        "🚀 ~ file: projects.js:106 ~ exports.getProject= ~ params:",
+        params
+    );
 
-    const document = await projectsModel
-        .findById(params.projectId)
-        .populate({ path: "bugs", model: "bugs" }); //* for only giving the latest bugs
+    const document = await projectsModel.findById(params.projectId);
+    // .populate({ path: "bugs", model: "bugs" }); //* for only giving the latest bugs
 
-    const data = projectTransformer.project(document, options);
+    const data = projectTransformer.project(document);
+    console.log(
+        "🚀 ~ file: projects.js:110 ~ exports.getProject= ~ data:",
+        data
+    );
 
-    res.status(200).json(data);
+    return res.status(200).json(data);
 };
 exports.getProjectBugs = async (req, res, next) => {
     const body = req?.body;

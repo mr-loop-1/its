@@ -82,11 +82,10 @@ export default function ProjectSidebar({ projects }) {
     shouldUnregister: true,
   });
   const user = useSelector((state) => state.auth.userInfo);
-  console.log('🚀 ~ file: index.jsx:82 ~ ProjectSidebar ~ user:', user);
+  // console.log('🚀 ~ file: index.jsx:82 ~ ProjectSidebar ~ user:', user);
 
   const onSubmit = async (inputs) => {
     console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
-    console.log(inputs);
 
     const data = {
       title: inputs.title,
