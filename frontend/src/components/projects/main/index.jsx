@@ -33,14 +33,13 @@ export default function ProjectMain() {
 
   return (
     //! very imp right-0
-    <div className="fixed right-0 left-72 lg:left-[448px] mt-8 mx-8 lg:mx-16 overflow-hidden ">
+    <div className="fixed right-0 left-72 lg:left-[448px] mt-8 mx-8 pr-10 lg:mx-16 overflow-hidden ">
       {isLoading ? (
         <ReloadIcon className=" h-40 w-40 animate-spin" />
       ) : (
         <div className="w-full flex flex-col">
           <ProjectTopNav title={project.title} id={project.id} />
           <ProjectHeader project={project} />
-          <div className="self-end">asdhkjn</div>
         </div>
       )}
     </div>
