@@ -20,7 +20,7 @@ exports.createProject = async (req, res) => {
 
     document.members.forEach(async (memberId) => {
         await userModel.findByIdAndUpdate(memberId, {
-            $push: { projects: document._id },
+            $push: { projects: { projectId: document._id } },
         });
     });
 

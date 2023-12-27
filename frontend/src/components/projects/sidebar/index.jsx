@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
@@ -54,6 +54,8 @@ import { createProject } from 'api/projects';
 // import { createProject } from '../../../../api/projects';
 
 export default function ProjectSidebar({ projects }) {
+  const [open, setOpen] = useState(false);
+
   // console.log(
   //   '🚀 ~ file: index.jsx:45 ~ ProjectSidebar ~ projects:',
   //   typeof projects[0],
@@ -83,6 +85,7 @@ export default function ProjectSidebar({ projects }) {
   console.log('🚀 ~ file: index.jsx:82 ~ ProjectSidebar ~ user:', user);
 
   const onSubmit = async (inputs) => {
+    console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
     console.log(inputs);
 
     const data = {
@@ -95,7 +98,8 @@ export default function ProjectSidebar({ projects }) {
       members: [user.id],
     };
 
-    await createProjectt(localStorage.getItem('token'), data);
+    await createProject(localStorage.getItem('token'), data);
+    setOpen(false);
   };
 
   const addElement = () => {
@@ -136,7 +140,7 @@ export default function ProjectSidebar({ projects }) {
         </span>
       </header>
       <main>
-        <Modal>
+        <Modal open={open} onOpenChange={setOpen}>
           <ModalTrigger asChild>
             <Button variant="default" className="w-full">
               Create Project
