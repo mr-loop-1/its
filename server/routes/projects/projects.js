@@ -8,7 +8,7 @@ const router = express.Router();
 
 // router.get("/:projectId/bugs", projectController.getProjectBugs); //* all bugs in a project
 // router.get("/:projectId/user", projectController.getProjectMembers); //* list all members of project
-// router.get("/:projectId", projectController.getProject); //* project details
+router.get("/:projectId", authenticateToken, projectController.getProject); //* project details
 router.get(
     "",
     // projectsValidator.createProject(),

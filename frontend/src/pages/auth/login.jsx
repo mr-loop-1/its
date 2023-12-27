@@ -1,17 +1,12 @@
 import react from 'react';
 import { useForm } from 'react-hook-form';
-import loginUser from './../../api';
+import loginUser from 'api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './../../app/reducers/auth';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +16,7 @@ export default function Login() {
     // console.log(data);
     dispatch(setUser(res));
     localStorage.setItem('token', res.token);
+    localStorage.setItem('user', JSON.stringify(res.user));
     console.log('🚀 ~ file: login.jsx:16 ~ onSubmit ~ res:', res);
     navigate('/projects');
   };

@@ -14,7 +14,6 @@ exports.authenticateToken = (req, res, next) => {
 
     jwt.verify(token.slice(7), config.jwt.secret, async (err, payload) => {
         if (err) {
-            console.log(err);
             return res.status(403).json({ error: "Forbidden - Invalid token" });
         }
         const user = await userModel.findById(payload.id);

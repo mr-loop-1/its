@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
@@ -50,9 +50,12 @@ import {
 } from './../modal/card';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
-import { createProject } from '@/api/projects';
+import { createProject } from 'api/projects';
+// import { createProject } from '../../../../api/projects';
 
 export default function ProjectSidebar({ projects }) {
+  const [open, setOpen] = useState(false);
+
   // console.log(
   //   '🚀 ~ file: index.jsx:45 ~ ProjectSidebar ~ projects:',
   //   typeof projects[0],
@@ -79,10 +82,10 @@ export default function ProjectSidebar({ projects }) {
     shouldUnregister: true,
   });
   const user = useSelector((state) => state.auth.userInfo);
-  console.log('🚀 ~ file: index.jsx:82 ~ ProjectSidebar ~ user:', user);
+  // console.log('🚀 ~ file: index.jsx:82 ~ ProjectSidebar ~ user:', user);
 
   const onSubmit = async (inputs) => {
-    console.log(inputs);
+    console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
 
     const data = {
       title: inputs.title,
@@ -95,6 +98,7 @@ export default function ProjectSidebar({ projects }) {
     };
 
     await createProject(localStorage.getItem('token'), data);
+    setOpen(false);
   };
 
   const addElement = () => {
@@ -135,7 +139,7 @@ export default function ProjectSidebar({ projects }) {
         </span>
       </header>
       <main>
-        <Modal>
+        <Modal open={open} onOpenChange={setOpen}>
           <ModalTrigger asChild>
             <Button variant="default" className="w-full">
               Create Project

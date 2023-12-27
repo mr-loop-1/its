@@ -1,10 +1,10 @@
 import react, { useEffect, useState } from 'react';
-import ProjectListBar from '../../components/listbars/projectListBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Bugs from '../../components/projects/bugs';
 import { Button } from './../../components/ui/button';
 import ProjectSidebar from './../../components/projects/sidebar/index.jsx';
 import axios from 'axios';
+import ProjectMain from '@/components/projects/main';
 const backendURL = 'http://127.0.0.1:5000';
 
 function Hi() {
@@ -13,7 +13,7 @@ function Hi() {
 
 export default function Project() {
   const [projects, setProjects] = useState([]);
-  console.log('🚀 ~ file: index.jsx:16 ~ Project ~ projects:', projects);
+  const [refetch, toggleFetch] = useState(false);
 
   useEffect(() => {
     try {
@@ -31,7 +31,7 @@ export default function Project() {
       console.log('🚀 ~ file: index.jsx:30 ~ useEffect ~ err:', err);
       console.log('no projects found');
     }
-  }, []);
+  }, [refetch]);
 
   const contents = [
     {
@@ -50,11 +50,9 @@ export default function Project() {
 
   return (
     <>
-      asdqewq
       <ProjectSidebar projects={projects} />
-      <Button className="ml-96">Click me</Button>
       <Routes>
-        <Route path="/:projectId" Component={Bugs} />
+        <Route path="/:projectId" Component={ProjectMain} />
       </Routes>
     </>
   );
