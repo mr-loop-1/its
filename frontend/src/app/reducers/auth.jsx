@@ -18,10 +18,12 @@ const authSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.userInfo = action.user;
-      state.userToken = action.token;
+      console.log('🚀 ~ file: auth.jsx:25 ~ action:', action);
+      state.userInfo = action.payload.user;
+      state.userToken = action.payload.token;
     },
   },
+
   //   extraReducers: (builder) => {
   //     builder.addCase(registerUser.pending, (state) => {
   //       state.loading = true;

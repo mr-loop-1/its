@@ -19,7 +19,7 @@ router.get(
 
 // router.post("/:projectId/bug", projectController.createBug); //* create a bug in a project
 // router.post("/:projectId/user", projectController.addMember); //* add member or manager to a project
-// router.post(projectController.createProject); //* create a project
+router.post("", authenticateToken, projectController.createProject); //* create a project
 
 // router.patch("/:projectId", projectController.updateProject); //* update project details
 

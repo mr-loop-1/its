@@ -40,6 +40,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '../modal/textarea';
 import { Command } from '../modal/command';
 import { Separator } from '@/components/ui/separator';
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from './../modal/card';
+import { Cross1Icon } from '@radix-ui/react-icons';
+import { useSelector } from 'react-redux';
+import { createProject } from '@/api/projects';
 
 export default function ProjectSidebar({ projects }) {
   // console.log(
@@ -51,30 +62,39 @@ export default function ProjectSidebar({ projects }) {
   // const form = useForm();
 
   const formSchema = z.object({
-    title: z.string().min(2, {
-      message: 'Username must be at least 2 characters.',
+    title: z.string().min(3, {
+      message: 'atlease 2 char',
     }),
+    //   .max(40, { message: 'atmost 40 chars' }),
+    // description: z.string().max(150, { message: 'atmost 150 chars' }),
+    // githubUrl: z.string().url({ message: 'valid url please' }).max(100),
+    // githubPAT: z.string().max(100),
+    // members: z.array(z.string().email('All invitations must be email')),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: '',
-    },
+    // defaultValues: {
+    //   username: '',
+    // },
+    shouldUnregister: true,
   });
+  const user = useSelector((state) => state.auth.userInfo);
+  console.log('🚀 ~ file: index.jsx:82 ~ ProjectSidebar ~ user:', user);
 
-  const hello = [
-    {
-      id: 1,
-      name: 'sda',
-    },
-    {
-      id: 2,
-      name: 'asde',
-    },
-  ];
+  const onSubmit = async (inputs) => {
+    console.log(inputs);
 
-  const onSubmit = (data) => {
-    console.log(data);
+    const data = {
+      title: inputs.title,
+      github: {
+        url: inputs.url,
+        token: inputs.token,
+      },
+      admin: user.id,
+      members: [user.id],
+    };
+
+    await createProject(localStorage.getItem('token'), data);
   };
 
   const addElement = () => {
@@ -92,14 +112,16 @@ export default function ProjectSidebar({ projects }) {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    return form.reset();
-  });
+  // useEffect(() => {
+  //   return () => {
+  //     form.reset();
+  //   };
+  // });
 
   return (
     <div className="fixed left-16 top-0 w-56 lg:w-96 h-screen pt-0 pb-6 px-10 bg-[rgb(244,245,247)] overflow-x-hidden overflow-y-auto border-r border-solid border-r-[#dfe1e6]">
       <header
-        className="flex items-center mt-8 mb-6"
+        className="flex items-center mt-8 mb-6 cursor-pointer"
         onClick={() => navigate('/projects')}
       >
         <img src="/proj.svg" className="w-8 md:w-12 lg:w-16" />
@@ -120,7 +142,7 @@ export default function ProjectSidebar({ projects }) {
             </Button>
           </ModalTrigger>
           <Separator className="my-6 w-full" orientation="horizontal" />
-          <ModalContent className="block box-border w-[70vw] h-[80vh]">
+          <ModalContent className="block box-border overflow-scroll w-[70vw] h-[80vh]">
             <ModalHeader>
               <ModalTitle>Create a Project</ModalTitle>
               <ModalDescription>
@@ -134,7 +156,7 @@ export default function ProjectSidebar({ projects }) {
                     control={form.control}
                     name="title"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="my-4">
                         <FormLabel>Title</FormLabel>
                         <FormControl>
                           <Input placeholder="shadcn" {...field} />
@@ -147,7 +169,7 @@ export default function ProjectSidebar({ projects }) {
                     control={form.control}
                     name="summary"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="my-4">
                         <FormLabel>Short Summary</FormLabel>
                         <FormControl>
                           <Textarea placeholder="summary" {...field} />
@@ -155,67 +177,27 @@ export default function ProjectSidebar({ projects }) {
                       </FormItem>
                     )}
                   />
-                  <FormLabel>Github Info</FormLabel>
-                  <FormField
-                    control={form.control}
-                    name="githubUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>repo url</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="url"
-                            placeholder="github url"
-                            {...field}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="githubPat"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>public access token</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="github pat"
-                            {...field}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+
                   <FormField
                     control={form.control}
                     name="priority"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="my-4">
                         <FormLabel>Priority</FormLabel>
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
                             value={field.value}
+                            required
                           >
-                            <SelectTrigger className="w-[180px]" {...field}>
-                              <SelectValue
-                                placeholder="Select a fruit"
-                                {...field}
-                              />
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Select Priority Level" />
                             </SelectTrigger>
-                            <SelectContent {...field}>
-                              <SelectGroup {...field}>
-                                <SelectItem value="apple">Apple</SelectItem>
-                                <SelectItem value="banana">Banana</SelectItem>
-                                <SelectItem value="blueberry">
-                                  Blueberry
-                                </SelectItem>
-                                <SelectItem value="grapes">Grapes</SelectItem>
-                                <SelectItem value="pineapple">
-                                  Pineapple
-                                </SelectItem>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectItem value="LOW">Low</SelectItem>
+                                <SelectItem value="NORMAL">Medium</SelectItem>
+                                <SelectItem value="SEVERE">Severe</SelectItem>
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -224,34 +206,80 @@ export default function ProjectSidebar({ projects }) {
                     )}
                     required
                   />
+
+                  <Card className="py-2 px-3">
+                    <FormLabel>Github Repo</FormLabel>
+                    <FormField
+                      control={form.control}
+                      name="githubUrl"
+                      render={({ field }) => (
+                        <FormItem className="my-4">
+                          <FormLabel>Url</FormLabel>
+                          <FormControl>
+                            <Input placeholder="github url" {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="githubPAT"
+                      render={({ field }) => (
+                        <FormItem className="my-4">
+                          <FormLabel>Access Token</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="github pat"
+                              {...field}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </Card>
+
                   <FormField
                     control={form.control}
                     name="invite"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Add members</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="value" {...field} />
-                        </FormControl>
+                      <FormItem className="my-4">
+                        <FormLabel>Invite members by email</FormLabel>
+                        <div className="flex justify-between">
+                          <FormControl>
+                            <Input
+                              placeholder="value"
+                              className="mr-2"
+                              {...field}
+                            />
+                          </FormControl>
+                          <Button type="button" onClick={addElement}>
+                            Add
+                          </Button>
+                        </div>
                       </FormItem>
                     )}
                   />
-                  <Button type="button" onClick={addElement}>
-                    Add
-                  </Button>
 
-                  <ul>
+                  <ul className="my-4">
                     {form.watch('members') &&
                       form.watch('members').map((member) => {
                         return (
                           <li key={member}>
-                            {member}
-                            <Button
-                              type="button"
-                              onClick={removeElement.bind(null, member)}
-                            >
-                              Remove
-                            </Button>
+                            <div className="flex items-center text-xs py-1 px-2 bg-gray-200 w-fit rounded">
+                              {member}
+                              {/* <Button
+                                type="button"
+                                className="p-0"
+                                variant="destructive"
+                                
+                              > */}
+                              <Cross1Icon
+                                onClick={removeElement.bind(null, member)}
+                                className="ml-3 text-gray-950 hover:text-red-600 cursor-pointer"
+                              />
+                              {/* </Button> */}
+                            </div>
                           </li>
                         );
                       })}
@@ -264,7 +292,7 @@ export default function ProjectSidebar({ projects }) {
           </ModalContent>
         </Modal>
       </main>
-      <ul>
+      {/* <ul>
         {projects.map((project) => {
           return (
             <li key={project.project.id}>
@@ -284,6 +312,34 @@ export default function ProjectSidebar({ projects }) {
                   </div>
                 </div>
               </NavLink>
+            </li>
+          );
+        })}
+      </ul> */}
+
+      <ul>
+        {projects.map((project) => {
+          return (
+            <li key={project.project.id}>
+              <NavLink
+                to={`/projects/${project.project.id}`}
+                className={({ isActive }) =>
+                  [isActive ? 'text-[#8b4ea8] bg-[#ebecf0]' : ''].join(' ')
+                }
+              >
+                {/* <Card className="py-2 px-4 cursor-pointer rounded-none bg-inherit"> */}
+                <div className="py-4 px-4 flex flex-col align-middle cursor-pointer bg-inherit rounded-md">
+                  <div className="block text-xl font-normal tracking-tight">
+                    {project.project.title}
+                  </div>
+                  <div className="flex">
+                    <img src="/role/admin.svg" className="w-5" />
+                    <span className="text-sm ml-2">admin</span>
+                  </div>
+                </div>
+                {/* </Card> */}
+              </NavLink>
+              <Separator className="w-[50%] mx-auto" orientation="horizontal" />
             </li>
           );
         })}
