@@ -39,6 +39,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '../modal/textarea';
 import { Command } from '../modal/command';
+import { Separator } from '@/components/ui/separator';
 
 export default function ProjectSidebar({ projects }) {
   const form = useForm();
@@ -103,8 +104,11 @@ export default function ProjectSidebar({ projects }) {
       <main>
         <Modal>
           <ModalTrigger asChild>
-            <Button variant="outline">Edit Profile</Button>
+            <Button variant="default" className="w-full">
+              Create Project
+            </Button>
           </ModalTrigger>
+          <Separator className="my-6 w-full" orientation="horizontal" />
           <ModalContent className="block box-border w-[70vw] h-[80vh]">
             <ModalHeader>
               <ModalTitle>Create a Project</ModalTitle>
