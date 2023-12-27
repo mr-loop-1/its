@@ -2,6 +2,7 @@ const express = require("express");
 const { projectController } = require("./../../controllers/index");
 const { projectsValidator } = require("./../../validators");
 const { validatorError } = require("../../middleware");
+const { authenticateToken } = require("../../middleware/jwt");
 
 const router = express.Router();
 
@@ -10,8 +11,9 @@ const router = express.Router();
 // router.get("/:projectId", projectController.getProject); //* project details
 router.get(
     "",
-    projectsValidator.createProject(),
-    validatorError.handle,
+    // projectsValidator.createProject(),
+    // validatorError.handle,
+    authenticateToken,
     projectController.getProjects
 ); //* list all projects
 

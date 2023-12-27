@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -42,19 +42,25 @@ import { Command } from '../modal/command';
 import { Separator } from '@/components/ui/separator';
 
 export default function ProjectSidebar({ projects }) {
-  const form = useForm();
+  // console.log(
+  //   '🚀 ~ file: index.jsx:45 ~ ProjectSidebar ~ projects:',
+  //   typeof projects[0],
+  //   Object.keys(projects[0]),
+  //   projects,
+  // );
+  // const form = useForm();
 
-  // const formSchema = z.object({
-  //   username: z.string().min(2, {
-  //     message: 'Username must be at least 2 characters.',
-  //   }),
-  // });
-  // const form = useForm({
-  //   resolver: zodResolver(formSchema),
-  //   defaultValues: {
-  //     username: '',
-  //   },
-  // });
+  const formSchema = z.object({
+    title: z.string().min(2, {
+      message: 'Username must be at least 2 characters.',
+    }),
+  });
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: '',
+    },
+  });
 
   const hello = [
     {
@@ -85,6 +91,11 @@ export default function ProjectSidebar({ projects }) {
   };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return form.reset();
+  });
+
   return (
     <div className="fixed left-16 top-0 w-56 lg:w-96 h-screen pt-0 pb-6 px-10 bg-[rgb(244,245,247)] overflow-x-hidden overflow-y-auto border-r border-solid border-r-[#dfe1e6]">
       <header
@@ -128,6 +139,7 @@ export default function ProjectSidebar({ projects }) {
                         <FormControl>
                           <Input placeholder="shadcn" {...field} />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -252,6 +264,30 @@ export default function ProjectSidebar({ projects }) {
           </ModalContent>
         </Modal>
       </main>
+      <ul>
+        {projects.map((project) => {
+          return (
+            <li key={project.project.id}>
+              <NavLink
+                to={`/projects/${project.project.id}`}
+                className={({ isActive }) =>
+                  [isActive ? 'text-[#0052cc] bg-[#ebecf0]' : ''].join(' ')
+                }
+              >
+                <div className="py-4 px-4 flex flex-col align-middle cursor-pointer bg-inherit rounded-md">
+                  <div className="block text-xl font-normal tracking-tight">
+                    {project.project.title}
+                  </div>
+                  <div className="flex">
+                    <img src="/role/admin.svg" className="w-5" />
+                    <span className="text-sm ml-2">admin</span>
+                  </div>
+                </div>
+              </NavLink>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

@@ -12,9 +12,6 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  const { loading, userInfo, error, success } = useSelector(
-    (state) => state.auth,
-  );
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {

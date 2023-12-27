@@ -73,10 +73,23 @@ exports.deleteProject = async (req, res, next) => {
 
 exports.getProjects = async (req, res, next) => {
     const body = req?.body;
+    const user = req?.user;
+    console.log(
+        "🚀 ~ file: projects.js:77 ~ exports.getProjects= ~ user:",
+        user
+    );
 
     const document = await userModel
-        .findById(body.userId)
+        .findById(req.user._id)
         .populate({ path: "projects.projectId", model: "projects" });
+    console.log(
+        "🚀 ~ file: projects.js:85 ~ exports.getProjects= ~ document:",
+        document
+    );
+
+    if (!document) {
+        return res.status(404).json("Not Found");
+    }
 
     const options = {
         paginate: body?.paginate || false,

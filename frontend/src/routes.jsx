@@ -10,7 +10,7 @@ export default function Routing() {
     <Router>
       <Routes>
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={Login} />
+        <Route path="/login" element={<Login />} />
         <Route element={<RouteGuard />}>
           <Route path="/projects/*" element={<Project />} />
           <Route path="/invites/*" element={<Project />} />
