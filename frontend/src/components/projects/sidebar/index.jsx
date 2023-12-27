@@ -50,7 +50,8 @@ import {
 } from './../modal/card';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
-import { createProject } from '@/api/projects';
+import { createProject } from 'api/projects';
+// import { createProject } from '../../../../api/projects';
 
 export default function ProjectSidebar({ projects }) {
   // console.log(
@@ -94,7 +95,7 @@ export default function ProjectSidebar({ projects }) {
       members: [user.id],
     };
 
-    await createProject(localStorage.getItem('token'), data);
+    await createProjectt(localStorage.getItem('token'), data);
   };
 
   const addElement = () => {

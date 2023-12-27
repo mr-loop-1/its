@@ -1,5 +1,4 @@
 import react, { useEffect, useState } from 'react';
-import ProjectListBar from '../../components/listbars/projectListBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Bugs from '../../components/projects/bugs';
 import { Button } from './../../components/ui/button';
@@ -13,7 +12,7 @@ function Hi() {
 
 export default function Project() {
   const [projects, setProjects] = useState([]);
-  console.log('🚀 ~ file: index.jsx:16 ~ Project ~ projects:', projects);
+  const [refetch, toggleFetch] = useState(false);
 
   useEffect(() => {
     try {
@@ -31,7 +30,7 @@ export default function Project() {
       console.log('🚀 ~ file: index.jsx:30 ~ useEffect ~ err:', err);
       console.log('no projects found');
     }
-  }, []);
+  }, [refetch]);
 
   const contents = [
     {

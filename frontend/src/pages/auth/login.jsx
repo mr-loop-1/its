@@ -1,6 +1,6 @@
 import react from 'react';
 import { useForm } from 'react-hook-form';
-import loginUser from './../../api';
+import loginUser from 'api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './../../app/reducers/auth';
 import { useNavigate } from 'react-router-dom';
