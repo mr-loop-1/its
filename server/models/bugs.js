@@ -26,7 +26,7 @@ const bugSchema = new mongoose.Schema(
         },
         projectId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Projects",
+            ref: "projects",
         },
         stream: [
             {

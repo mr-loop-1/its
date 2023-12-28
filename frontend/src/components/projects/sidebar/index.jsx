@@ -54,6 +54,7 @@ import { createProject } from 'api/projects';
 
 export default function ProjectSidebar({ projects }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const formSchema = z.object({
     title: z
@@ -281,17 +282,10 @@ export default function ProjectSidebar({ projects }) {
                           <li key={member}>
                             <div className="flex items-center text-xs py-1 px-2 bg-gray-200 w-fit rounded">
                               {member}
-                              {/* <Button
-                                type="button"
-                                className="p-0"
-                                variant="destructive"
-                                
-                              > */}
                               <Cross1Icon
                                 onClick={removeElement.bind(null, member)}
                                 className="ml-3 text-gray-950 hover:text-red-600 cursor-pointer"
                               />
-                              {/* </Button> */}
                             </div>
                           </li>
                         );

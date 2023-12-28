@@ -11,6 +11,7 @@ exports.createBug = async (req, res) => {
     const body = req?.body;
     const user = req?.user;
     const params = req?.params;
+    console.dir(params);
 
     try {
         const newBug = new bugsModel({
@@ -20,48 +21,52 @@ exports.createBug = async (req, res) => {
             createdBy: user.id,
             assignedTo: user.id,
             commits: {
-                open: body.commits.id,
+                open: body?.commits?.id,
             },
             status: true,
             progress: 1,
-            priority: body?.priority,
+            priority: config.priority.priorityCode[body?.priority],
         });
         const document = await newBug.save();
 
-        const commit = await commitsModel.findById(body.commitId);
-        if (commit) {
-            commit.bugs.open.push(document._id);
-        } else {
-            const createCommit = new commitsModel({
-                commitId: body.commit.id,
-                projectId: params.projectId,
-                message: body.commit.message,
-                author: body.commit.author,
-                timestamp: body.commit.timestamp,
-                bugsOpened: [document.id],
-            });
-            await projectsModel.findByIdAndUpdate(body?.projectId, {
-                $push: { commits: body.commitId },
-            });
-            await createCommit.save();
+        if (body?.commits) {
+            const commit = await commitsModel.findById(body.commits.id);
+            if (commit) {
+                commit.bugs.open.push(document._id);
+            } else {
+                const createCommit = new commitsModel({
+                    commitId: body.commits.id,
+                    projectId: params.projectId,
+                    message: body.commit.message,
+                    author: body.commit.author,
+                    timestamp: body.commit.timestamp,
+                    bugsOpened: [document.id],
+                });
+                await projectsModel.findByIdAndUpdate(params?.projectId, {
+                    $push: { commits: body.commits.id },
+                });
+                await createCommit.save();
+            }
         }
-        await projectsModel.findByIdAndUpdate(body?.projectId, {
+        await projectsModel.findByIdAndUpdate(params?.projectId, {
             $push: { bugs: document._id },
         });
-        await userModel.findByIdAndUpdate(body?.createdBy, {
-            $push: { bugs: document._id },
+        await userModel.findByIdAndUpdate(user.id, {
+            $push: { "bugs.assigned": document._id },
+            $push: { "bugs.created": document._id },
         });
-        if (body?.assignedTo) {
-            await userModel.findByIdAndUpdate(body?.assignedTo, {
-                $push: { projects: document._id },
-            });
-        }
+        // if (body?.assignedTo) {
+        //     await userModel.findByIdAndUpdate(user.id, {
+        //         $push: { projects: document._id },
+        //     });
+        // }
 
-        const data = bugTranformer.bug(document);
+        // const data = bugTransformer.bug(document);
 
-        res.status(200).json(data);
-    } catch {
-        return res.send(500).json({ error: "Server Error" });
+        res.status(200).json({ message: "Bug created" });
+    } catch (err) {
+        console.log("🚀 ~ file: bugs.js:64 ~ exports.createBug= ~ err:", err);
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 
