@@ -38,7 +38,7 @@ exports.project = (doc) => {
             email: doc.manager.email,
             slug: doc.manager.slug,
         },
-        membersCount: members.map((mem) => {
+        members: doc.members.map((mem) => {
             return {
                 id: mem._id,
                 name: mem.name,

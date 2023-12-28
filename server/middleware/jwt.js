@@ -24,7 +24,7 @@ exports.authenticateToken = (req, res, next) => {
         //     throw new error();
         // }
         req.user = {
-            id: user.id,
+            id: user._id,
             name: user.name,
             projects: user.projects,
         };

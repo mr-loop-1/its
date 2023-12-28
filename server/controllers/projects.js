@@ -8,12 +8,12 @@ exports.createProject = async (req, res) => {
     const user = req?.user;
     try {
         const newProject = new projectsModel({
-            title: body.title,
+            title: body?.title,
             description: body?.description,
             github: body?.github,
             admin: user.id,
             manager: user.id,
-            members: body.members,
+            members: body?.members,
             bugs: [],
             commits: [],
             status: true,
@@ -33,8 +33,9 @@ exports.createProject = async (req, res) => {
         const data = projectTransformer.project(document);
 
         res.status(200).json(data);
-    } catch {
-        return res.send(500).json({ error: "Server Error" });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 
@@ -88,7 +89,7 @@ exports.deleteProject = async (req, res, next) => {
 
         res.status(200).json({ message: "Deleted" });
     } catch {
-        return res.send(500).json({ error: "Server Error" });
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 
@@ -103,7 +104,7 @@ exports.getProjects = async (req, res, next) => {
         const data = projectTransformer.projects(document.projects);
         res.status(200).json(data);
     } catch {
-        return res.send(500).json({ error: "Server Error" });
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 exports.getProject = async (req, res) => {
@@ -121,7 +122,7 @@ exports.getProject = async (req, res) => {
 
         return res.status(200).json(data);
     } catch {
-        return res.send(500).json({ error: "Server Error" });
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 exports.getProjectBugs = async (req, res, next) => {
@@ -146,7 +147,7 @@ exports.getProjectBugs = async (req, res, next) => {
         const data = projectTransformer.bugs(document);
         return res.status(200).json(data);
     } catch {
-        return res.send(500).json({ error: "Server Error" });
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 
@@ -167,7 +168,7 @@ exports.updateProject = async (req, res) => {
 
         res.status(200).json(data);
     } catch {
-        return res.send(500).json({ error: "Server Error" });
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 

@@ -50,13 +50,13 @@ exports.acceptInvite = async (req, res) => {
     await projectsModel.findByIdAndUpdate(document.projectId, {
         $push: { members: user.id },
         ...(document.role === "ADMIN" && { admin: user.id }),
-        ...(document.role === "MANAGEr" && { manager: user.id }),
+        ...(document.role === "MANAGER" && { manager: user.id }),
     });
     await userModel.findByIdAndUpdate(user.id, {
         $push: {
             projects: {
                 projectId: document.projectId,
-                role: config.inviteRole[document.role],
+                role: config.accessLevel.accessCode[document.role],
             },
         },
     });

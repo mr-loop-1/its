@@ -1,24 +1,29 @@
 import react from 'react';
 import { useForm } from 'react-hook-form';
-import loginUser from 'api/auth';
+import { loginUser } from 'api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './../../app/reducers/auth';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { error },
+  } = useForm();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    const res = await loginUser(data);
-    // console.log(data);
-    dispatch(setUser(res));
-    localStorage.setItem('token', res.token);
-    localStorage.setItem('user', JSON.stringify(res.user));
-    console.log('🚀 ~ file: login.jsx:16 ~ onSubmit ~ res:', res);
-    navigate('/projects');
+    try {
+      const res = await loginUser(data);
+      dispatch(setUser(res));
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
+      navigate('/projects');
+    } catch {}
   };
   return (
     <div class="flex flex-col h-screen bg-gray-100">
@@ -83,9 +88,9 @@ export default function Login() {
             </button>
 
             <div class="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
-              <a href="register" class="flex-2 underline">
+              <Link to="/register" class="flex-2 underline">
                 Create an Account
-              </a>
+              </Link>
             </div>
           </form>
         </div>
