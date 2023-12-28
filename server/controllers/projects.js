@@ -12,15 +12,22 @@ exports.createProject = async (req, res) => {
         description: body?.description,
         github: body?.github,
         admin: user.id,
-        manager: body?.manager,
+        manager: user.id,
         members: body.members,
+        bugs: [],
+        commits: [],
         status: true,
     });
     const document = await newProject.save();
 
     document.members.forEach(async (memberId) => {
         await userModel.findByIdAndUpdate(memberId, {
-            $push: { projects: { projectId: document._id } },
+            $push: {
+                projects: {
+                    projectId: document._id,
+                    role: config.accessLevel.accessCode.ADMIN,
+                },
+            },
         });
     });
 
@@ -121,31 +128,29 @@ exports.getProject = async (req, res, next) => {
     return res.status(200).json(data);
 };
 exports.getProjectBugs = async (req, res, next) => {
-    const body = req?.body;
     const params = req?.params;
-
-    const document = await projectsModel.findById(params.projectId).populate({
-        path: "bugs",
-        model: "bugs",
-        populate: [
-            {
-                path: "createdBy",
-                model: "users",
-            },
-            {
-                path: "assignedTo",
-                model: "users",
-            },
-        ],
-    });
-    const options = {
-        paginate: body?.paginate || false,
-        page: body?.page,
-        perPage: body?.perPage,
-    };
-    const data = projectTransformer.bugs(document, options);
-
-    res.status(200).json(data);
+    try {
+        const document = await projectsModel
+            .findById(params.projectId)
+            .populate({
+                path: "bugs",
+                model: "bugs",
+                populate: [
+                    {
+                        path: "createdBy",
+                        model: "users",
+                    },
+                    {
+                        path: "assignedTo",
+                        model: "users",
+                    },
+                ],
+            });
+        const data = projectTransformer.bugs(document);
+        return res.status(200).json(data);
+    } catch {
+        return res.send(500).json({ error: "Server Error" });
+    }
 };
 
 exports.updateProject = async (req, res, next) => {

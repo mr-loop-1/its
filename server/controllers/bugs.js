@@ -6,7 +6,7 @@ const {
     commitsModel,
 } = require("./../models");
 
-exports.createBugs = async (req, res) => {
+exports.createBug = async (req, res) => {
     const body = req?.body;
     const user = req?.user;
     const params = req?.params;

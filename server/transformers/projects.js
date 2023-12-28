@@ -42,15 +42,47 @@ exports.project = (doc) => {
 
 exports.projectBugs = (doc) => {
     return {
-        // id: doc._id,
-        // title: doc.title,
-        // githubUrl: doc.github.url,
-        // description: doc.description,
-        // admin: userTransformer.user(doc.admin),
-        // manager: userTransformer.user(doc.manager),
-        // membersCount: members.length,
-        // bugs: doc.bugs.map((bug) => bugTransformer.bug(bug)), //* for latest bugs' title, no nested bug loading
-        // commitsCount: doc.commits.length,
+        id: doc._id,
+        title: doc.title,
+        githubUrl: doc.github.url,
+        description: doc.description,
+        admin: {
+            id: doc.admin._id,
+            name: doc.admin.name,
+            email: doc.admin.email,
+            slug: doc.admin.slug,
+        },
+        manager: {
+            id: doc.manager._id,
+            name: doc.manager.name,
+            email: doc.manager.email,
+            slug: doc.manager.slug,
+        },
+        membersCount: members.length,
+        bugs: doc.bugs.map((bug) => {
+            return {
+                id: bug._id,
+                title: bug.title,
+                description: bug.description,
+                assignedTo: {
+                    id: bug.assignedTo._id,
+                    name: bug.assignedTo.name,
+                    email: bug.assignedTo.email,
+                    slug: bug.assignedTo.slug,
+                },
+                createdBy: {
+                    id: bug.createdBy._id,
+                    name: bug.createdBy.name,
+                    email: bug.createdBy.email,
+                    slug: bug.createdBy.slug,
+                },
+                stream: bug.stream,
+                priority: config.priority.priorityMap[bug.priority],
+                progress: config.bugs.progressMap[bug.progress],
+                commits: bug.commits,
+            };
+        }), //* for latest bugs' title, no nested bug loading
+        commitsCount: doc.commits.length,
     };
 };
 

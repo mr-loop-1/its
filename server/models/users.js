@@ -12,6 +12,9 @@ const userSchema = new mongoose.Schema(
         hashedPassword: {
             type: String,
         },
+        slug: {
+            type: Number,
+        },
         name: {
             type: String,
         },

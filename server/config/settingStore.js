@@ -16,6 +16,13 @@ const config = {
             REVIEW_REQUIRED: 4,
             CLOSED: 5,
         },
+        progressMap: {
+            1: "OPEN",
+            2: "TRIAGE",
+            3: "IN_PROGRESS",
+            4: "REVIEW_REQUIRED",
+            5: "CLOSED",
+        },
         progressEnum: [
             "OPEN",
             "TRIAGE",
@@ -24,6 +31,16 @@ const config = {
             "CLOSED",
         ],
         progressCodeEnum: [1, 2, 3, 4, 5],
+    },
+    priority: {
+        priorityCode: {
+            LOW: 1,
+            NORMAL: 2,
+            SEVERE: 3,
+        },
+        priorityMap: {},
+        priorityEnum: ["LOW", "NORMAL", "SEVERE"],
+        priorityCodeEnum: [1, 2, 3],
     },
     bcrypt: {
         saltRounds: 10,

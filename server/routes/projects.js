@@ -1,5 +1,5 @@
 const express = require("express");
-const { projectController } = require("../controllers/index");
+const { projectController, bugsController } = require("../controllers/index");
 const { authenticateToken } = require("../middleware/jwt");
 const { accessGuard } = require("../middleware/guard");
 const config = require("../config");
@@ -14,7 +14,7 @@ router.get(
 router.get("/:projectId", authenticateToken, projectController.getProject); //* project
 router.get("", authenticateToken, projectController.getProjects); //* list all projects
 
-router.post("/:projectId/bug", authenticateToken, projectController.createBug); //* create a bug in a project
+router.post("/:projectId/bug", authenticateToken, bugsController.createBug); //* create a bug in a project
 router.post(
     "/:projectId/user",
     authenticateToken,
