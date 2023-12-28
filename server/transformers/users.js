@@ -7,7 +7,7 @@ exports.userToken = (user, token) => {
             id: user._id,
             name: user.name,
             email: user.email,
-            slug: doc.slug,
+            slug: user?.slug,
         },
     };
 };

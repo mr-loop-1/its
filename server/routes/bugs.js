@@ -1,5 +1,5 @@
 const express = require("express");
-const { bugsController } = require("./../../controllers/index");
+const { bugsController } = require("./../controllers");
 const { authenticateToken } = require("../middleware/jwt");
 
 const router = express.Router();

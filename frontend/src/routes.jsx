@@ -4,10 +4,12 @@ import Project from './pages/projects';
 import Register from './pages/auth/register';
 import Login from './pages/auth/login';
 import RouteGuard from './guard/route';
+import Sidebar from './components/sidebar';
 
 export default function Routing() {
   return (
     <Router>
+      <Sidebar />
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
