@@ -1,20 +1,14 @@
-// const express = require("express");
-// const { bugsController } = require("./../../controllers/index");
-// const { jwtStrategy, accessGuard } = require("./../middleware");
-// const config = require("./../../config");
+const express = require("express");
+const { bugsController } = require("./../../controllers/index");
+const { authenticateToken } = require("../middleware/jwt");
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.get(
-//     "/:bugId",
-//     jwtStrategy,
-//     accessGuard([config.accessLevel.ANY]),
-//     bugsController.getBug
-// ); //* bug details with stream
+router.get("/:bugId", authenticateToken, bugsController.getBug); //* bug details with stream
 // router.get(bugsController.getBugs); //* all bugs for a user
 
 // router.post("/:bugId/comment", bugsController.addComment); //* add stream element
 
-// router.patch("/:bugId", bugsController.updateBug); //* update bug details
+router.patch("/:bugId", authenticateToken, bugsController.updateBug); //* update bug details
 
-// router.delete("/:bugId", bugsController.deleteBug); //* delete bug
+router.delete("/:bugId", authenticateToken, bugsController.deleteBug); //* delete bug
