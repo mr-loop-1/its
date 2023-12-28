@@ -2,9 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const {
-    //     adminRouter,
     authRouter,
-    //     userRouter,
+    userRouter,
     //     bugRouter,
     projectRouter,
 } = require("./routes");
@@ -26,10 +25,9 @@ app.get("/ping", (req, res) => {
 });
 
 app.use("/auth", authRouter);
-// app.use("user", userRouter);
+app.use("/users", userRouter);
 app.use("/projects", projectRouter);
 // app.use("bug", bugRouter);
-// app.use("admin", adminRouter);
 
 app.use("", (req, res) => {
     res.status(404).send("Not Found");

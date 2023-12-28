@@ -6,6 +6,7 @@ import ProjectTopNav from './topNav';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import ProjectPeople from './people';
+import BugsList from './bugs';
 
 const backendURL = 'http://127.0.0.1:5000';
 
@@ -42,6 +43,7 @@ export default function ProjectMain() {
           <ProjectTopNav title={project.title} id={project.id} />
           <ProjectHeader project={project} />
           <ProjectPeople project={project} />
+          <BugsList bugs={project.bugs} />
         </div>
       )}
     </div>

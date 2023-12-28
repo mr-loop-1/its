@@ -52,7 +52,7 @@ import { Cross1Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
 import { createProject } from 'api/projects';
 
-export default function ProjectSidebar({ projects }) {
+export default function EditProjectModal({ projects }) {
   const [open, setOpen] = useState(false);
 
   const formSchema = z.object({
@@ -88,7 +88,6 @@ export default function ProjectSidebar({ projects }) {
         admin: user.id,
         manager: user.id,
         members: [user.id],
-        invites: form.getValues('members'),
       };
 
       await createProject(localStorage.getItem('token'), data);

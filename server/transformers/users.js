@@ -7,6 +7,7 @@ exports.userToken = (user, token) => {
             id: user._id,
             name: user.name,
             email: user.email,
+            slug: user?.slug,
         },
     };
 };
@@ -16,7 +17,23 @@ exports.user = (doc) => {
         id: doc._id,
         name: doc.name,
         email: doc.email,
+        slug: doc.slug,
     };
+};
+
+exports.invites = (docs) => {
+    return docs.map((doc) => ({
+        id: doc.id,
+        invitedBy: {
+            id: doc.invitedBy._id,
+            name: doc.invitedBy.name,
+            email: doc.invitedBy.email,
+        },
+        projectId: {
+            id: doc.projectId._id,
+            title: doc.projectId.title,
+        },
+    }));
 };
 
 // exports.invites = (docs) => {

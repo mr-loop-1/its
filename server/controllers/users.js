@@ -9,13 +9,13 @@ const {
 
 exports.getInvites = async (req, res) => {
     const user = req.user;
+    console.log(user);
 
     const documents = await invitesModel
         .find({
-            invited: user.id,
+            invited: user.email,
         })
         .populate([
-            // { path: "invited", model: "users" },
             { path: "invitedBy", model: "users" },
             { path: "projectId", model: "projects" },
         ]);
@@ -28,35 +28,36 @@ exports.getInvites = async (req, res) => {
 exports.sendInvite = async (req, res) => {
     const user = req.user;
     const body = req.body;
+    const params = req.params;
     const createInvite = new invitesModel({
-        invited: body.invited,
+        invited: body.invitedEmail,
         invitedBy: user.id,
-        projectId: body.projectId,
-        role: config.inviteCode[body.inviteRole],
+        projectId: params.projectId,
+        role: config.accessLevel.accessCode.MEMBER,
         status: false,
     });
-    const newInvite = await createInvite.save();
-    return res.json("CREATED INV");
+    await createInvite.save();
+    return res.status(200).json("CREATED INVITATION");
 };
 
 exports.acceptInvite = async (req, res) => {
     const user = req.user;
     const params = req.params;
-    const body = req.body;
+    // const body = req.body;
     const document = await invitesModel.findByIdAndUpdate(params.inviteId, {
         status: true,
     });
 
     await projectsModel.findByIdAndUpdate(document.projectId, {
         $push: { members: user.id },
-        ...(document.role === "ADMIN" && { admin: user.id }),
-        ...(document.role === "MANAGEr" && { manager: user.id }),
+        // ...(document.role === "ADMIN" && { admin: user.id }),
+        // ...(document.role === "MANAGER" && { manager: user.id }),
     });
     await userModel.findByIdAndUpdate(user.id, {
         $push: {
             projects: {
                 projectId: document.projectId,
-                role: config.inviteRole[document.role],
+                role: config.accessLevel.accessCode[document.role],
             },
         },
     });

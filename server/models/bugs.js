@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const config = require("../config");
 
 const bugSchema = new mongoose.Schema(
     {
@@ -13,12 +14,12 @@ const bugSchema = new mongoose.Schema(
         priority: {
             type: Number,
             index: true,
-            enum: [1, 2, 3],
+            enum: config.priority.priorityCodeEnum,
         },
         progress: {
             type: Number,
             index: true,
-            enum: [1, 2, 3, 4, 5],
+            enum: config.bugs.progressCodeEnum,
         },
         description: {
             type: String,

@@ -1,6 +1,35 @@
 import react from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerUser } from 'api/auth';
 
 export default function Register() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { error },
+  } = useForm();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    const auth = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+    try {
+      const res = await registerUser(auth);
+      dispatch(setUser(res));
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
+      navigate('/projects');
+    } catch {}
+  };
+
   return (
     <div class="flex flex-col h-screen bg-gray-100">
       <div class="grid place-items-center mx-2 my-20 sm:my-auto">
@@ -10,10 +39,10 @@ export default function Register() {
                     bg-white rounded-lg shadow-md lg:shadow-lg"
         >
           <h2 class="text-center font-semibold text-3xl lg:text-4xl text-gray-800">
-            signup
+            SignUp
           </h2>
 
-          <form class="mt-10" method="POST">
+          <form class="mt-10" method="POST" onSubmit={handleSubmit(onSubmit)}>
             <label
               for="name"
               class="block text-xs font-semibold text-gray-600 uppercase"
@@ -30,6 +59,7 @@ export default function Register() {
                             text-gray-800 appearance-none 
                             border-b-2 border-gray-100
                             focus:text-gray-500 focus:outline-none focus:border-gray-200"
+              {...register('name')}
               required
             />
 
@@ -50,6 +80,7 @@ export default function Register() {
                             border-b-2 border-gray-100
                             focus:text-gray-500 focus:outline-none focus:border-gray-200"
               required
+              {...register('email')}
             />
 
             <label
@@ -69,6 +100,7 @@ export default function Register() {
                             border-b-2 border-gray-100
                             focus:text-gray-500 focus:outline-none focus:border-gray-200"
               required
+              {...register('password')}
             />
 
             <button
@@ -81,9 +113,9 @@ export default function Register() {
             </button>
 
             <div class="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
-              <a href="login" class="flex-2 underline">
+              <Link to="/login" class="flex-2 underline">
                 Login instead
-              </a>
+              </Link>
             </div>
           </form>
         </div>
