@@ -11,7 +11,7 @@
 //     accessGuard([config.accessLevel.ANY]),
 //     bugsController.getBug
 // ); //* bug details with stream
-// router.get(bugsController.getBugs); //* all bugs in all projects
+// router.get(bugsController.getBugs); //* all bugs for a user
 
 // router.post("/:bugId/comment", bugsController.addComment); //* add stream element
 

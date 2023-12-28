@@ -108,8 +108,9 @@ exports.getProject = async (req, res, next) => {
         params
     );
 
-    const document = await projectsModel.findById(params.projectId);
-    // .populate({ path: "bugs", model: "bugs" }); //* for only giving the latest bugs
+    const document = await projectsModel
+        .findById(params.projectId)
+        .populate({ path: "bugs", model: "bugs" }); //* for only giving the latest bugs
 
     const data = projectTransformer.project(document);
     console.log(

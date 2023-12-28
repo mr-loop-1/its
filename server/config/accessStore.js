@@ -1,11 +1,13 @@
 const accessCode = require("./settingStore").accessLevel.accessCode;
 
 const config = {
-    createProject: [accessCode.ADMIN],
-    modifyProject: [accessCode.ADMIN],
-    deleteProject: [accessCode.ADMIN],
-    addManager: [accessCode.ADMIN],
-    addMember: [accessCode.ADMIN, accessCode.MANAGER],
+    modifyProject: ["ADMIN"],
+    deleteProject: ["ADMIN"],
+    makeManager: ["ADMIN"],
+    addMember: ["ADMIN", "MANAGER"],
+    removeMember: ["ADMIN", "MANAGER"],
+    // assignBugs: ["ADMIN", "MANAGER"],
+    //* rest are available to all
 };
 
 module.exports = config;

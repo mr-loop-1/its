@@ -29,7 +29,7 @@ const config = {
         saltRounds: 10,
     },
     jwt: {
-        secret: "asdhgbjasf",
+        secret: "thisistopsecretsecret",
     },
 };
 

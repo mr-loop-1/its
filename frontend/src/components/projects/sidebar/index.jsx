@@ -166,6 +166,9 @@ export default function ProjectSidebar({ projects }) {
                           <Input placeholder="shadcn" {...field} />
                         </FormControl>
                         <FormMessage />
+                        {form.formState.errors.titleExists && (
+                          <p>Project Title should be unique</p>
+                        )}
                       </FormItem>
                     )}
                   />
@@ -176,7 +179,11 @@ export default function ProjectSidebar({ projects }) {
                       <FormItem className="my-4">
                         <FormLabel>Short Summary</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="summary" {...field} />
+                          <Textarea
+                            // defaultValue="asddsa"
+                            placeholder="summary"
+                            {...field}
+                          />
                         </FormControl>
                       </FormItem>
                     )}
