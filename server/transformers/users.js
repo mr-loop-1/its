@@ -21,6 +21,21 @@ exports.user = (doc) => {
     };
 };
 
+exports.invites = (docs) => {
+    return docs.map((doc) => ({
+        id: doc.id,
+        invitedBy: {
+            id: doc.invitedBy._id,
+            name: doc.invitedBy.name,
+            email: doc.invitedBy.email,
+        },
+        projectId: {
+            id: doc.projectId._id,
+            title: doc.projectId.title,
+        },
+    }));
+};
+
 // exports.invites = (docs) => {
 //     return docs.map((doc) => {
 //         return {

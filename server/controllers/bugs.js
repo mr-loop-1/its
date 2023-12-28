@@ -18,7 +18,7 @@ exports.createBug = async (req, res) => {
             description: body?.description,
             projectId: params.projectId,
             createdBy: user.id,
-            assignedTo: body?.assignedTo,
+            assignedTo: user.id,
             commits: {
                 open: body.commits.id,
             },

@@ -88,6 +88,7 @@ export default function ProjectSidebar({ projects }) {
         admin: user.id,
         manager: user.id,
         members: [user.id],
+        invites: form.getValues('members'),
       };
 
       await createProject(localStorage.getItem('token'), data);

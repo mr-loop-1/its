@@ -1,7 +1,12 @@
 const config = require("../config");
 const { githubService } = require("../services");
 const { projectTransformer } = require("../transformers");
-const { projectsModel, userModel, commitsModel } = require("./../models");
+const {
+    projectsModel,
+    userModel,
+    commitsModel,
+    invitesModel,
+} = require("./../models");
 
 exports.createProject = async (req, res) => {
     const body = req?.body;
@@ -20,15 +25,32 @@ exports.createProject = async (req, res) => {
         });
         const document = await newProject.save();
 
-        document.members.forEach(async (memberId) => {
-            await userModel.findByIdAndUpdate(memberId, {
-                $push: {
-                    projects: {
-                        projectId: document._id,
-                        role: config.accessLevel.accessCode.ADMIN,
-                    },
+        await userModel.findByIdAndUpdate(user.id, {
+            $push: {
+                projects: {
+                    projectId: document._id,
+                    role: config.accessLevel.accessCode.ADMIN,
                 },
+            },
+        });
+
+        body.invites.forEach(async (emailId) => {
+            // await userModel.findByIdAndUpdate(memberId, {
+            //     $push: {
+            //         projects: {
+            //             projectId: document._id,
+            //             role: config.accessLevel.accessCode.ADMIN,
+            //         },
+            //     },
+            // });
+            const createInvite = new invitesModel({
+                invited: emailId,
+                invitedBy: user.id,
+                projectId: document._id,
+                role: config.accessLevel.accessCode.MEMBER,
+                status: false,
             });
+            await createInvite.save();
         });
         const data = projectTransformer.project(document);
 

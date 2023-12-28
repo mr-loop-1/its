@@ -9,10 +9,11 @@ const {
 
 exports.getInvites = async (req, res) => {
     const user = req.user;
+    console.log(user);
 
     const documents = await invitesModel
         .find({
-            invited: user.id,
+            invited: user.email,
         })
         .populate([
             { path: "invitedBy", model: "users" },
@@ -29,7 +30,7 @@ exports.sendInvite = async (req, res) => {
     const body = req.body;
     const params = req.params;
     const createInvite = new invitesModel({
-        invited: body.invited,
+        invited: body.invitedEmail,
         invitedBy: user.id,
         projectId: params.projectId,
         role: config.accessLevel.accessCode.MEMBER,
@@ -42,15 +43,15 @@ exports.sendInvite = async (req, res) => {
 exports.acceptInvite = async (req, res) => {
     const user = req.user;
     const params = req.params;
-    const body = req.body;
+    // const body = req.body;
     const document = await invitesModel.findByIdAndUpdate(params.inviteId, {
         status: true,
     });
 
     await projectsModel.findByIdAndUpdate(document.projectId, {
         $push: { members: user.id },
-        ...(document.role === "ADMIN" && { admin: user.id }),
-        ...(document.role === "MANAGER" && { manager: user.id }),
+        // ...(document.role === "ADMIN" && { admin: user.id }),
+        // ...(document.role === "MANAGER" && { manager: user.id }),
     });
     await userModel.findByIdAndUpdate(user.id, {
         $push: {
