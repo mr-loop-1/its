@@ -5,6 +5,11 @@ const config = {
             MANAGER: 2,
             MEMBER: 3,
         },
+        accessMap: {
+            1: "ADMIN",
+            2: "MANAGER",
+            3: "MEMBER",
+        },
         accessEnum: ["ADMIN", "MANAGER", "MEMBER"],
         accessCodeEnum: [1, 2, 3],
     },
