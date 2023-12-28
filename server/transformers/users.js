@@ -33,6 +33,7 @@ exports.invites = (docs) => {
             id: doc.projectId._id,
             title: doc.projectId.title,
         },
+        slug: slug,
     }));
 };
 

@@ -1,22 +1,11 @@
-import react, { useEffect, useState } from 'react';
-import { set, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { registerUser } from 'api/auth';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
-import { Card, CardContent } from '@/components/ui/card';
+import react from 'react';
+import { useForm } from 'react-hook-form';
+import { loginUser } from 'api/auth';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './../../app/reducers/auth';
+import { Link, useNavigate } from 'react-router-dom';
 
-export default function Register() {
-  const [slug, setSlug] = useState(0);
-  const [api, setApi] = useState();
-
+export default function Login() {
   const {
     register,
     handleSubmit,
@@ -27,29 +16,15 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (api)
-      api.on('select', () => {
-        setSlug(() => api.selectedScrollSnap());
-      });
-  }, [api]);
-
   const onSubmit = async (data) => {
-    const auth = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      slug: slug,
-    };
     try {
-      const res = await registerUser(auth);
+      const res = await loginUser(data);
       dispatch(setUser(res));
       localStorage.setItem('token', res.token);
       localStorage.setItem('user', JSON.stringify(res.user));
       navigate('/projects');
     } catch {}
   };
-
   return (
     <div class="flex flex-col h-screen bg-gray-100">
       <div class="grid place-items-center mx-2 my-20 sm:my-auto">
@@ -59,48 +34,10 @@ export default function Register() {
                     bg-white rounded-lg shadow-md lg:shadow-lg"
         >
           <h2 class="text-center font-semibold text-3xl lg:text-4xl text-gray-800">
-            SignUp
+            Login
           </h2>
 
-          <Carousel className="w-40 mx-auto mt-5 " setApi={setApi}>
-            <CarouselContent>
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((idx) => {
-                return (
-                  <CarouselItem key={idx}>
-                    <Card>
-                      <CardContent className="mx-auto h-20 w-20 p-0">
-                        <img src={`/profile/${idx}.svg`} />
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-
           <form class="mt-10" method="POST" onSubmit={handleSubmit(onSubmit)}>
-            <label
-              for="name"
-              class="block text-xs font-semibold text-gray-600 uppercase"
-            >
-              Name
-            </label>
-            <input
-              id="name"
-              type="text"
-              name="name"
-              placeholder="name"
-              autocomplete="name"
-              class="block w-full py-3 px-1 mt-2 
-                            text-gray-800 appearance-none 
-                            border-b-2 border-gray-100
-                            focus:text-gray-500 focus:outline-none focus:border-gray-200"
-              {...register('name')}
-              required
-            />
-
             <label
               for="email"
               class="block text-xs font-semibold text-gray-600 uppercase"
@@ -147,12 +84,12 @@ export default function Register() {
                             font-medium text-white uppercase
                             focus:outline-none hover:bg-gray-700 hover:shadow-none"
             >
-              Register
+              Login
             </button>
 
             <div class="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
-              <Link to="/login" class="flex-2 underline">
-                Login instead
+              <Link to="/register" class="flex-2 underline">
+                Create an Account
               </Link>
             </div>
           </form>
