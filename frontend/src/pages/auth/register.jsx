@@ -1,10 +1,21 @@
-import react from 'react';
-import { useForm } from 'react-hook-form';
+import react, { useEffect, useState } from 'react';
+import { set, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from 'api/auth';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function Register() {
+  const [slug, setSlug] = useState(0);
+  const [api, setApi] = useState();
+
   const {
     register,
     handleSubmit,
@@ -15,11 +26,19 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (api)
+      api.on('select', () => {
+        setSlug(() => api.selectedScrollSnap());
+      });
+  }, [api]);
+
   const onSubmit = async (data) => {
     const auth = {
       name: data.name,
       email: data.email,
       password: data.password,
+      slug: slug,
     };
     try {
       const res = await registerUser(auth);
@@ -41,6 +60,24 @@ export default function Register() {
           <h2 class="text-center font-semibold text-3xl lg:text-4xl text-gray-800">
             SignUp
           </h2>
+
+          <Carousel className="w-40 mx-auto mt-5 " setApi={setApi}>
+            <CarouselContent>
+              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((idx) => {
+                return (
+                  <CarouselItem key={idx}>
+                    <Card>
+                      <CardContent className="mx-auto h-20 w-20 p-0">
+                        <img src={`/profile/${idx}.svg`} />
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
 
           <form class="mt-10" method="POST" onSubmit={handleSubmit(onSubmit)}>
             <label
