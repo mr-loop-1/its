@@ -15,7 +15,6 @@ exports.getInvites = async (req, res) => {
             invited: user.id,
         })
         .populate([
-            // { path: "invited", model: "users" },
             { path: "invitedBy", model: "users" },
             { path: "projectId", model: "projects" },
         ]);
@@ -28,15 +27,16 @@ exports.getInvites = async (req, res) => {
 exports.sendInvite = async (req, res) => {
     const user = req.user;
     const body = req.body;
+    const params = req.params;
     const createInvite = new invitesModel({
         invited: body.invited,
         invitedBy: user.id,
-        projectId: body.projectId,
-        role: config.inviteCode[body.inviteRole],
+        projectId: params.projectId,
+        role: config.accessLevel.accessCode.MEMBER,
         status: false,
     });
-    const newInvite = await createInvite.save();
-    return res.json("CREATED INV");
+    await createInvite.save();
+    return res.status(200).json("CREATED INVITATION");
 };
 
 exports.acceptInvite = async (req, res) => {

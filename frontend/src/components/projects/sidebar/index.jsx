@@ -51,28 +51,20 @@ import {
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
 import { createProject } from 'api/projects';
-// import { createProject } from '../../../../api/projects';
 
 export default function ProjectSidebar({ projects }) {
   const [open, setOpen] = useState(false);
 
-  // console.log(
-  //   '🚀 ~ file: index.jsx:45 ~ ProjectSidebar ~ projects:',
-  //   typeof projects[0],
-  //   Object.keys(projects[0]),
-  //   projects,
-  // );
-  // const form = useForm();
-
   const formSchema = z.object({
-    title: z.string().min(3, {
-      message: 'atlease 2 char',
-    }),
-    //   .max(40, { message: 'atmost 40 chars' }),
-    // description: z.string().max(150, { message: 'atmost 150 chars' }),
-    // githubUrl: z.string().url({ message: 'valid url please' }).max(100),
-    // githubPAT: z.string().max(100),
-    // members: z.array(z.string().email('All invitations must be email')),
+    title: z
+      .string()
+      .min(3, {
+        message: 'atlease 2 char',
+      })
+      .max(40, { message: 'atmost 40 chars' }),
+    description: z.string().max(150, { message: 'atmost 150 chars' }),
+    githubUrl: z.string().url({ message: 'valid url please' }).max(100),
+    githubPAT: z.string().max(100),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -82,18 +74,19 @@ export default function ProjectSidebar({ projects }) {
     shouldUnregister: true,
   });
   const user = useSelector((state) => state.auth.userInfo);
-  // console.log('🚀 ~ file: index.jsx:82 ~ ProjectSidebar ~ user:', user);
 
   const onSubmit = async (inputs) => {
     console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
 
     const data = {
       title: inputs.title,
+      description: inputs.description,
       github: {
         url: inputs.url,
         token: inputs.token,
       },
       admin: user.id,
+      manager: user.id,
       members: [user.id],
     };
 

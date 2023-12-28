@@ -1,5 +1,10 @@
 const express = require("express");
-const { projectController, bugsController } = require("../controllers/index");
+const {
+    projectController,
+    bugsController,
+    memberController,
+    userController,
+} = require("../controllers/index");
 const { authenticateToken } = require("../middleware/jwt");
 const { accessGuard } = require("../middleware/guard");
 const config = require("../config");
@@ -19,13 +24,13 @@ router.post(
     "/:projectId/user",
     authenticateToken,
     accessGuard(config.accessStore.addMember),
-    projectController.addMember
+    userController.sendInvite
 ); //* add member to a project
 router.post(
     "/:projectId/manager",
     authenticateToken,
     accessGuard(config.accessStore.makeManager),
-    projectController.makeManager
+    memberController.makeManager
 ); //* add manger to a project
 router.post("", authenticateToken, projectController.createProject); //* create a project
 
@@ -40,7 +45,7 @@ router.delete(
     "/:projectId/user",
     authenticateToken,
     accessGuard(config.accessStore.removeMember),
-    projectController.removeMember
+    memberController.removeMember
 );
 router.delete(
     "/:projectId",

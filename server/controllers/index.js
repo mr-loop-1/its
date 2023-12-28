@@ -4,4 +4,5 @@ module.exports = {
     projectController: require("./projects"),
     bugsController: require("./bugs"),
     streamController: require("./stream"),
+    memberController: require("./members"),
 };

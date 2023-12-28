@@ -49,6 +49,7 @@ exports.project = (doc) => {
         bugs: doc.bugs.map((bug) => {
             return {
                 id: bug._id,
+                bugId: bug.bugId,
                 title: bug.title,
                 description: bug.description,
                 assignedTo: {
@@ -95,6 +96,7 @@ exports.projectBugs = (doc) => {
         bugs: doc.bugs.map((bug) => {
             return {
                 id: bug._id,
+                bugId: bug.bugId,
                 title: bug.title,
                 description: bug.description,
                 assignedTo: {

@@ -1,6 +1,5 @@
 import react, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Bugs from '../../components/projects/bugs';
 import { Button } from './../../components/ui/button';
 import ProjectSidebar from './../../components/projects/sidebar/index.jsx';
 import axios from 'axios';
