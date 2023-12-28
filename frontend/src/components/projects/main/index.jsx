@@ -34,6 +34,8 @@ export default function ProjectMain() {
     }
   }, [refetch]);
 
+  console.log(project);
+
   return (
     //! very imp right-0
     <div className="fixed right-0 left-72 lg:left-[448px] mt-8 mx-8 pr-10 lg:mx-16 overflow-hidden ">

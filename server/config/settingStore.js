@@ -43,7 +43,11 @@ const config = {
             NORMAL: 2,
             SEVERE: 3,
         },
-        priorityMap: {},
+        priorityMap: {
+            1: "LOW",
+            2: "NORMAL",
+            3: "SEVERE",
+        },
         priorityEnum: ["LOW", "NORMAL", "SEVERE"],
         priorityCodeEnum: [1, 2, 3],
     },

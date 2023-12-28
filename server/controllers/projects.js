@@ -135,7 +135,20 @@ exports.getProject = async (req, res) => {
     try {
         const document = await projectsModel
             .findById(params.projectId)
-            .populate({ path: "bugs", model: "bugs" })
+            .populate({
+                path: "bugs",
+                model: "bugs",
+                populate: [
+                    {
+                        path: "createdBy",
+                        model: "users",
+                    },
+                    {
+                        path: "assignedTo",
+                        model: "users",
+                    },
+                ],
+            })
             .populate({ path: "admin", model: "users" })
             .populate({ path: "manager", model: "users" })
             .populate({ path: "members", model: "users" });
@@ -166,6 +179,10 @@ exports.getProjectBugs = async (req, res, next) => {
                     },
                 ],
             });
+        console.log(
+            "🚀 ~ file: projects.js:169 ~ exports.getProjectBugs= ~ document:",
+            document
+        );
         const data = projectTransformer.bugs(document);
         return res.status(200).json(data);
     } catch {
