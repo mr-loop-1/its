@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { config } from '@/config/settingStore';
 import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -35,7 +36,23 @@ export default function BugsList({ bugs }) {
       id: 'ndh1i23',
       bugId: '123',
       title: 'not responding callback in menu',
-      priority: 1,
+      priority: 3,
+      progress: 2,
+      commits: {
+        open: '7832gea12',
+      },
+      updatedAt: '7 min ago',
+      assignedTo: {
+        id: 'aushdkndwq211343',
+        name: 'harsha',
+        slug: '',
+      },
+    },
+    {
+      id: 'ndh1i23',
+      bugId: '123',
+      title: 'not responding callback in menu',
+      priority: 2,
       progress: 2,
       commits: {
         open: '7832gea12',
@@ -67,9 +84,16 @@ export default function BugsList({ bugs }) {
           {bugg.map((bug) => (
             <>
               <TableRow key={bug.id}>
-                <TableCell className="font-medium">{bug.priority}</TableCell>
-                <TableCell>{bug.title}</TableCell>
-                <TableCell>{bug.title}</TableCell>
+                <TableCell className="font-medium w-10 mx-1">
+                  <img
+                    src={`/priority/${config.priority.priorityMap[
+                      bug.priority
+                    ].toLowerCase()}.svg`}
+                    className="w-20 h-20"
+                  />
+                </TableCell>
+                <TableCell className="w-10">#{bug.bugId}</TableCell>
+                <TableCell className="w-fit p-0">{bug.title}</TableCell>
                 <TableCell className="text-right">{bug.progress}</TableCell>
               </TableRow>
               <TableRow key={bug.id}>

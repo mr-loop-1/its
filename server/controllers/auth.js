@@ -14,6 +14,7 @@ exports.register = async (req, res) => {
         name: body.name,
         email: body.email,
         hashedPassword: hashedPassword,
+        slug: body.slug,
     });
     const newUser = await createUser.save();
     const token = await jwtService.generateToken(newUser);
