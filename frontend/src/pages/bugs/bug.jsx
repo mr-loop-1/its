@@ -65,7 +65,7 @@ export default function Bug() {
           />
           {/* <Deletebug className="" bugId={bug.id} projectId={bug.project.id} /> */}
           {/* <EditBug bug={bug} /> */}
-          <Stream stream={bug.stream} />
+          <Stream stream={bug.stream} bugId={bug.id} />
         </div>
       )}
     </>

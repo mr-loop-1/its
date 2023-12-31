@@ -38,12 +38,19 @@ export default function AssignBug({
   const handleAssign = async (newAssigned) => {
     try {
       let data = {
-        author: user.name,
-        oldUser: {
+        streamType: 'ASSIGNED',
+        author: {
+          id: user.id,
+          name: user.name,
+          slug: user.slug,
+        },
+        prev: {
+          id: currentAssigned.id,
           name: currentAssigned.name,
           slug: currentAssigned.slug,
         },
-        newUser: {
+        now: {
+          id: filteredArray[newAssigned].id,
           name: filteredArray[newAssigned].name,
           slug: filteredArray[newAssigned].slug,
         },
