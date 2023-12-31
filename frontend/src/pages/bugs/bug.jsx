@@ -12,6 +12,7 @@ import ProjectMain from '@/components/projects/main';
 import AssignBug from '@/components/bugs/assignBug';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import Deletebug from '@/components/bugs/deleteBug';
+import EditBug from '@/components/bugs/editBug';
 const backendURL = 'http://127.0.0.1:5000';
 
 export default function Bug() {
@@ -58,6 +59,7 @@ export default function Bug() {
             projectUsers={bug.project.members}
           />
           <Deletebug className="" bugId={bug.id} projectId={bug.project.id} />
+          <EditBug bug={bug} />
         </div>
       )}
     </>
