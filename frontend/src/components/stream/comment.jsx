@@ -51,18 +51,13 @@ import { Cross1Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
 import { createProject } from 'api/projects';
 import { createBug } from 'api/bugs';
+import { addStreamItem } from 'api/stream';
 
-export default function Comment({ bug }) {
+export default function Comment({ bugId }) {
   const [open, setOpen] = useState(false);
 
   const formSchema = z.object({
-    title: z
-      .string()
-      .min(3, {
-        message: 'atlease 2 char',
-      })
-      .max(40, { message: 'atmost 40 chars' }),
-    description: z.string().max(150, { message: 'atmost 150 chars' }),
+    comment: z.string(),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -76,14 +71,17 @@ export default function Comment({ bug }) {
   const onSubmit = async (inputs) => {
     console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
     try {
-      //   const data = {
-      //     title: inputs.title,
-      //     description: inputs.description,
-      //     admin: user.id,
-      //     priority: inputs.priority,
-      //   };
+      const data = {
+        streamType: 'COMMENT',
+        author: {
+          id: user.id,
+          name: user.name,
+          slug: user.slug,
+        },
+        comment: inputs.comment,
+      };
 
-      //   await createBug(localStorage.getItem('token'), data, project.id);
+      await addStreamItem(localStorage.getItem('token'), data, bugId);
       setOpen(() => false);
     } catch (err) {
       console.log(err);
@@ -96,7 +94,7 @@ export default function Comment({ bug }) {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
-            name="title"
+            name="comment"
             render={({ field }) => (
               <FormItem className="my-4">
                 {/* <FormLabel>Title</FormLabel> */}

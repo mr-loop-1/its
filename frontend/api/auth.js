@@ -1,23 +1,13 @@
 import axios from 'axios';
 
-export async function loginUser(data) {
-  console.log('🚀 ~ file: index.js:4 ~ loginUser= ~ data:', data);
-  const result = await axios.post('http://localhost:5000/auth/login', data);
-  console.log('🚀 ~ file: index.js:6 ~ loginUser ~ result:', result);
+const API_URL = import.meta.env.VITE_API_URL;
 
-  const { token, user } = result.data;
+export const loginUser = async (data) => {
+  const result = await axios.post(`${API_URL}/auth/login`, data);
   return result.data;
-}
+};
 
-export async function registerUser(data) {
-  console.log('🚀 ~ file: index.js:4 ~ loginUser= ~ data:', data);
-  const result = await axios.post('http://localhost:5000/auth/register', data);
-  console.log('🚀 ~ file: index.js:6 ~ loginUser ~ result:', result);
-
-  const { token, user } = result.data;
+export const registerUser = async (data) => {
+  const result = await axios.post(`${API_URL}/auth/register`, data);
   return result.data;
-}
-
-// export async function registerUser(data) {}
-
-// export async function getAllProjects(data) {}
+};

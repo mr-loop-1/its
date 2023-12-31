@@ -100,21 +100,27 @@ exports.getBug = async (req, res, next) => {
 };
 
 exports.updateBug = async (req, res, next) => {
+    const body = req.body;
+    const params = req.params;
     const inputs = {
         ...(body?.title && { title: body?.title }),
         ...(body?.description && { description: body?.description }),
+        ...(body?.assignedTo && { assignedTo: body?.assignedTo }),
+        ...(body?.priority && { priority: body?.priority }),
+        ...(body?.status && { status: body?.status }),
     };
 
     try {
         const document = await bugsModel.findByIdAndUpdate(
-            req.body?.bugId,
+            params.bugId,
             inputs
         );
 
-        const data = bugTransformer.bug(document);
-        return res.status(200).json(data);
-    } catch {
-        return res.send(500).json({ error: "Server Error" });
+        // const data = bugTransformer.bug(document);
+        return res.status(200).json("UPDATE SUCCESS");
+    } catch (err) {
+        console.log("🚀 ~ file: bugs.js:122 ~ exports.updateBug= ~ err:", err);
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 

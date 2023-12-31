@@ -35,6 +35,7 @@ exports.bug = (bug) => {
         priority: config.priority.priorityMap[bug.priority],
         progress: config.bugs.progressMap[bug.progress],
         commits: bug.commits,
+        updatedAt: bug.updatedAt,
     };
 };
 // exports.userBugs = (docs) => {

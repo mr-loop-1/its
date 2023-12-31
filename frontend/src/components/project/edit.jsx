@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -21,7 +20,6 @@ import {
   FormMessage,
   FormField,
 } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -29,31 +27,20 @@ import {
   SelectValue,
   SelectTrigger,
   SelectContent,
-  SelectLabel,
   SelectItem,
-  SelectSeparator,
-  SelectScrollUpButton,
-  SelectScrollDownButton,
 } from '@/components/ui/select';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
-import {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card';
-import { Cross1Icon, Pencil2Icon } from '@radix-ui/react-icons';
+import { Card } from '@/components/ui/card';
+import { Cross1Icon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
-import { createProject } from 'api/projects';
-import { createBug } from 'api/bugs';
+import { createProject, editProject } from 'api/projects';
 
-export default function EditBug({ bug }) {
+export default function EditProject({ project, refetch, toggleRefetch }) {
   const [open, setOpen] = useState(false);
+  const user = useSelector((state) => state.auth.userInfo);
 
   const formSchema = z.object({
     title: z
@@ -63,26 +50,27 @@ export default function EditBug({ bug }) {
       })
       .max(40, { message: 'atmost 40 chars' }),
     description: z.string().max(150, { message: 'atmost 150 chars' }),
+    githubUrl: z.string().url({ message: 'valid url please' }).max(100),
+    githubPAT: z.string().max(100),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   username: '',
-    // },
     shouldUnregister: true,
   });
-  const user = useSelector((state) => state.auth.userInfo);
 
   const onSubmit = async (inputs) => {
     try {
-      //   const data = {
-      //     title: inputs.title,
-      //     description: inputs.description,
-      //     admin: user.id,
-      //     priority: inputs.priority,
-      //   };
+      const data = {
+        title: inputs.title,
+        description: inputs.description,
+        github: {
+          url: inputs.url,
+          token: inputs.token,
+        },
+      };
 
-      //   await createBug(localStorage.getItem('token'), data, project.id);
+      await editProject(localStorage.getItem('token'), data, project.id);
+      toggleRefetch(() => (refetch ? false : true));
       setOpen(() => false);
     } catch (err) {
       console.log(err);
@@ -99,8 +87,8 @@ export default function EditBug({ bug }) {
         </DialogTrigger>
         <DialogContent className="block box-border overflow-scroll w-[90%] md:max-w-2xl h-fit rounded-lg max-h-[90%]">
           <DialogHeader>
-            <DialogTitle>Edit title & desc</DialogTitle>
-            <DialogDescription></DialogDescription>
+            <DialogTitle>Edit the project</DialogTitle>
+            <DialogDescription>don't break</DialogDescription>
           </DialogHeader>
           <div className="">
             <Form {...form}>
@@ -115,7 +103,7 @@ export default function EditBug({ bug }) {
                         <Input
                           placeholder="shadcn"
                           {...field}
-                          defaultValue={bug.title}
+                          defaultValue={project.title}
                         />
                       </FormControl>
                       <FormMessage />
@@ -130,13 +118,12 @@ export default function EditBug({ bug }) {
                   name="description"
                   render={({ field }) => (
                     <FormItem className="my-4">
-                      <FormLabel>Description (optional)</FormLabel>
+                      <FormLabel>Short Summary</FormLabel>
                       <FormControl>
                         <Textarea
-                          // defaultValue="asddsa"
                           placeholder="summary"
                           {...field}
-                          defaultValue={bug?.description}
+                          defaultValue={project.description}
                         />
                       </FormControl>
                       <FormMessage />
@@ -144,7 +131,46 @@ export default function EditBug({ bug }) {
                   )}
                 />
 
-                <Button type="submit">Edit Changes</Button>
+                <Card className="py-2 px-3">
+                  <FormLabel>Github Repo</FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="githubUrl"
+                    render={({ field }) => (
+                      <FormItem className="my-4">
+                        <FormLabel>Url</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="github url"
+                            {...field}
+                            defaultValue={project.githubUrl}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="githubPAT"
+                    render={({ field }) => (
+                      <FormItem className="my-4">
+                        <FormLabel>Access Token</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="github pat"
+                            {...field}
+                            defaultValue={project.githubPAT}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </Card>
+
+                <Button type="submit">Edit</Button>
               </form>
             </Form>
           </div>

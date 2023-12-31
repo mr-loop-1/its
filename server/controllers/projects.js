@@ -34,7 +34,7 @@ exports.createProject = async (req, res) => {
             },
         });
 
-        body.invites.forEach(async (emailId) => {
+        body?.invites?.forEach(async (emailId) => {
             // await userModel.findByIdAndUpdate(memberId, {
             //     $push: {
             //         projects: {
@@ -110,7 +110,11 @@ exports.deleteProject = async (req, res, next) => {
         });
 
         res.status(200).json({ message: "Deleted" });
-    } catch {
+    } catch (err) {
+        console.log(
+            "🚀 ~ file: projects.js:114 ~ exports.deleteProject ~ err:",
+            err
+        );
         return res.status(500).json({ error: "Server Error" });
     }
 };
@@ -125,7 +129,11 @@ exports.getProjects = async (req, res, next) => {
             .populate({ path: "projects.projectId", model: "projects" });
         const data = projectTransformer.projects(document.projects);
         res.status(200).json(data);
-    } catch {
+    } catch (err) {
+        console.log(
+            "🚀 ~ file: projects.js:133 ~ exports.getProjects= ~ err:",
+            err
+        );
         return res.status(500).json({ error: "Server Error" });
     }
 };
@@ -156,7 +164,11 @@ exports.getProject = async (req, res) => {
         const data = projectTransformer.project(document);
 
         return res.status(200).json(data);
-    } catch {
+    } catch (err) {
+        console.log(
+            "🚀 ~ file: projects.js:168 ~ exports.getProject= ~ err:",
+            err
+        );
         return res.status(500).json({ error: "Server Error" });
     }
 };
@@ -185,7 +197,11 @@ exports.getProjectBugs = async (req, res, next) => {
         );
         const data = projectTransformer.bugs(document);
         return res.status(200).json(data);
-    } catch {
+    } catch (err) {
+        console.log(
+            "🚀 ~ file: projects.js:201 ~ exports.getProjectBugs= ~ err:",
+            err
+        );
         return res.status(500).json({ error: "Server Error" });
     }
 };
@@ -206,7 +222,11 @@ exports.updateProject = async (req, res) => {
         const data = projectTransformer.project(document);
 
         res.status(200).json(data);
-    } catch {
+    } catch (err) {
+        console.log(
+            "🚀 ~ file: projects.js:226 ~ exports.updateProject= ~ err:",
+            err
+        );
         return res.status(500).json({ error: "Server Error" });
     }
 };

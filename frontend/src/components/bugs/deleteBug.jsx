@@ -18,7 +18,7 @@ import { ToastAction } from '../ui/toast';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 
-export default function Deletebug({ bugId, projectId }) {
+export default function Deletebug({ bug }) {
   const user = useSelector((state) => state.auth.userInfo);
   const [disable, setDisable] = useState(false);
   const { toast } = useToast();
@@ -34,7 +34,7 @@ export default function Deletebug({ bugId, projectId }) {
         title: 'Deleted successfully',
       });
       setTimeout(() => {
-        navigate(`/projects/${projectId}`);
+        navigate(`/projects/${bug.project.id}`);
       }, 1000);
 
       //! do not update the effect in this one
@@ -48,10 +48,11 @@ export default function Deletebug({ bugId, projectId }) {
   };
 
   return (
-    <>
-      <Button onClick={handleDelete} disabled={disable}>
-        <TrashIcon className="w-30 h-30 " />
-      </Button>
-    </>
+    <button className="ml-2" onClick={handleDelete} disabled={disable}>
+      <TrashIcon
+        className="w-7 h-7 text-red-700 cursor-pointer"
+        // onClick={handleDelete}
+      />
+    </button>
   );
 }

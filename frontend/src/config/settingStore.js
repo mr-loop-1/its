@@ -10,8 +10,6 @@ export const config = {
       2: 'MANAGER',
       3: 'MEMBER',
     },
-    accessEnum: ['ADMIN', 'MANAGER', 'MEMBER'],
-    accessCodeEnum: [1, 2, 3],
   },
   bugs: {
     progressCode: {
@@ -28,14 +26,6 @@ export const config = {
       4: 'REVIEW_REQUIRED',
       5: 'CLOSED',
     },
-    progressEnum: [
-      'OPEN',
-      'TRIAGE',
-      'IN_PROGRESS',
-      'REVIEW_REQUIRED',
-      'CLOSED',
-    ],
-    progressCodeEnum: [1, 2, 3, 4, 5],
   },
   priority: {
     priorityCode: {
@@ -48,13 +38,5 @@ export const config = {
       2: 'NORMAL',
       3: 'SEVERE',
     },
-    priorityEnum: ['LOW', 'NORMAL', 'SEVERE'],
-    priorityCodeEnum: [1, 2, 3],
-  },
-  bcrypt: {
-    saltRounds: 10,
-  },
-  jwt: {
-    secret: 'thisistopsecretsecret',
   },
 };

@@ -49,7 +49,7 @@ export default function ProjectPeople({ project }) {
             return (
               <>
                 <li className="my-3 ">
-                  <img src="/profile/001-man.svg" className="w-7 inline" />
+                  <img src="/profile/1.svg" className="w-7 inline" />
                   <span>{member.name}</span>
                   {member.id == project.admin.id && (
                     <span className="bg-yellow-600 text-white box-border">
@@ -63,7 +63,7 @@ export default function ProjectPeople({ project }) {
                   )}
                 </li>
                 <li className="my-3 ">
-                  <img src="/profile/001-man.svg" className="w-7 inline" />
+                  <img src="/profile/1.svg" className="w-7 inline" />
                   <span>{member.name}</span>
                   {member.id == project.admin.id && (
                     <span className="bg-yellow-600 text-white box-border">

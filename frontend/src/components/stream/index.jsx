@@ -9,7 +9,7 @@ import {
 import { Button } from '../ui/button';
 import Comment from './comment';
 
-export default function Stream({ stream }) {
+export default function Stream({ stream, bugId }) {
   return (
     <div>
       {stream.map((content) => {
@@ -23,7 +23,7 @@ export default function Stream({ stream }) {
           <AccordionTrigger>Add Comment</AccordionTrigger>
           <AccordionContent>
             {/* Yes. It adheres to the WAI-ARIA design pattern. */}
-            <Comment />
+            <Comment bugId={bugId} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

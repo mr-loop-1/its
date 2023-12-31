@@ -25,6 +25,7 @@ exports.project = (doc) => {
         id: doc._id,
         title: doc.title,
         githubUrl: doc.github.url,
+        githubPAT: doc.github.PAT,
         description: doc.description,
         admin: {
             id: doc.admin._id,
@@ -68,6 +69,7 @@ exports.project = (doc) => {
                 priority: config.priority.priorityMap[bug.priority],
                 progress: config.bugs.progressMap[bug.progress],
                 commits: bug.commits,
+                updatedAt: bug.updatedAt,
             };
         }),
         commitsCount: doc.commits.length,
@@ -115,6 +117,7 @@ exports.projectBugs = (doc) => {
                 priority: config.priority.priorityMap[bug.priority],
                 progress: config.bugs.progressMap[bug.progress],
                 commits: bug.commits,
+                updatedAt: bug.updatedAt,
             };
         }),
         commitsCount: doc.commits.length,
