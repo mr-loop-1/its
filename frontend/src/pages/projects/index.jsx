@@ -1,6 +1,6 @@
 import react, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import ProjectNavbar from './../../components/projects/navbar/index.jsx';
+import ProjectNavbar from './../../components/projects/index.jsx';
 import { getProjects } from 'api/projects';
 import clsx from 'clsx';
 import ProjectNavbarMobile from '@/components/projects/mobile/index.jsx';
