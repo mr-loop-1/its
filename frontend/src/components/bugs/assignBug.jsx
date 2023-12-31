@@ -15,45 +15,60 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '../ui/button';
 import { ToastAction } from '../ui/toast';
+import { addStreamItem } from 'api/stream';
+import { editBug } from 'api/bugs';
 
-export default function AssignBug({ bugId, projectUsers, currentAssigned }) {
-  console.log(
-    '🚀 ~ file: assignBug.jsx:18 ~ AssignBug ~ currentAssigned:',
-    currentAssigned,
-  );
-  console.log(
-    '🚀 ~ file: assignBug.jsx:18 ~ AssignBug ~ projectUsers:',
-    projectUsers,
-  );
+export default function AssignBug({
+  bugId,
+  projectUsers,
+  currentAssigned,
+  refetch,
+  toggleRefetch,
+}) {
   const user = useSelector((state) => state.auth.userInfo);
-  const [assigned, setAssign] = useState(currentAssigned.name);
+  // const [assigned, setAssign] = useState(currentAssigned.name);
   const { toast } = useToast();
+
+  const filteredArray = projectUsers.filter(
+    (user) => user.id !== currentAssigned.id,
+  );
 
   //   console.log(currentAssigned.name);
 
-  const handleAssign = (newAssigned) => {
+  const handleAssign = async (newAssigned) => {
     try {
-      const data = {
+      let data = {
         author: user.name,
         oldUser: {
           name: currentAssigned.name,
           slug: currentAssigned.slug,
         },
         newUser: {
-          name: projectUsers[newAssigned].name,
-          sulg: projectUsers[newAssigned].slug,
+          name: filteredArray[newAssigned].name,
+          slug: filteredArray[newAssigned].slug,
         },
         timestamp: new Date(),
       };
       console.log('🚀 ~ file: assignBug.jsx:44 ~ handleAssign ~ data:', data);
 
       //* api call using bugId and all
+      let result = await addStreamItem(
+        localStorage.getItem('token'),
+        data,
+        bugId,
+      );
+      data = {
+        assignedTo: filteredArray[newAssigned].id,
+      };
+      result = await editBug(localStorage.getItem('token'), data, bugId);
 
-      setAssign(() => data.newUser.name);
+      // toggleRefetch(() => (refetch ? false : true));
 
-      toast({
-        title: 'Assignment changed successfully',
-      });
+      // setAssign(() => filteredArray[newAssigned].name);
+
+      // toast({
+      //   title: 'Assignment changed successfully',
+      // });
 
       console.log('here.....................');
     } catch (err) {
@@ -63,15 +78,21 @@ export default function AssignBug({ bugId, projectUsers, currentAssigned }) {
       });
     }
   };
+  // console.log(assigned);
 
   return (
-    <>
+    <div className="mt-10">
+      <div className="">Assigned To</div>
       <Select
         onValueChange={handleAssign}
-        value={assigned}
-        defaultValue={currentAssigned.name}
+        value={currentAssigned.name}
+        // defaultValue={assigned}
       >
         <SelectTrigger className="w-[400px]">
+          <img
+            src={`/profile/${currentAssigned.slug}.svg`}
+            className="w-10 h-10 inline"
+          />
           {currentAssigned.name}
           {/* <SelectValue placeholder={currentAssigned.name}/> */}
         </SelectTrigger>
@@ -80,14 +101,20 @@ export default function AssignBug({ bugId, projectUsers, currentAssigned }) {
             {/* <SelectItem value="LOW">Low</SelectItem>
           <SelectItem value="NORMAL">Medium</SelectItem>
           <SelectItem value="SEVERE">Severe</SelectItem> */}
-            {projectUsers
-              .filter((user) => user.id !== currentAssigned.id)
-              .map((user, idx) => {
-                return <SelectItem value={idx}>{user.name}</SelectItem>;
-              })}
+            {filteredArray.map((user, idx) => {
+              return (
+                <SelectItem value={idx}>
+                  <img
+                    src={`/profile/${user.slug}.svg`}
+                    className="w-8 h-8 inline"
+                  />
+                  {user.name}
+                </SelectItem>
+              );
+            })}
           </SelectGroup>
         </SelectContent>
       </Select>
-    </>
+    </div>
   );
 }

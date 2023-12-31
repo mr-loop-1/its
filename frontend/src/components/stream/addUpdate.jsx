@@ -29,7 +29,10 @@ export default function StreamItem({ streamItem }) {
   // }
   return (
     <div>
-      <Separator orientation="vertical" className="mx-auto h-10" />
+      <Separator
+        orientation="vertical"
+        className="mx-auto bg-lime-600 h-6 md:h-10"
+      />
       {(streamItem.cat == 'ASSIGNED' && (
         <span>
           <img src={`/profile/${streamItem.value.author.slug}.svg`} />
@@ -46,8 +49,8 @@ export default function StreamItem({ streamItem }) {
               <img src={`/profile/${streamItem.value.author.slug}.svg`} />
               {streamItem.value.author.name}
             </span> */}
-            <Card>
-              <CardHeader>
+            <Card className="">
+              <CardHeader className="">
                 <CardTitle>
                   <img
                     src={`/profile/${streamItem.value.author.slug}.svg`}

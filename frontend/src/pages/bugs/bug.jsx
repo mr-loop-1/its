@@ -14,6 +14,7 @@ import { ReloadIcon } from '@radix-ui/react-icons';
 import Deletebug from '@/components/bugs/deleteBug';
 import EditBug from '@/components/bugs/editBug';
 import Stream from '@/components/stream';
+import BugMain from '@/components/bugs';
 const backendURL = 'http://127.0.0.1:5000';
 
 export default function Bug() {
@@ -41,26 +42,29 @@ export default function Bug() {
     }
   }, [refetch]);
 
-  console.log('bug............', bug);
-
   return (
     <>
       {loading ? (
-        <ReloadIcon className=" h-40 w-40 animate-spin" />
+        // <ReloadIcon className=" h-40 w-40 animate-spin" />
+        <></>
       ) : (
-        <div className="left-16 right-0 fixed px-20 pt-10">
-          <div className=".header flex items-center">
+        <div className="ml-16 px-10 pt-8 pb-96">
+          <BugMain bug={bug} />
+          {/* <div className=".header flex items-center">
             <Button className="">Back </Button>
             <h1 className="mx-auto">Bug</h1>
-          </div>
-          <span className="">{bug.title}</span>
+          </div> */}
+          {/* <span className="">{bug.title}</span> */}
+
           <AssignBug
             bugId={bug.id}
             currentAssigned={bug.assignedTo}
             projectUsers={bug.project.members}
+            // refetch={refetch}
+            // toggleRefetch={toggleFetch}
           />
-          <Deletebug className="" bugId={bug.id} projectId={bug.project.id} />
-          <EditBug bug={bug} />
+          {/* <Deletebug className="" bugId={bug.id} projectId={bug.project.id} /> */}
+          {/* <EditBug bug={bug} /> */}
           <Stream stream={bug.stream} />
         </div>
       )}

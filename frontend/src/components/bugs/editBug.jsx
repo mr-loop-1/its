@@ -47,7 +47,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
-import { Cross1Icon } from '@radix-ui/react-icons';
+import { Cross1Icon, Pencil2Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
 import { createProject } from 'api/projects';
 import { createBug } from 'api/bugs';
@@ -74,7 +74,6 @@ export default function EditBug({ bug }) {
   const user = useSelector((state) => state.auth.userInfo);
 
   const onSubmit = async (inputs) => {
-    console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
     try {
       //   const data = {
       //     title: inputs.title,
@@ -91,65 +90,66 @@ export default function EditBug({ bug }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="default" className="w-full">
-          Edit Bug
-        </Button>
-      </DialogTrigger>
-      <Separator className="my-6 w-full" orientation="horizontal" />
-      <DialogContent className="block box-border w-[70vw] h-fit">
-        <DialogHeader>
-          <DialogTitle>Edit title & desc</DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
-        <div className="">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="shadcn"
-                        {...field}
-                        defaultValue={bug.title}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                    {form.formState.errors.titleExists && (
-                      <p>Project Title should be unique</p>
-                    )}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel>Description (optional)</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        // defaultValue="asddsa"
-                        placeholder="summary"
-                        {...field}
-                        defaultValue={bug?.description}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <div className="ml-auto cursor-pointer">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <button>
+            <Pencil2Icon className="w-7 h-7" />
+          </button>
+        </DialogTrigger>
+        <DialogContent className="block box-border overflow-scroll w-[90%] md:max-w-2xl h-fit rounded-lg max-h-[90%]">
+          <DialogHeader>
+            <DialogTitle>Edit title & desc</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <div className="">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem className="my-4">
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="shadcn"
+                          {...field}
+                          defaultValue={bug.title}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                      {form.formState.errors.titleExists && (
+                        <p>Project Title should be unique</p>
+                      )}
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="my-4">
+                      <FormLabel>Description (optional)</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          // defaultValue="asddsa"
+                          placeholder="summary"
+                          {...field}
+                          defaultValue={bug?.description}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <Button type="submit">Edit Changes</Button>
-            </form>
-          </Form>
-        </div>
-      </DialogContent>
-    </Dialog>
+                <Button type="submit">Edit Changes</Button>
+              </form>
+            </Form>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }
