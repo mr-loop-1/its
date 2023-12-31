@@ -11,15 +11,27 @@ import {
   SelectSeparator,
   SelectScrollUpButton,
   SelectScrollDownButton,
-} from '../modal/select';
-import { useToast } from '../ui/use-toast';
+} from '@/components/ui/select';
+import { useToast } from '@/components/ui/use-toast';
+import { Button } from '../ui/button';
+import { ToastAction } from '../ui/toast';
 
 export default function AssignBug({ bugId, projectUsers, currentAssigned }) {
+  console.log(
+    '🚀 ~ file: assignBug.jsx:18 ~ AssignBug ~ currentAssigned:',
+    currentAssigned,
+  );
+  console.log(
+    '🚀 ~ file: assignBug.jsx:18 ~ AssignBug ~ projectUsers:',
+    projectUsers,
+  );
   const user = useSelector((state) => state.auth.userInfo);
-  const [assigned, setAssign] = useState();
+  const [assigned, setAssign] = useState(currentAssigned.name);
   const { toast } = useToast();
 
-  const handleAssigned = (newAssigned) => {
+  //   console.log(currentAssigned.name);
+
+  const handleAssign = (newAssigned) => {
     try {
       const data = {
         author: user.name,
@@ -33,12 +45,17 @@ export default function AssignBug({ bugId, projectUsers, currentAssigned }) {
         },
         timestamp: new Date(),
       };
+      console.log('🚀 ~ file: assignBug.jsx:44 ~ handleAssign ~ data:', data);
 
       //* api call using bugId and all
+
+      setAssign(() => data.newUser.name);
 
       toast({
         title: 'Assignment changed successfully',
       });
+
+      console.log('here.....................');
     } catch (err) {
       console.log(err);
       toast({
@@ -48,24 +65,29 @@ export default function AssignBug({ bugId, projectUsers, currentAssigned }) {
   };
 
   return (
-    <Select
-      onValueChange={handleAssign}
-      value={assigned}
-      defaultValue={currentAssigned.name}
-      required
-    >
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select Priority Level" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          {projectUsers
-            .filter((user) => user.id !== currentAssigned.id)
-            .map((user) => {
-              return <SelectItem>user.name</SelectItem>;
-            })}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <>
+      <Select
+        onValueChange={handleAssign}
+        value={assigned}
+        defaultValue={currentAssigned.name}
+      >
+        <SelectTrigger className="w-[400px]">
+          {currentAssigned.name}
+          {/* <SelectValue placeholder={currentAssigned.name}/> */}
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {/* <SelectItem value="LOW">Low</SelectItem>
+          <SelectItem value="NORMAL">Medium</SelectItem>
+          <SelectItem value="SEVERE">Severe</SelectItem> */}
+            {projectUsers
+              // .filter((user) => user.id !== currentAssigned.id)
+              .map((user, idx) => {
+                return <SelectItem value={idx}>{user.name}</SelectItem>;
+              })}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </>
   );
 }

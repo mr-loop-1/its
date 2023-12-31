@@ -72,15 +72,26 @@ exports.createBug = async (req, res) => {
 
 exports.getBug = async (req, res, next) => {
     const params = req?.params;
+    console.log("🚀 ~ file: bugs.js:75 ~ exports.getBug= ~ params:", params);
 
     try {
         const document = await bugsModel
             .findById(params.bugId)
-            .populate("projectId")
+            .populate({
+                path: "projectId",
+                model: "projects",
+                populate: [
+                    {
+                        path: "members",
+                        model: "users",
+                    },
+                ],
+            })
             .populate("createdBy")
             .populate("assignedTo");
 
         const data = bugTransformer.bug(document);
+        console.log("🚀 ~ file: bugs.js:93 ~ exports.getBug= ~ data:", data);
         return res.status(200).json(data);
     } catch (err) {
         console.log("🚀 ~ file: bugs.js:86 ~ exports.getBug= ~ err:", err);

@@ -11,6 +11,13 @@ exports.bug = (bug) => {
             id: bug.projectId._id,
             title: bug.projectId.title,
             description: bug.projectId.description,
+            members: bug.projectId.members.map((user) => {
+                return {
+                    id: user.id,
+                    name: user.name,
+                    slug: user.slug,
+                };
+            }),
         },
         assignedTo: {
             id: bug.assignedTo._id,
