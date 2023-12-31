@@ -84,6 +84,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
   const addElement = () => {
     const currentValues = form.getValues('members') || [];
     const newVal = form.watch('invite');
+    form.setValue('invite', '');
     form.setValue('members', [...currentValues, newVal]);
   };
 
@@ -97,12 +98,12 @@ export default function CreateProject({ refetch, toggleRefetch }) {
     <div className="w-full">
       <Modal open={open} onOpenChange={setOpen}>
         <ModalTrigger asChild>
-          <Button variant="default" className="w-[80%]">
+          <Button variant="default" className="w-full">
             Create Project
           </Button>
         </ModalTrigger>
         <Separator className="my-6 w-full" orientation="horizontal" />
-        <ModalContent className="block box-border overflow-scroll w-[90%] md:w-[70%] h-[80%]">
+        <ModalContent className="block box-border overflow-scroll w-[90%] md:max-w-2xl h-fit rounded-lg max-h-[90%]">
           <ModalHeader>
             <ModalTitle>Create a Project</ModalTitle>
             <ModalDescription>
@@ -142,7 +143,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                   )}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="priority"
                   render={({ field }) => (
@@ -170,7 +171,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                     </FormItem>
                   )}
                   required
-                />
+                /> */}
 
                 <Card className="py-2 px-3">
                   <FormLabel>Github Repo</FormLabel>
@@ -211,11 +212,11 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                   name="invite"
                   render={({ field }) => (
                     <FormItem className="my-4">
-                      <FormLabel>Invite members by email</FormLabel>
+                      <FormLabel>Send invite by email</FormLabel>
                       <div className="flex justify-between">
                         <FormControl>
                           <Input
-                            placeholder="value"
+                            placeholder="email"
                             className="mr-2"
                             {...field}
                           />

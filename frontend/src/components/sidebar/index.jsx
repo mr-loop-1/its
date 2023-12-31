@@ -31,7 +31,7 @@ export default function Sidebar() {
     <div
       className={clsx(
         ['/register', '/login'].includes(location.pathname) && 'hidden',
-        'fixed flex flex-col justify-between z-50 left-0 top-0 w-16 hover:w-[80%] md:hover:w-48 h-screen bg-[#0747A6] overflow-x-hidden transition-all duration-[0.1s] hover:shadow-[0_0_50px_0_rgba(0,0,0,0.6)] transform translate-z-0',
+        'fixed flex flex-col justify-between z-50 left-0 top-0 w-16 hover:w-[60%] md:hover:w-48 h-screen bg-[#0747A6] overflow-x-hidden transition-all duration-[0.1s] hover:shadow-[0_0_50px_0_rgba(0,0,0,0.6)] transform translate-z-0',
       )}
     >
       <div>
