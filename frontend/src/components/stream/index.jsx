@@ -5,7 +5,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
+} from './ui';
+import { Button } from '../ui/button';
+import Comment from './comment';
 
 export default function Stream({ stream }) {
   return (
@@ -13,11 +15,12 @@ export default function Stream({ stream }) {
       {stream.map((content) => {
         return <StreamItem streamItem={content} />;
       })}
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion type="single" collapsible className="w-fit h-fit">
         <AccordionItem value="item-1">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionTrigger>Add Comment</AccordionTrigger>
           <AccordionContent>
             Yes. It adheres to the WAI-ARIA design pattern.
+            <Comment />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
