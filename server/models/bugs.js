@@ -30,9 +30,9 @@ const bugSchema = new mongoose.Schema(
         },
         stream: [
             {
-                type: {
-                    type: Number, //* all types of stream
-                    enum: [1, 2, 3],
+                cat: {
+                    type: String, //* all types of stream
+                    // enum: [1, 2, 3],
                 },
                 value: {
                     type: mongoose.Schema.Types.Mixed,

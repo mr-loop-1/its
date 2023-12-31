@@ -76,14 +76,14 @@ export default function EditBug({ bug }) {
   const onSubmit = async (inputs) => {
     console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
     try {
-      const data = {
-        title: inputs.title,
-        description: inputs.description,
-        admin: user.id,
-        priority: inputs.priority,
-      };
+      //   const data = {
+      //     title: inputs.title,
+      //     description: inputs.description,
+      //     admin: user.id,
+      //     priority: inputs.priority,
+      //   };
 
-      await createBug(localStorage.getItem('token'), data, project.id);
+      //   await createBug(localStorage.getItem('token'), data, project.id);
       setOpen(() => false);
     } catch (err) {
       console.log(err);
@@ -116,7 +116,7 @@ export default function EditBug({ bug }) {
                       <Input
                         placeholder="shadcn"
                         {...field}
-                        value={bug.title}
+                        defaultValue={bug.title}
                       />
                     </FormControl>
                     <FormMessage />
@@ -137,7 +137,7 @@ export default function EditBug({ bug }) {
                         // defaultValue="asddsa"
                         placeholder="summary"
                         {...field}
-                        value={bug?.description}
+                        defaultValue={bug?.description}
                       />
                     </FormControl>
                     <FormMessage />
