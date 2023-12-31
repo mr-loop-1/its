@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { registerUser } from '../actions/auth';
 
 const initialState = {
   userInfo: {}, // for user object
@@ -11,12 +10,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      console.log('🚀 ~ file: auth.jsx:18 ~ action:', action);
       state.userInfo = action.payload.user;
       state.userToken = action.payload.token;
     },
     fillUser: (state, action) => {
-      console.log('🚀 ~ file: auth.jsx:18 ~ action:', action);
       state.userInfo = action.payload;
     },
   },

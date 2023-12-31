@@ -57,8 +57,13 @@ const bugSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "users",
         },
+        bugIdx: {
+            type: Number,
+            default: 0,
+        },
         status: {
             type: Boolean,
+            default: true,
         },
     },
     {

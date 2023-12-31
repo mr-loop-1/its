@@ -7,7 +7,10 @@ const { authenticateToken } = require("../middleware/jwt");
 const router = express.Router();
 
 router.get("/invites", authenticateToken, userController.getInvites);
-// router.get(""); //* user info
-// router.get("/stream"); //* latest updates stream
-// router.get("/infographics"); //* infographics
+router.post(
+    "/invites/:projectId",
+    authenticateToken,
+    userController.acceptInvite
+);
+
 module.exports = router;

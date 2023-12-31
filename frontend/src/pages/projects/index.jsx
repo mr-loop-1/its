@@ -34,7 +34,7 @@ export default function Project() {
 
   return (
     <>
-      <ProjectNavbar projects={projects} />
+      {/* <ProjectNavbar projects={projects} /> */}
       <Routes>
         <Route path="/:projectId" Component={ProjectMain} />
       </Routes>
