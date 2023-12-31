@@ -34,7 +34,7 @@ exports.createProject = async (req, res) => {
             },
         });
 
-        body.invites.forEach(async (emailId) => {
+        body?.invites?.forEach(async (emailId) => {
             // await userModel.findByIdAndUpdate(memberId, {
             //     $push: {
             //         projects: {

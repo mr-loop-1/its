@@ -61,7 +61,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 
-export default function ProjectSidebar({ projects }) {
+export default function ProjectSidebar({ projects, refetch, toggleRefetch }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -102,7 +102,8 @@ export default function ProjectSidebar({ projects }) {
       };
 
       await createProject(localStorage.getItem('token'), data);
-      setOpen(false);
+      toggleRefetch(() => (refetch ? false : true));
+      setOpen(() => false);
     } catch (err) {
       console.log(err);
     }
