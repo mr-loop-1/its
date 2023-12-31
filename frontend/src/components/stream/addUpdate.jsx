@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Separator } from '../ui/separator';
 
 export default function StreamItem({ streamItem }) {
   // const constructStreamItem = (type, data) => {
@@ -28,6 +29,7 @@ export default function StreamItem({ streamItem }) {
   // }
   return (
     <div>
+      <Separator orientation="vertical" className="mx-auto h-10" />
       {(streamItem.cat == 'ASSIGNED' && (
         <span>
           <img src={`/profile/${streamItem.value.author.slug}.svg`} />

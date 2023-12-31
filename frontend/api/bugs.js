@@ -13,3 +13,9 @@ export async function createBug(token, data, projectId) {
 
   return { data: result.data, status: result.status };
 }
+
+export const getBug = async (token, data) => {
+    
+}
+
+export async function 

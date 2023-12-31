@@ -15,11 +15,14 @@ export default function Stream({ stream }) {
       {stream.map((content) => {
         return <StreamItem streamItem={content} />;
       })}
+      {stream.map((content) => {
+        return <StreamItem streamItem={content} />;
+      })}
       <Accordion type="single" collapsible className="w-fit h-fit">
         <AccordionItem value="item-1">
           <AccordionTrigger>Add Comment</AccordionTrigger>
           <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
+            {/* Yes. It adheres to the WAI-ARIA design pattern. */}
             <Comment />
           </AccordionContent>
         </AccordionItem>

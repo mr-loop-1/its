@@ -99,15 +99,15 @@ export default function Comment({ bug }) {
             name="title"
             render={({ field }) => (
               <FormItem className="my-4">
-                <FormLabel>Title</FormLabel>
+                {/* <FormLabel>Title</FormLabel> */}
                 <FormControl>
-                  <Textarea className="resize-none" />
+                  <Textarea {...field} className="resize-none" />
                 </FormControl>
               </FormItem>
             )}
           />
 
-          <Button type="submit">Edit Changes</Button>
+          <Button type="submit">Add Comment</Button>
         </form>
       </Form>
     </div>
