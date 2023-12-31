@@ -4,7 +4,7 @@ const cors = require("cors");
 const {
     authRouter,
     userRouter,
-    //     bugRouter,
+    bugsRouter,
     projectRouter,
 } = require("./routes");
 const bodyParser = require("body-parser");
@@ -27,7 +27,7 @@ app.get("/ping", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/projects", projectRouter);
-// app.use("bug", bugRouter);
+app.use("/bugs", bugsRouter);
 
 app.use("", (req, res) => {
     res.status(404).send("Not Found");

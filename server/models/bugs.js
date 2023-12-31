@@ -26,13 +26,13 @@ const bugSchema = new mongoose.Schema(
         },
         projectId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Projects",
+            ref: "projects",
         },
         stream: [
             {
-                type: {
-                    type: Number, //* all types of stream
-                    enum: [1, 2, 3],
+                cat: {
+                    type: String, //* all types of stream
+                    // enum: [1, 2, 3],
                 },
                 value: {
                     type: mongoose.Schema.Types.Mixed,
@@ -42,20 +42,20 @@ const bugSchema = new mongoose.Schema(
         commits: {
             open: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Commits",
+                ref: "commits",
             },
             close: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Commits",
+                ref: "commits",
             },
         },
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Users",
+            ref: "users",
         },
         assignedTo: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Users",
+            ref: "users",
         },
         status: {
             type: Boolean,

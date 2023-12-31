@@ -14,20 +14,26 @@ exports.authenticateToken = (req, res, next) => {
 
     jwt.verify(token.slice(7), config.jwt.secret, async (err, payload) => {
         if (err) {
+            console.log("here");
             return res
                 .status(401)
                 .json({ error: "Unauthorized - Invalid token" });
         }
-        const user = await userModel.findById(payload.id);
-
-        // if (user.status === config.status.INACTIVE) {
-        //     throw new error();
-        // }
-        req.user = {
-            id: user._id,
-            email: user.email,
-            projects: user.projects,
-        };
-        next();
+        try {
+            const user = await userModel.findById(payload.id);
+            console.log("here2");
+            // if (user.status === config.status.INACTIVE) {
+            //     throw new error();
+            // }
+            req.user = {
+                id: user._id,
+                email: user.email,
+                projects: user.projects,
+            };
+            next();
+        } catch (err) {
+            console.log("🚀 ~ file: jwt.js:35 ~ jwt.verify ~ err:", err);
+            return res.status(500).json({ error: "Server Error" });
+        }
     });
 };

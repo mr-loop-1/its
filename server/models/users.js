@@ -30,18 +30,18 @@ const userSchema = new mongoose.Schema(
                 },
             },
         ],
-        bugs: [
-            {
-                bugId: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "Bugs",
-                },
-                relation: {
-                    type: Number,
-                    enum: [],
-                },
-            },
-        ],
+        // bugs: [
+        //     {
+        //         bugId: {
+        //             type: mongoose.Schema.Types.ObjectId,
+        //             ref: "Bugs",
+        //         },
+        //         relation: {
+        //             type: Number,
+        //             enum: [],
+        //         },
+        //     },
+        // ],
         bugs: {
             created: [
                 {

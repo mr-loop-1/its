@@ -4,13 +4,20 @@ const config = require("../config");
 exports.bug = (bug) => {
     return {
         id: bug._id,
-        bugId: bug.bugId,
+        // bugId:
         title: bug.title,
         description: bug.description,
         project: {
             id: bug.projectId._id,
             title: bug.projectId.title,
             description: bug.projectId.description,
+            members: bug.projectId.members.map((user) => {
+                return {
+                    id: user.id,
+                    name: user.name,
+                    slug: user.slug,
+                };
+            }),
         },
         assignedTo: {
             id: bug.assignedTo._id,

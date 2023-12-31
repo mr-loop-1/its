@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import ProjectPeople from './people';
 import BugsList from './bugs';
+import CreateBug from '@/components/bugs/create';
 
 const backendURL = 'http://127.0.0.1:5000';
 
@@ -33,6 +34,8 @@ export default function ProjectMain() {
     }
   }, [refetch]);
 
+  console.log(project);
+
   return (
     //! very imp right-0
     <div className="fixed right-0 left-72 lg:left-[448px] mt-8 mx-8 pr-10 lg:mx-16 overflow-hidden ">
@@ -43,6 +46,7 @@ export default function ProjectMain() {
           <ProjectTopNav title={project.title} id={project.id} />
           <ProjectHeader project={project} />
           <ProjectPeople project={project} />
+          <CreateBug project={project} />
           <BugsList bugs={project.bugs} />
         </div>
       )}
