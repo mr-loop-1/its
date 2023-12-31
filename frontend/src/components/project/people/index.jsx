@@ -24,6 +24,7 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
   const handleInvite = async () => {
     try {
       await sendInvite(localStorage.getItem('token'), project.id, user.id);
+      //toast
       setInvite(() => '');
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:28 ~ handleInvite ~ err:', err);

@@ -13,7 +13,9 @@ export default function Project() {
   const [project, setProject] = useState({ title: null });
 
   const { projectId } = useParams();
+  console.log('🚀 ~ file: index.jsx:16 ~ Project ~ projectId:', projectId);
   useEffect(() => {
+    console.log('here,.............................................');
     setIsLoading(() => true);
     try {
       (async () => {
@@ -24,7 +26,7 @@ export default function Project() {
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:31 ~ useEffect ~ err:', err);
     }
-  }, [refetch]);
+  }, [refetch, projectId]);
 
   return (
     //! very imp right-0

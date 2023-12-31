@@ -69,6 +69,7 @@ exports.project = (doc) => {
                 priority: config.priority.priorityMap[bug.priority],
                 progress: config.bugs.progressMap[bug.progress],
                 commits: bug.commits,
+                updatedAt: bug.updatedAt,
             };
         }),
         commitsCount: doc.commits.length,
@@ -116,6 +117,7 @@ exports.projectBugs = (doc) => {
                 priority: config.priority.priorityMap[bug.priority],
                 progress: config.bugs.progressMap[bug.progress],
                 commits: bug.commits,
+                updatedAt: bug.updatedAt,
             };
         }),
         commitsCount: doc.commits.length,

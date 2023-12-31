@@ -81,7 +81,7 @@ export default function AssignBug({ bugId, projectUsers, currentAssigned }) {
           <SelectItem value="NORMAL">Medium</SelectItem>
           <SelectItem value="SEVERE">Severe</SelectItem> */}
             {projectUsers
-              // .filter((user) => user.id !== currentAssigned.id)
+              .filter((user) => user.id !== currentAssigned.id)
               .map((user, idx) => {
                 return <SelectItem value={idx}>{user.name}</SelectItem>;
               })}

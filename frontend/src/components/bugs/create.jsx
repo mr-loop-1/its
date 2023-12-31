@@ -96,7 +96,7 @@ export default function CreateBug({ project }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="default" className="w-full">
-          Create Project
+          Create Bug
         </Button>
       </DialogTrigger>
       <Separator className="my-6 w-full" orientation="horizontal" />
