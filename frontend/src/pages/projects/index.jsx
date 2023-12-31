@@ -1,19 +1,14 @@
 import react, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Button } from './../../components/ui/button';
+import { Outlet, useLocation } from 'react-router-dom';
 import ProjectNavbar from './../../components/projects/navbar/index.jsx';
-import axios from 'axios';
-import ProjectMain from '@/components/projects/main';
 import { getProjects } from 'api/projects';
-const backendURL = 'http://127.0.0.1:5000';
-
-function Hi() {
-  return <h1>qwerty</h1>;
-}
+import clsx from 'clsx';
+import ProjectNavbarMobile from '@/components/projects/mobile/index.jsx';
 
 export default function Project() {
   const [projects, setProjects] = useState([]);
   const [refetch, toggleFetch] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     try {
@@ -28,14 +23,27 @@ export default function Project() {
 
   return (
     <>
-      <ProjectNavbar
-        refetch={refetch}
-        toggleRefetch={toggleFetch}
-        projects={projects}
-      />
-      <Routes>
-        <Route path="/:projectId" Component={ProjectMain} />
-      </Routes>
+      <div className="hidden md:block" id="large-screen">
+        <ProjectNavbar
+          refetch={refetch}
+          toggleRefetch={toggleFetch}
+          projects={projects}
+        />
+      </div>
+      <div
+        id="small-screen"
+        className={clsx(
+          'block md:hidden',
+          !/^\/projects?[^/]*$/.test(location.pathname) && 'hidden',
+        )}
+      >
+        <ProjectNavbarMobile
+          refetch={refetch}
+          toggleRefetch={toggleFetch}
+          projects={projects}
+        />
+      </div>
+      <Outlet />
     </>
   );
 }

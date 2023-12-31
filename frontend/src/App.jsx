@@ -8,6 +8,7 @@ import Sidebar from './components/sidebar';
 import Info from './pages/invites';
 import Bug from './pages/bugs/bug';
 import Home from './pages/home';
+import ProjectMain from './components/projects/main';
 
 function App() {
   return (
@@ -21,7 +22,10 @@ function App() {
           <Route element={<RouteGuard />}>
             <Route path="/" element={<Home />} />
             <Route path="/invites" element={<Info />} />
-            <Route path="/projects/*" element={<Projects />} />
+
+            <Route path="/projects/*" element={<Projects />}>
+              <Route path=":projectId" element={<ProjectMain />} />
+            </Route>
             {/* <Route path="/invites" element={<Projects />} /> */}
             <Route path="/bugs/:bugId" element={<Bug />} />
             <Route path="/bugs" element={<Bug />} />

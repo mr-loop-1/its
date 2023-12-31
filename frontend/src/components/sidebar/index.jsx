@@ -71,7 +71,7 @@ export default function Sidebar() {
       <div>
         {/* <Link to="/"> */}
         <div
-          className="mb-10 rounded flex items-center w-full hover:bg-[#1a52a7] active:bg-[#1a52a7] cursor-pointer"
+          className="mb-10 py-3 rounded flex items-center w-full hover:bg-[#1a52a7] active:bg-[#1a52a7] cursor-pointer"
           onClick={handleLogout}
         >
           <span className="w-16">
