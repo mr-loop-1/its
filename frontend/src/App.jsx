@@ -6,6 +6,7 @@ import Login from './pages/auth/login';
 import RouteGuard from './guard/route';
 import Sidebar from './components/sidebar';
 import Invites from './pages/invites';
+import Bug from './pages/bugs/bug';
 
 function App() {
   return (
@@ -20,9 +21,7 @@ function App() {
             <Route path="/invites" element={<Invites />} />
             <Route path="/projects/*" element={<Project />} />
             <Route path="/invites/*" element={<Project />} />
-            <Route path="/bugs" element={<Project />}>
-              <Route path="/bugs/:bugId" element={<Project />} />
-            </Route>
+            <Route path="/bugs/:bugId" element={<Bug />} />
           </Route>
         </Routes>
       </Router>

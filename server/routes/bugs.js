@@ -12,3 +12,5 @@ router.get("/:bugId", authenticateToken, bugsController.getBug); //* bug details
 router.patch("/:bugId", authenticateToken, bugsController.updateBug); //* update bug details
 
 router.delete("/:bugId", authenticateToken, bugsController.deleteBug); //* delete bug
+
+module.exports = router;

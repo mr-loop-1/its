@@ -4,7 +4,7 @@ const config = require("../config");
 exports.bug = (bug) => {
     return {
         id: bug._id,
-        bugId: bug.bugId,
+        // bugId:
         title: bug.title,
         description: bug.description,
         project: {

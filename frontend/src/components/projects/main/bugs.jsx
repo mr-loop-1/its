@@ -13,6 +13,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 export default function BugsList({ bugs }) {
+  const navigate = useNavigate();
   // bugs = bugs.slice(0, 10);
 
   // const bugg = [
@@ -83,7 +84,11 @@ export default function BugsList({ bugs }) {
         <TableBody>
           {bugs.map((bug) => (
             <>
-              <TableRow key={bug.id}>
+              <TableRow
+                key={bug.id}
+                onClick={() => navigate(`/bugs/${bug.id}`)}
+                className="cursor-pointer"
+              >
                 <TableCell className="font-medium w-10 mx-1">
                   <img
                     src={`/priority/${bug.priority.toLowerCase()}.svg`}

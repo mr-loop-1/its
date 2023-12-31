@@ -82,8 +82,9 @@ exports.getBug = async (req, res, next) => {
 
         const data = bugTransformer.bug(document);
         return res.status(200).json(data);
-    } catch {
-        return res.send(500).json({ error: "Server Error" });
+    } catch (err) {
+        console.log("🚀 ~ file: bugs.js:86 ~ exports.getBug= ~ err:", err);
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 

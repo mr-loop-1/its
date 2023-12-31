@@ -32,21 +32,6 @@ export default function Project() {
     }
   }, [refetch]);
 
-  const contents = [
-    {
-      id: '123',
-      title: 'Kanban Board',
-      role: 'member',
-    },
-    {
-      id: '124',
-      title: 'Board Jam',
-      role: 'member',
-    },
-  ];
-
-  const bugsList = [{}];
-
   return (
     <>
       <ProjectSidebar projects={projects} />

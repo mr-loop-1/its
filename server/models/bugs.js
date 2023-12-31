@@ -42,20 +42,20 @@ const bugSchema = new mongoose.Schema(
         commits: {
             open: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Commits",
+                ref: "commits",
             },
             close: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Commits",
+                ref: "commits",
             },
         },
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Users",
+            ref: "users",
         },
         assignedTo: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Users",
+            ref: "users",
         },
         status: {
             type: Boolean,
