@@ -1,7 +1,7 @@
 import react, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Button } from './../../components/ui/button';
-import ProjectSidebar from './../../components/projects/sidebar/index.jsx';
+import ProjectNavbar from './../../components/projects/navbar/index.jsx';
 import axios from 'axios';
 import ProjectMain from '@/components/projects/main';
 const backendURL = 'http://127.0.0.1:5000';
@@ -34,7 +34,7 @@ export default function Project() {
 
   return (
     <>
-      <ProjectSidebar projects={projects} />
+      <ProjectNavbar projects={projects} />
       <Routes>
         <Route path="/:projectId" Component={ProjectMain} />
       </Routes>

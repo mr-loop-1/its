@@ -7,7 +7,6 @@ import {
   useParams,
 } from 'react-router-dom';
 import { Button } from './../../components/ui/button';
-import ProjectSidebar from './../../components/projects/sidebar/index.jsx';
 import axios from 'axios';
 import ProjectMain from '@/components/projects/main';
 const backendURL = 'http://127.0.0.1:5000';

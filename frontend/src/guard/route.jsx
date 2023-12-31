@@ -1,4 +1,5 @@
 import { fillUser } from '@/app/reducers/auth';
+import Sidebar from '@/components/sidebar';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
