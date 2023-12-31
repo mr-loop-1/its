@@ -9,7 +9,7 @@ export default function ProjectTopNav({ title, id }) {
         Projects /<Link to={`/projects/${id}`}>{title}</Link>
       </div>
       <div className="w-full text-4xl font-bold leading-tight flex">
-        <span></span>
+        <span>{title}</span>
         <Pencil2Icon className="ml-auto w-7 h-7 cursor-pointer" />
         <TrashIcon className="w-7 h-7 ml-5 text-red-700 cursor-pointer" />
       </div>

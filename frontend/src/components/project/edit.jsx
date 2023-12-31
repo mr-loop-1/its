@@ -78,7 +78,7 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
   };
 
   return (
-    <div className="ml-auto  ml-auto cursor-pointer">
+    <div className="ml-auto cursor-pointer">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <button>

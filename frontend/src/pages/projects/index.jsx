@@ -4,6 +4,7 @@ import ProjectNavbar from './../../components/projects/index.jsx';
 import { getProjects } from 'api/projects';
 import clsx from 'clsx';
 import ProjectNavbarMobile from '@/components/projects/mobile/index.jsx';
+import LandingPage from '@/components/projects/landing.jsx';
 
 export default function Projects() {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +34,7 @@ export default function Projects() {
           projects={projects}
           loading={isLoading}
         />
+        <LandingPage />
       </div>
       <div
         id="small-screen"

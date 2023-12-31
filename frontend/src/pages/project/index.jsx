@@ -3,7 +3,6 @@ import { ReloadIcon } from '@radix-ui/react-icons';
 import { useParams } from 'react-router-dom';
 import CreateBug from '@/components/bugs/create';
 import { getProject } from 'api/projects';
-import ProjectTopNav from '@/components/project/topNav';
 import ProjectHeader from '@/components/project/header';
 import ProjectPeople from '@/components/project/people';
 import BugsList from '@/components/project/bugs';
@@ -34,16 +33,14 @@ export default function Project() {
         <ReloadIcon className=" h-16 w-16 animate-spin" />
       ) : (
         <div className="mx-5 mt-8 flex flex-col">
-          <ProjectTopNav
+          <ProjectHeader
             title={project.title}
             id={project.id}
             project={project}
             refetch={refetch}
             toggleRefetch={toggleRefetch}
           />
-          <ProjectHeader project={project} />
           <ProjectPeople project={project} />
-          {/* <CreateBug project={project} /> */}
           <BugsList bugs={project.bugs} />
         </div>
       )}

@@ -19,3 +19,14 @@ export const acceptInvite = async (token, projectId) => {
   );
   return result;
 };
+
+export const sendInvite = async (token, data, projectId) => {
+  const result = await axios.post(
+    `${API_URL}/projects/${projectId}/user`,
+    data,
+    {
+      headers: { Authorization: `Bearer:${token}` },
+    },
+  );
+  return result;
+};
