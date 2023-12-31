@@ -9,6 +9,7 @@ import Info from './pages/invites';
 import Bug from './pages/bugs/bug';
 import Home from './pages/home';
 import ProjectMain from './components/projects/main';
+import Project from './pages/project';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route path="/invites" element={<Info />} />
 
             <Route path="/projects/*" element={<Projects />}>
-              <Route path=":projectId" element={<ProjectMain />} />
+              <Route path=":projectId" element={<Project />} />
             </Route>
             {/* <Route path="/invites" element={<Projects />} /> */}
             <Route path="/bugs/:bugId" element={<Bug />} />

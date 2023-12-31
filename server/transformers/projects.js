@@ -25,6 +25,7 @@ exports.project = (doc) => {
         id: doc._id,
         title: doc.title,
         githubUrl: doc.github.url,
+        githubPAT: doc.github.PAT,
         description: doc.description,
         admin: {
             id: doc.admin._id,

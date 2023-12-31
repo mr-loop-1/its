@@ -5,16 +5,19 @@ import { getProjects } from 'api/projects';
 import clsx from 'clsx';
 import ProjectNavbarMobile from '@/components/projects/mobile/index.jsx';
 
-export default function Project() {
+export default function Projects() {
+  const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState([]);
-  const [refetch, toggleFetch] = useState(false);
+  const [refetch, toggleRefetch] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
+    setIsLoading(() => true);
     try {
       (async () => {
         const data = await getProjects(localStorage.getItem('token'));
         setProjects(() => data.data);
+        setIsLoading(() => false);
       })();
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:30 ~ useEffect ~ err:', err);
@@ -26,8 +29,9 @@ export default function Project() {
       <div className="hidden md:block" id="large-screen">
         <ProjectNavbar
           refetch={refetch}
-          toggleRefetch={toggleFetch}
+          toggleRefetch={toggleRefetch}
           projects={projects}
+          loading={isLoading}
         />
       </div>
       <div
@@ -39,8 +43,9 @@ export default function Project() {
       >
         <ProjectNavbarMobile
           refetch={refetch}
-          toggleRefetch={toggleFetch}
+          toggleRefetch={toggleRefetch}
           projects={projects}
+          loading={isLoading}
         />
       </div>
       <Outlet />
