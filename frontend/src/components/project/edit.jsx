@@ -78,20 +78,17 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
   };
 
   return (
-    <div className="ml-auto">
+    <div className="ml-auto  ml-auto cursor-pointer">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <button>
-            <Pencil2Icon className="w-7 h-7 ml-auto cursor-pointer" />
+            <Pencil2Icon className="w-7 h-7" />
           </button>
         </DialogTrigger>
-        <Separator className="my-6 w-full" orientation="horizontal" />
         <DialogContent className="block box-border overflow-scroll w-[90%] md:max-w-2xl h-fit rounded-lg max-h-[90%]">
           <DialogHeader>
-            <DialogTitle>Create a Project</DialogTitle>
-            <DialogDescription>
-              Provide the information and members
-            </DialogDescription>
+            <DialogTitle>Edit the project</DialogTitle>
+            <DialogDescription>don't break</DialogDescription>
           </DialogHeader>
           <div className="">
             <Form {...form}>

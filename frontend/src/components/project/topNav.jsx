@@ -2,6 +2,7 @@ import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import EditProject from './edit';
+import DeleteProject from './delete';
 
 export default function ProjectTopNav({
   title,
@@ -22,7 +23,7 @@ export default function ProjectTopNav({
           toggleRefetch={toggleRefetch}
           project={project}
         />
-        <TrashIcon className="w-7 h-7 ml-5 text-red-700 cursor-pointer" />
+        <DeleteProject project={project} />
       </div>
     </div>
   );
