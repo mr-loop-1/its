@@ -9,7 +9,7 @@ export const getInvites = async (token) => {
   return result;
 };
 
-export const acceptInvite = async (token, projectId) => {
+export const acceptInvite = async (token, inviteId) => {
   const result = await axios.post(
     `${API_URL}/users/invites/${projectId}`,
     {},

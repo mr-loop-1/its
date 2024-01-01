@@ -65,21 +65,22 @@ export default function StreamItem({ streamItem }) {
       )) ||
         (streamItem.cat == 'COMMENT' && (
           <div className="flex flex-col">
-            <Card className="">
+            <Card className="bg-zinc-100">
               <CardHeader className="px-4 py-4">
                 <CardTitle>
                   <img
                     src={`/profile/${streamItem.value.author.slug}.svg`}
                     className="w-8 h-8 inline"
                   />
-                  {streamItem.value.author.name}
+                  <span className="">{streamItem.value.author.name}</span>
+                  <span className="">{streamItem.value?.timestamp}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-4">
                 <Textarea
                   value={streamItem.value.comment}
                   readonly
-                  className="resize-none"
+                  className="resize-none bg-white"
                 />
               </CardContent>
             </Card>

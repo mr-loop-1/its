@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/invites", authenticateToken, userController.getInvites);
 router.post(
-    "/invites/:projectId",
+    "/invites/:inviteId",
     authenticateToken,
     userController.acceptInvite
 );

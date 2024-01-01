@@ -51,11 +51,10 @@ exports.sendInvite = async (req, res) => {
 exports.acceptInvite = async (req, res) => {
     const user = req.user;
     const params = req.params;
-    // const body = req.body;
 
     try {
         const document = await invitesModel.findByIdAndUpdate(params.inviteId, {
-            status: true,
+            status: false,
         });
 
         await projectsModel.findByIdAndUpdate(document.projectId, {
@@ -67,7 +66,8 @@ exports.acceptInvite = async (req, res) => {
             $push: {
                 projects: {
                     projectId: document.projectId,
-                    role: config.accessLevel.accessCode[document.role],
+                    // role: config.accessLevel.accessCode[document.role],
+                    role: 3,
                 },
             },
         });
