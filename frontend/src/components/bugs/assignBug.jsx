@@ -59,15 +59,11 @@ export default function AssignBug({
       console.log('🚀 ~ file: assignBug.jsx:44 ~ handleAssign ~ data:', data);
 
       //* api call using bugId and all
-      let result = await addStreamItem(
-        localStorage.getItem('token'),
-        data,
-        bugId,
-      );
+      await addStreamItem(localStorage.getItem('token'), data, bugId);
       data = {
         assignedTo: filteredArray[newAssigned].id,
       };
-      result = await editBug(localStorage.getItem('token'), data, bugId);
+      await editBug(localStorage.getItem('token'), data, bugId);
 
       toggleRefetch(() => (refetch ? false : true));
 

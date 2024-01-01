@@ -76,9 +76,21 @@ export default function ChangeProgress({
     );
     try {
       let data = {
-        progress: newKey,
+        progress: filteredArray[newKey].key,
       };
       await editBug(localStorage.getItem('token'), data, bugId);
+      data = {
+        streamType: 'PROGRESS',
+        author: {
+          id: user.id,
+          name: user.name,
+          slug: user.slug,
+        },
+        prev: currentStatusObj,
+        now: filteredArray[newKey],
+        timestamp: new Date(),
+      };
+      await addStreamItem(localStorage.getItem('token'), data, bugId);
 
       toggleRefetch(() => (refetch ? false : true));
     } catch (err) {
@@ -110,10 +122,10 @@ export default function ChangeProgress({
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {filteredArray.map((status) => {
+            {filteredArray.map((status, idx) => {
               return (
                 <SelectItem
-                  value={status.key}
+                  value={idx}
                   className={
                     'font-semibold' + ' ' + status.bgColor + ' ' + status.color
                   }

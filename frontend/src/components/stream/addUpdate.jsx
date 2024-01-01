@@ -87,15 +87,37 @@ export default function StreamItem({ streamItem }) {
           </div>
         )) ||
         (streamItem.cat == 'PROGRESS' && (
-          <span>
+          <div className="my-5">
             <img
               src={`/profile/${streamItem.value.author.slug}.svg`}
               className="w-8 h-8 inline"
             />
-            {streamItem.value.author.name} changed status of from
-            <StatusCell progress={streamItem.value.prev} /> to
-            <StatusCell progress={streamItem.value.now} />
-          </span>
+            &nbsp;
+            {streamItem.value.author.name} changed status from&nbsp;
+            <span
+              className={
+                'font-semibold px-2 py-1' +
+                ' ' +
+                streamItem.value.prev.color +
+                ' ' +
+                streamItem.value.prev.bgColor
+              }
+            >
+              {streamItem.value.prev.title}
+            </span>
+            &nbsp; to&nbsp;
+            <span
+              className={
+                'font-semibold px-2 py-1' +
+                ' ' +
+                streamItem.value.now.color +
+                ' ' +
+                streamItem.value.now.bgColor
+              }
+            >
+              {streamItem.value.now.title}
+            </span>
+          </div>
         ))}
     </div>
   );
