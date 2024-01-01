@@ -82,14 +82,16 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
   return (
     <div className="w-full mt-5">
       <Accordion type="single" collapsible>
-        <AccordionItem value="item-1" className=" border-b-0">
-          <AccordionTrigger>Manage Members</AccordionTrigger>
+        <AccordionItem value="item-1" className="border-b-0">
+          <AccordionTrigger className="bg-gray-100 rounded px-3">
+            Manage Members
+          </AccordionTrigger>
           <AccordionContent>
             <div className="">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(handleInvite)}
-                  className="flex items-center"
+                  className="flex items-center mt-4"
                 >
                   <FormField
                     control={form.control}
@@ -97,12 +99,7 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input
-                            // type="email"
-
-                            placeholder="email"
-                            {...field}
-                          />
+                          <Input placeholder="email" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

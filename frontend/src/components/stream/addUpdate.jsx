@@ -39,7 +39,7 @@ export default function StreamItem({ streamItem }) {
     <div>
       <Separator
         orientation="vertical"
-        className="ml-10 bg-lime-600 h-6 md:h-10"
+        className="ml-2 bg-lime-600 h-6 md:h-10"
       />
       {(streamItem.cat == 'ASSIGNED' && (
         <div className="my-5">
@@ -66,7 +66,7 @@ export default function StreamItem({ streamItem }) {
         (streamItem.cat == 'COMMENT' && (
           <div className="flex flex-col">
             <Card className="">
-              <CardHeader className="">
+              <CardHeader className="px-4 py-4">
                 <CardTitle>
                   <img
                     src={`/profile/${streamItem.value.author.slug}.svg`}
@@ -75,7 +75,7 @@ export default function StreamItem({ streamItem }) {
                   {streamItem.value.author.name}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-4">
                 <Textarea
                   value={streamItem.value.comment}
                   readonly

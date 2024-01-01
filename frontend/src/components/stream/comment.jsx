@@ -61,9 +61,6 @@ export default function Comment({ bugId }) {
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   username: '',
-    // },
     shouldUnregister: true,
   });
   const user = useSelector((state) => state.auth.userInfo);
@@ -89,7 +86,7 @@ export default function Comment({ bugId }) {
   };
 
   return (
-    <div className="">
+    <div className="w-full md:w-[60%]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -99,7 +96,7 @@ export default function Comment({ bugId }) {
               <FormItem className="my-4">
                 {/* <FormLabel>Title</FormLabel> */}
                 <FormControl>
-                  <Textarea {...field} className="resize-none" />
+                  <Textarea {...field} className="" />
                 </FormControl>
               </FormItem>
             )}

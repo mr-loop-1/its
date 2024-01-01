@@ -71,12 +71,6 @@ export default function AssignBug({
 
       toggleRefetch(() => (refetch ? false : true));
 
-      // setAssign(() => filteredArray[newAssigned].name);
-
-      // toast({
-      //   title: 'Assignment changed successfully',
-      // });
-
       console.log('here.....................');
     } catch (err) {
       console.log(err);
@@ -90,19 +84,15 @@ export default function AssignBug({
     <div className="mt-10">
       <div className="">Assigned To</div>
       <Select onValueChange={handleAssign} value={currentAssigned.name}>
-        <SelectTrigger className="w-[400px]">
+        <SelectTrigger className="w-[80%] mx-auto md:ml-0 md:w-[400px]">
           <img
             src={`/profile/${currentAssigned.slug}.svg`}
             className="w-10 h-10 inline"
           />
           {currentAssigned.name}
-          {/* <SelectValue placeholder={currentAssigned.name}/> */}
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {/* <SelectItem value="LOW">Low</SelectItem>
-          <SelectItem value="NORMAL">Medium</SelectItem>
-          <SelectItem value="SEVERE">Severe</SelectItem> */}
             {filteredArray.map((user, idx) => {
               return (
                 <SelectItem value={idx}>
