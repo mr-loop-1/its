@@ -48,7 +48,7 @@ export default function Bug() {
         // <ReloadIcon className=" h-40 w-40 animate-spin" />
         <></>
       ) : (
-        <div className="ml-16 px-10 pt-8 pb-96">
+        <div className="ml-16 px-8 md:px-20 mt-10 pb-96">
           <BugMain bug={bug} />
 
           <AssignBug

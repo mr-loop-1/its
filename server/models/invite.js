@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const inviteSchema = new mongoose.Schema(
     {
         invited: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "users",
+            type: String,
         },
         invitedBy: {
             type: mongoose.Schema.Types.ObjectId,

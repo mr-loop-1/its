@@ -16,16 +16,43 @@ import {
 import { sendInvite } from 'api/invites';
 import { useSelector } from 'react-redux';
 import { makeManager, removeMember } from 'api/projects';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import {
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  FormField,
+} from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
 
 export default function ProjectPeople({ project, refetch, toggleRefetch }) {
   const [invite, setInvite] = useState('');
   const user = useSelector((state) => state.auth.userInfo);
 
-  const handleInvite = async () => {
+  const formSchema = z.object({ invite: z.string().email() });
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    shouldUnregister: true,
+  });
+
+  const handleInvite = async (inputs) => {
+    console.log('🚀 ~ file: index.jsx:43 ~ handleInvite ~ inputs:', inputs);
     try {
-      await sendInvite(localStorage.getItem('token'), project.id, user.id);
-      //toast
-      setInvite(() => '');
+      if (
+        project.members.map((member) => member.email).includes(inputs.invite)
+      ) {
+        form.setError('invite', { type: 'server', message: 'Duplicate email' });
+      } else {
+        const data = {
+          invitedEmail: inputs.invite,
+        };
+        await sendInvite(localStorage.getItem('token'), data, project.id);
+        form.setValue('invite', '');
+      }
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:28 ~ handleInvite ~ err:', err);
     }
@@ -58,17 +85,34 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
         <AccordionItem value="item-1" className=" border-b-0">
           <AccordionTrigger>Manage Members</AccordionTrigger>
           <AccordionContent>
-            <div className="flex items-center justify-between">
-              <Input
-                type="email"
-                className="my-1 ml-1"
-                placeholder="hello@gmail.com"
-                value={invite}
-                onChange={(e) => setInvite(e.target.value)}
-              />
-              <Button className="ml-2 mr-1 my-1" onClick={handleInvite}>
-                Invite
-              </Button>
+            <div className="">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(handleInvite)}
+                  className="flex items-center"
+                >
+                  <FormField
+                    control={form.control}
+                    name="invite"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            // type="email"
+
+                            placeholder="email"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button className="ml-2 mr-1 my-1" type="submit">
+                    Invite
+                  </Button>
+                </form>
+              </Form>
             </div>
             <div>
               <ul>

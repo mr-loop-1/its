@@ -13,7 +13,7 @@ exports.getInvites = async (req, res) => {
     try {
         const documents = await invitesModel
             .find({
-                invited: user.id,
+                invited: user.email,
                 status: true,
             })
             .populate([
