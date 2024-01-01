@@ -43,9 +43,9 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
     }
   };
 
-  const handleRemove = async () => {
+  const handleRemove = async (memberId) => {
     try {
-      await removeMember(localStorage.getItem('token'), project.id, user.id);
+      await removeMember(localStorage.getItem('token'), project.id, memberId);
       toggleRefetch(() => (refetch ? false : true));
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:47 ~ handleRemove ~ err:', err);
@@ -103,7 +103,7 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
                           member.id != project.admin.id && (
                             <span
                               className="ml-2 hover:underline text-red-800  cursor-pointer"
-                              onClick={handleRemove}
+                              onClick={() => handleRemove(member.id)}
                             >
                               Remove
                             </span>

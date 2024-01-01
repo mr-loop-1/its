@@ -2,13 +2,12 @@ const config = require("../config");
 const { projectsModel, userModel, commitsModel } = require("./../models");
 
 exports.removeMember = async (req, res) => {
-    const body = req?.body;
     const params = req?.params;
     try {
         await projectsModel.findByIdAndUpdate(params.projectId, {
-            $pull: { members: body.memberId },
+            $pull: { members: params.userId },
         });
-        await userModel.findByIdAndUpdate(body.memberId, {
+        await userModel.findByIdAndUpdate(params.userId, {
             $pull: { projects: { projectId: params.projectId } },
         });
         //* not removing from bugs

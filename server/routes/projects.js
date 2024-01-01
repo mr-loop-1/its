@@ -42,7 +42,7 @@ router.patch(
 ); //* update project details
 
 router.delete(
-    "/:projectId/:user",
+    "/:projectId/:userId",
     authenticateToken,
     accessGuard(config.accessStore.removeMember),
     memberController.removeMember
