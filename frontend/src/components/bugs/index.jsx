@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import { Textarea } from './ui';
 import EditBug from './editBug';
 import Deletebug from './deleteBug';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export default function BugMain({ bug }) {
   return (
@@ -25,7 +31,25 @@ export default function BugMain({ bug }) {
 
       <header className="mt-5">
         <div className="text-3xl tracking-tight font-bold flex">
-          {bug.title}
+          <span>
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <img
+                    src={`/priority/${bug.priority.toLowerCase()}.svg`}
+                    className="w-7 h-7 inline my-auto mr-2"
+                  />
+                </TooltipTrigger>
+                <TooltipContent
+                  side="bottom"
+                  className="text-lg font-normal tracking-tighter bg-white text-black"
+                >
+                  {bug.priority.toLowerCase()}&nbsp;priority
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            {bug.title}
+          </span>
           <EditBug bug={bug} />
           <Deletebug bug={bug} />
         </div>
@@ -35,18 +59,20 @@ export default function BugMain({ bug }) {
           className="border-none mt-5 text-sm"
         />
       </header>
-      <main>
-        <div className="">Created By</div>
+      <main className="mt-5">
+        <div className="my-2">reporter</div>
         <span className="">
           <img
             src={`/profile/${bug.createdBy.slug}.svg`}
-            className="w-10 h-10 inline"
+            className="w-7 h-7 inline"
           />
           <span className="ml-2">{bug.createdBy.name}</span>
         </span>
-        <div className="">Root commit</div>
+        <div className="mt-4 mb-2">base commit</div>
         <span className="">
-          <span className="ml-2">#hgas6hq32h3</span>
+          <a href="">
+            <span className="ml-2">#hgas6hq32h3</span>
+          </a>
         </span>
       </main>
     </>

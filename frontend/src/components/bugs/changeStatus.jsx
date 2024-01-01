@@ -103,11 +103,11 @@ export default function ChangeProgress({
 
   return (
     <div className="mt-10">
-      <div className="">status</div>
+      {/* <div className="w-fit">status</div> */}
       <Select onValueChange={handleChange} value={currentStatusObj.title}>
         <SelectTrigger
           className={
-            'mx-auto md:ml-0 w-fit font-bold' +
+            'mt-2 w-fit px-5 py-2 h-fit font-bold' +
             ' ' +
             currentStatusObj.bgColor +
             ' ' +
@@ -127,7 +127,7 @@ export default function ChangeProgress({
                 <SelectItem
                   value={idx}
                   className={
-                    'font-semibold' + ' ' + status.bgColor + ' ' + status.color
+                    'font-bold' + ' ' + status.bgColor + ' ' + status.color
                   }
                 >
                   {status.title}
