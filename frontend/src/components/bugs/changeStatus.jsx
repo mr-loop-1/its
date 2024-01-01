@@ -22,33 +22,33 @@ const statuses = [
   {
     key: 'OPEN',
     title: 'OPEN',
-    color: '',
-    bgColor: '',
+    color: 'text-white',
+    bgColor: 'bg-slate-400',
   },
   {
     key: 'TRIAGE',
     title: 'TRIAGE',
-    color: '',
-    bgColor: '',
+    color: 'text-red-900',
+    bgColor: 'bg-red-300',
   },
   {
     key: 'IN_PROGRESS',
     title: 'IN PROGRESS',
-    color: '',
-    bgColor: '',
+    color: 'text-blue-900',
+    bgColor: 'bg-blue-300',
   },
   {
     key: 'REVIEW_REQUIRED',
     title: 'REVIEW REQUIRED',
-    color: '',
-    bgColor: '',
+    color: 'text-orange-900',
+    bgColor: 'bg-yellow-300',
   },
 
   {
     key: 'CLOSED',
     title: 'CLOSED',
-    color: '',
-    bgColor: '',
+    color: 'text-lime-900',
+    bgColor: 'bg-lime-300',
   },
 ];
 
@@ -61,16 +61,24 @@ export default function ChangeProgress({
   const user = useSelector((state) => state.auth.userInfo);
   const { toast } = useToast();
 
+  const currentStatusObj = statuses.find((status) => {
+    return status.key == currentStatus;
+  });
+
   const filteredArray = statuses.filter(
     (status) => status.key !== currentStatus,
   );
 
   const handleChange = async (newKey) => {
+    console.log(
+      '🚀 ~ file: changeStatus.jsx:73 ~ handleChange ~ newKey:',
+      newKey,
+    );
     try {
       let data = {
         progress: newKey,
       };
-      let result = await editBug(localStorage.getItem('token'), data, bugId);
+      await editBug(localStorage.getItem('token'), data, bugId);
 
       toggleRefetch(() => (refetch ? false : true));
     } catch (err) {
@@ -83,16 +91,17 @@ export default function ChangeProgress({
 
   return (
     <div className="mt-10">
-      <div className="">Assigned To</div>
-      <Select
-        onValueChange={handleChange}
-        value={
-          statuses.find((status) => {
-            return status.key == currentStatus;
-          }).title
-        }
-      >
-        <SelectTrigger className="w-[80%] mx-auto md:ml-0 md:w-[400px]">
+      <div className="">status</div>
+      <Select onValueChange={handleChange} value={currentStatusObj.title}>
+        <SelectTrigger
+          className={
+            'mx-auto md:ml-0 w-fit font-bold' +
+            ' ' +
+            currentStatusObj.bgColor +
+            ' ' +
+            currentStatusObj.color
+          }
+        >
           {
             statuses.find((status) => {
               return status.key == currentStatus;
@@ -102,7 +111,16 @@ export default function ChangeProgress({
         <SelectContent>
           <SelectGroup>
             {filteredArray.map((status) => {
-              return <SelectItem value={status.key}>{status.title}</SelectItem>;
+              return (
+                <SelectItem
+                  value={status.key}
+                  className={
+                    'font-semibold' + ' ' + status.bgColor + ' ' + status.color
+                  }
+                >
+                  {status.title}
+                </SelectItem>
+              );
             })}
           </SelectGroup>
         </SelectContent>

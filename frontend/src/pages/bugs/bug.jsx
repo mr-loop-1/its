@@ -25,7 +25,7 @@ export default function Bug() {
   const params = useParams();
 
   useEffect(() => {
-    setLoading(() => true);
+    // setLoading(() => true);
     try {
       (async () => {
         const data = await axios.get(`${backendURL}/bugs/${params.bugId}`, {
