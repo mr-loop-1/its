@@ -31,9 +31,12 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
     }
   };
 
-  const handleManager = async () => {
+  const handleManager = async (memberId) => {
     try {
-      await makeManager(localStorage.getItem('token'), project.id, user.id);
+      const data = {
+        memberId: memberId,
+      };
+      await makeManager(localStorage.getItem('token'), project.id, data);
       toggleRefetch(() => (refetch ? false : true));
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:38 ~ handleManager ~ err:', err);
@@ -91,7 +94,7 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
                         {member.id != project.manager.id && (
                           <span
                             className="ml-2 hover:underline text-lime-800  cursor-pointer"
-                            onClick={handleManager}
+                            onClick={() => handleManager(member.id)}
                           >
                             Make Manager
                           </span>

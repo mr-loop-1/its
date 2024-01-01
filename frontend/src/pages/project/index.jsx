@@ -42,7 +42,11 @@ export default function Project() {
             refetch={refetch}
             toggleRefetch={toggleRefetch}
           />
-          <ProjectPeople project={project} />
+          <ProjectPeople
+            project={project}
+            refetch={refetch}
+            toggleRefetch={toggleRefetch}
+          />
           <BugsList bugs={project.bugs} />
         </div>
       )}

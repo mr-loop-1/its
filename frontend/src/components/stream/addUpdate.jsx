@@ -39,7 +39,7 @@ export default function StreamItem({ streamItem }) {
     <div>
       <Separator
         orientation="vertical"
-        className="mx-auto bg-lime-600 h-6 md:h-10"
+        className="ml-10 bg-lime-600 h-6 md:h-10"
       />
       {(streamItem.cat == 'ASSIGNED' && (
         <div className="my-5">

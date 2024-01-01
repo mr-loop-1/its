@@ -50,21 +50,15 @@ export default function Bug() {
       ) : (
         <div className="ml-16 px-10 pt-8 pb-96">
           <BugMain bug={bug} />
-          {/* <div className=".header flex items-center">
-            <Button className="">Back </Button>
-            <h1 className="mx-auto">Bug</h1>
-          </div> */}
-          {/* <span className="">{bug.title}</span> */}
 
           <AssignBug
             bugId={bug.id}
             currentAssigned={bug.assignedTo}
             projectUsers={bug.project.members}
-            // refetch={refetch}
-            // toggleRefetch={toggleFetch}
+            refetch={refetch}
+            toggleRefetch={toggleFetch}
           />
-          {/* <Deletebug className="" bugId={bug.id} projectId={bug.project.id} /> */}
-          {/* <EditBug bug={bug} /> */}
+
           <Stream stream={bug.stream} bugId={bug.id} />
         </div>
       )}

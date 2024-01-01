@@ -11,24 +11,14 @@ import {
 } from './ui';
 import { Button } from '@/components/ui/button';
 import {
-  useFormField,
   Form,
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
   FormField,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-} from '@/components/ui/select';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '@/components/ui/textarea';
@@ -70,7 +60,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
         admin: user.id,
         manager: user.id,
         members: [user.id],
-        invites: form.getValues('members'),
+        invites: form.getValues('members') || [],
       };
 
       await createProject(localStorage.getItem('token'), data);
@@ -84,8 +74,14 @@ export default function CreateProject({ refetch, toggleRefetch }) {
   const addElement = () => {
     const currentValues = form.getValues('members') || [];
     const newVal = form.watch('invite');
-    form.setValue('invite', '');
-    form.setValue('members', [...currentValues, newVal]);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newVal)) {
+      form.setError('invite', { type: 'server', message: 'Invalid email' });
+    } else if (currentValues.includes(newVal)) {
+      form.setError('invite', { type: 'server', message: 'Duplicate email' });
+    } else {
+      form.setValue('members', [...currentValues, newVal]);
+      form.setValue('invite', '');
+    }
   };
 
   const removeElement = (member) => {
@@ -103,7 +99,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
           </Button>
         </ModalTrigger>
         <Separator className="my-6 w-full" orientation="horizontal" />
-        <ModalContent className="block box-border overflow-scroll w-[90%] md:max-w-2xl h-fit rounded-lg max-h-[90%]">
+        <ModalContent className="block box-border overflow-y-scroll w-[90%] md:max-w-2xl h-fit rounded-lg max-h-[90%]">
           <ModalHeader>
             <ModalTitle>Create a Project</ModalTitle>
             <ModalDescription>
@@ -120,7 +116,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                     <FormItem className="my-4">
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input placeholder="shadcn" {...field} />
+                        <Input placeholder="title" {...field} />
                       </FormControl>
                       <FormMessage />
                       {form.formState.errors.titleExists && (
@@ -143,36 +139,6 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                   )}
                 />
 
-                {/* <FormField
-                  control={form.control}
-                  name="priority"
-                  render={({ field }) => (
-                    <FormItem className="my-4">
-                      <FormLabel>Priority</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                          required
-                        >
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select Priority Level" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectItem value="LOW">Low</SelectItem>
-                              <SelectItem value="NORMAL">Medium</SelectItem>
-                              <SelectItem value="SEVERE">Severe</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                  required
-                /> */}
-
                 <Card className="py-2 px-3">
                   <FormLabel>Github Repo</FormLabel>
                   <FormField
@@ -193,11 +159,11 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                     name="githubPAT"
                     render={({ field }) => (
                       <FormItem className="my-4">
-                        <FormLabel>Access Token</FormLabel>
+                        <FormLabel>Restricted Access Token</FormLabel>
                         <FormControl>
                           <Input
                             type="text"
-                            placeholder="github pat"
+                            placeholder="github restricted pat"
                             {...field}
                           />
                         </FormControl>
@@ -226,6 +192,10 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                         </Button>
                       </div>
                       <FormMessage />
+                      {/* <span>
+                        {form.formState.errors.invite &&
+                          form.formState.errors.invite.message}
+                      </span> */}
                     </FormItem>
                   )}
                 />

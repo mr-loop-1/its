@@ -15,9 +15,6 @@ export default function Stream({ stream, bugId }) {
       {stream.map((content) => {
         return <StreamItem streamItem={content} />;
       })}
-      {stream.map((content) => {
-        return <StreamItem streamItem={content} />;
-      })}
       <Accordion type="single" collapsible className="w-fit h-fit">
         <AccordionItem value="item-1">
           <AccordionTrigger>Add Comment</AccordionTrigger>

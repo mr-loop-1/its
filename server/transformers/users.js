@@ -23,17 +23,17 @@ exports.user = (doc) => {
 
 exports.invites = (docs) => {
     return docs.map((doc) => ({
-        id: doc.id,
+        id: doc._id,
         invitedBy: {
             id: doc.invitedBy._id,
             name: doc.invitedBy.name,
             email: doc.invitedBy.email,
+            slug: doc.invitedBy.slug,
         },
         projectId: {
             id: doc.projectId._id,
             title: doc.projectId.title,
         },
-        slug: slug,
     }));
 };
 

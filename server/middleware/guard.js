@@ -1,7 +1,7 @@
 exports.accessGuard = (accessLevel) => {
     return (req, res, next) => {
-        const project = req.user.projects.findOne((proj) => {
-            return proj.projectId == req.params.projectId;
+        const project = req.user.projects.find((proj) => {
+            return proj.projectId.id == req.params.projectId;
         });
         if (accessLevel.includes(project?.role)) {
             return next();

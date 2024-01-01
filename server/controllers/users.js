@@ -9,20 +9,28 @@ const {
 
 exports.getInvites = async (req, res) => {
     const user = req.user;
-    console.log(user);
 
-    const documents = await invitesModel
-        .find({
-            invited: user.email,
-        })
-        .populate([
-            { path: "invitedBy", model: "users" },
-            { path: "projectId", model: "projects" },
-        ]);
+    try {
+        const documents = await invitesModel
+            .find({
+                invited: user.id,
+                status: true,
+            })
+            .populate([
+                { path: "invitedBy", model: "users" },
+                { path: "projectId", model: "projects" },
+            ]);
+        console.log(
+            "🚀 ~ file: users.js:23 ~ exports.getInvites= ~ documents:",
+            documents
+        );
 
-    const data = userTransformer.invites(documents);
-
-    return res.json(data);
+        const data = userTransformer.invites(documents);
+        return res.json(data);
+    } catch (err) {
+        console.log("🚀 ~ file: users.js:27 ~ exports.getInvites= ~ err:", err);
+        return res.status(500).json("SERVER ERROR");
+    }
 };
 
 exports.sendInvite = async (req, res) => {
@@ -44,25 +52,34 @@ exports.acceptInvite = async (req, res) => {
     const user = req.user;
     const params = req.params;
     // const body = req.body;
-    const document = await invitesModel.findByIdAndUpdate(params.inviteId, {
-        status: true,
-    });
 
-    await projectsModel.findByIdAndUpdate(document.projectId, {
-        $push: { members: user.id },
-        // ...(document.role === "ADMIN" && { admin: user.id }),
-        // ...(document.role === "MANAGER" && { manager: user.id }),
-    });
-    await userModel.findByIdAndUpdate(user.id, {
-        $push: {
-            projects: {
-                projectId: document.projectId,
-                role: config.accessLevel.accessCode[document.role],
+    try {
+        const document = await invitesModel.findByIdAndUpdate(params.inviteId, {
+            status: true,
+        });
+
+        await projectsModel.findByIdAndUpdate(document.projectId, {
+            $push: { members: user.id },
+            // ...(document.role === "ADMIN" && { admin: user.id }),
+            // ...(document.role === "MANAGER" && { manager: user.id }),
+        });
+        await userModel.findByIdAndUpdate(user.id, {
+            $push: {
+                projects: {
+                    projectId: document.projectId,
+                    role: config.accessLevel.accessCode[document.role],
+                },
             },
-        },
-    });
+        });
 
-    return res.json("ACC INVITE");
+        return res.json("ACC INVITE");
+    } catch (err) {
+        console.log(
+            "🚀 ~ file: users.js:70 ~ exports.acceptInvite= ~ err:",
+            err
+        );
+        return res.status(500).json("SERVER ERROR");
+    }
 };
 
 exports.rejectInvite = async (req, res) => {

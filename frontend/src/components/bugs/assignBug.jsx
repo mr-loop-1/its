@@ -69,7 +69,7 @@ export default function AssignBug({
       };
       result = await editBug(localStorage.getItem('token'), data, bugId);
 
-      // toggleRefetch(() => (refetch ? false : true));
+      toggleRefetch(() => (refetch ? false : true));
 
       // setAssign(() => filteredArray[newAssigned].name);
 
@@ -85,16 +85,11 @@ export default function AssignBug({
       });
     }
   };
-  // console.log(assigned);
 
   return (
     <div className="mt-10">
       <div className="">Assigned To</div>
-      <Select
-        onValueChange={handleAssign}
-        value={currentAssigned.name}
-        // defaultValue={assigned}
-      >
+      <Select onValueChange={handleAssign} value={currentAssigned.name}>
         <SelectTrigger className="w-[400px]">
           <img
             src={`/profile/${currentAssigned.slug}.svg`}

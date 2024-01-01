@@ -30,9 +30,9 @@ export const editProject = async (token, data, projectId) => {
   return result;
 };
 
-export const makeManager = async (token, projectId, memberId) => {
+export const makeManager = async (token, projectId, data) => {
   const result = await axios.post(
-    `${API_URL}/projects/${projectId}/user`,
+    `${API_URL}/projects/${projectId}/manager`,
     data,
     {
       headers: { Authorization: `Bearer:${token}` },
