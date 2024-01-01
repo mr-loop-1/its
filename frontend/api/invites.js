@@ -11,7 +11,7 @@ export const getInvites = async (token) => {
 
 export const acceptInvite = async (token, inviteId) => {
   const result = await axios.post(
-    `${API_URL}/users/invites/${projectId}`,
+    `${API_URL}/users/invites/${inviteId}`,
     {},
     {
       headers: { Authorization: `Bearer:${token}` },

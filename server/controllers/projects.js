@@ -48,7 +48,7 @@ exports.createProject = async (req, res) => {
                 invitedBy: user.id,
                 projectId: document._id,
                 role: config.accessLevel.accessCode.MEMBER,
-                status: false,
+                status: true,
             });
             await createInvite.save();
         });

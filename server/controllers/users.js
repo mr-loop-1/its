@@ -42,7 +42,7 @@ exports.sendInvite = async (req, res) => {
         invitedBy: user.id,
         projectId: params.projectId,
         role: config.accessLevel.accessCode.MEMBER,
-        status: false,
+        status: true,
     });
     await createInvite.save();
     return res.status(200).json("CREATED INVITATION");
@@ -85,7 +85,7 @@ exports.acceptInvite = async (req, res) => {
 exports.rejectInvite = async (req, res) => {
     const user = req.user;
 
-    const documents = await invitesModel.findByIdAndUpdate(params.inviteId, {
+    const document = await invitesModel.findByIdAndUpdate(params.inviteId, {
         status: false,
     });
     await projectsModel.findByIdAndUpdate(document.projectId, {

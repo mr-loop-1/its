@@ -30,8 +30,14 @@ import {
 import { useForm } from 'react-hook-form';
 
 export default function ProjectPeople({ project, refetch, toggleRefetch }) {
-  const [invite, setInvite] = useState('');
   const user = useSelector((state) => state.auth.userInfo);
+
+  const userStatus =
+    project.admin.id == user.id
+      ? 'ADMIN'
+      : project.manager.id == user.id
+      ? 'MANAGER'
+      : 'MEMBER';
 
   const formSchema = z.object({ invite: z.string().email() });
   const form = useForm({
@@ -84,32 +90,34 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1" className="border-b-0">
           <AccordionTrigger className="bg-gray-100 rounded px-3">
-            Manage Members
+            {userStatus != 'MEMBER' ? 'Manage Members' : 'See Members'}
           </AccordionTrigger>
           <AccordionContent>
             <div className="">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(handleInvite)}
-                  className="flex items-center mt-4"
-                >
-                  <FormField
-                    control={form.control}
-                    name="invite"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder="email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button className="ml-2 mr-1 my-1" type="submit">
-                    Invite
-                  </Button>
-                </form>
-              </Form>
+              {userStatus != 'MEMBER' && (
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(handleInvite)}
+                    className="flex items-center mt-4"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="invite"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input placeholder="email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button className="ml-2 mr-1 my-1" type="submit">
+                      Invite
+                    </Button>
+                  </form>
+                </Form>
+              )}
             </div>
             <div>
               <ul>
@@ -132,16 +140,19 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
                             Manager
                           </span>
                         )}
-                        {member.id != project.manager.id && (
-                          <span
-                            className="ml-2 hover:underline text-lime-800  cursor-pointer"
-                            onClick={() => handleManager(member.id)}
-                          >
-                            Make Manager
-                          </span>
-                        )}
+
                         {member.id != project.manager.id &&
-                          member.id != project.admin.id && (
+                          !['MEMBER', 'MANAGER'].includes(userStatus) && (
+                            <span
+                              className="ml-2 hover:underline text-lime-800  cursor-pointer"
+                              onClick={() => handleManager(member.id)}
+                            >
+                              Make Manager
+                            </span>
+                          )}
+                        {member.id != project.manager.id &&
+                          member.id != project.admin.id &&
+                          userStatus != 'MEMBER' && (
                             <span
                               className="ml-2 hover:underline text-red-800  cursor-pointer"
                               onClick={() => handleRemove(member.id)}
