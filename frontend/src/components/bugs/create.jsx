@@ -68,9 +68,6 @@ export default function CreateBug({ project }) {
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   username: '',
-    // },
     shouldUnregister: true,
   });
   const user = useSelector((state) => state.auth.userInfo);
@@ -84,7 +81,6 @@ export default function CreateBug({ project }) {
         admin: user.id,
         priority: inputs.priority,
       };
-
       await createBug(localStorage.getItem('token'), data, project.id);
       setOpen(() => false);
     } catch (err) {

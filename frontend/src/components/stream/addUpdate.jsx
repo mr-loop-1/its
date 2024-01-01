@@ -39,7 +39,7 @@ export default function StreamItem({ streamItem }) {
     <div>
       <Separator
         orientation="vertical"
-        className="mx-auto bg-lime-600 h-6 md:h-10"
+        className="ml-2 bg-lime-600 h-6 md:h-10"
       />
       {(streamItem.cat == 'ASSIGNED' && (
         <div className="my-5">
@@ -65,36 +65,59 @@ export default function StreamItem({ streamItem }) {
       )) ||
         (streamItem.cat == 'COMMENT' && (
           <div className="flex flex-col">
-            <Card className="">
-              <CardHeader className="">
+            <Card className="bg-zinc-100">
+              <CardHeader className="px-4 py-4">
                 <CardTitle>
                   <img
                     src={`/profile/${streamItem.value.author.slug}.svg`}
                     className="w-8 h-8 inline"
                   />
-                  {streamItem.value.author.name}
+                  <span className="">{streamItem.value.author.name}</span>
+                  <span className="">{streamItem.value?.timestamp}</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-4">
                 <Textarea
                   value={streamItem.value.comment}
                   readonly
-                  className="resize-none"
+                  className="resize-none bg-white"
                 />
               </CardContent>
             </Card>
           </div>
         )) ||
         (streamItem.cat == 'PROGRESS' && (
-          <span>
+          <div className="my-5">
             <img
               src={`/profile/${streamItem.value.author.slug}.svg`}
               className="w-8 h-8 inline"
             />
-            {streamItem.value.author.name} changed status of from
-            <StatusCell progress={streamItem.value.prev} /> to
-            <StatusCell progress={streamItem.value.now} />
-          </span>
+            &nbsp;
+            {streamItem.value.author.name} changed status from&nbsp;
+            <span
+              className={
+                'font-semibold px-2 py-1' +
+                ' ' +
+                streamItem.value.prev.color +
+                ' ' +
+                streamItem.value.prev.bgColor
+              }
+            >
+              {streamItem.value.prev.title}
+            </span>
+            &nbsp; to&nbsp;
+            <span
+              className={
+                'font-semibold px-2 py-1' +
+                ' ' +
+                streamItem.value.now.color +
+                ' ' +
+                streamItem.value.now.bgColor
+              }
+            >
+              {streamItem.value.now.title}
+            </span>
+          </div>
         ))}
     </div>
   );

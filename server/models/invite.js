@@ -4,7 +4,6 @@ const inviteSchema = new mongoose.Schema(
     {
         invited: {
             type: String,
-            ref: "users",
         },
         invitedBy: {
             type: mongoose.Schema.Types.ObjectId,

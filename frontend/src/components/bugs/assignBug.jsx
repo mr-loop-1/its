@@ -59,23 +59,13 @@ export default function AssignBug({
       console.log('🚀 ~ file: assignBug.jsx:44 ~ handleAssign ~ data:', data);
 
       //* api call using bugId and all
-      let result = await addStreamItem(
-        localStorage.getItem('token'),
-        data,
-        bugId,
-      );
+      await addStreamItem(localStorage.getItem('token'), data, bugId);
       data = {
         assignedTo: filteredArray[newAssigned].id,
       };
-      result = await editBug(localStorage.getItem('token'), data, bugId);
+      await editBug(localStorage.getItem('token'), data, bugId);
 
-      // toggleRefetch(() => (refetch ? false : true));
-
-      // setAssign(() => filteredArray[newAssigned].name);
-
-      // toast({
-      //   title: 'Assignment changed successfully',
-      // });
+      toggleRefetch(() => (refetch ? false : true));
 
       console.log('here.....................');
     } catch (err) {
@@ -85,29 +75,20 @@ export default function AssignBug({
       });
     }
   };
-  // console.log(assigned);
 
   return (
     <div className="mt-10">
       <div className="">Assigned To</div>
-      <Select
-        onValueChange={handleAssign}
-        value={currentAssigned.name}
-        // defaultValue={assigned}
-      >
-        <SelectTrigger className="w-[400px]">
+      <Select onValueChange={handleAssign} value={currentAssigned.name}>
+        <SelectTrigger className="w-[80%] mx-auto md:ml-0 md:w-[400px]">
           <img
             src={`/profile/${currentAssigned.slug}.svg`}
             className="w-10 h-10 inline"
           />
           {currentAssigned.name}
-          {/* <SelectValue placeholder={currentAssigned.name}/> */}
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {/* <SelectItem value="LOW">Low</SelectItem>
-          <SelectItem value="NORMAL">Medium</SelectItem>
-          <SelectItem value="SEVERE">Severe</SelectItem> */}
             {filteredArray.map((user, idx) => {
               return (
                 <SelectItem value={idx}>

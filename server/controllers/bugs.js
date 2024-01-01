@@ -108,8 +108,18 @@ exports.updateBug = async (req, res, next) => {
         ...(body?.assignedTo && { assignedTo: body?.assignedTo }),
         ...(body?.priority && { priority: body?.priority }),
         ...(body?.status && { status: body?.status }),
+        ...(body?.progress && {
+            progress: config.bugs.progressCode[body?.progress],
+        }),
     };
-
+    console.log(
+        "🚀 ~ file: bugs.js:115 ~ exports.updateBug= ~ body?.progress:",
+        body?.progress
+    );
+    console.log(
+        "🚀 ~ file: bugs.js:106 ~ exports.updateBug= ~ inputs:",
+        inputs
+    );
     try {
         const document = await bugsModel.findByIdAndUpdate(
             params.bugId,

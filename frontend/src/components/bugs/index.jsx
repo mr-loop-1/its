@@ -32,7 +32,7 @@ export default function BugMain({ bug }) {
         <Textarea
           value={bug.description}
           readonly
-          className="border-none mt-5"
+          className="border-none mt-5 text-sm"
         />
       </header>
       <main>

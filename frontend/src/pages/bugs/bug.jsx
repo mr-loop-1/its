@@ -15,6 +15,7 @@ import Deletebug from '@/components/bugs/deleteBug';
 import EditBug from '@/components/bugs/editBug';
 import Stream from '@/components/stream';
 import BugMain from '@/components/bugs';
+import ChangeProgress from '@/components/bugs/changeStatus';
 const backendURL = 'http://127.0.0.1:5000';
 
 export default function Bug() {
@@ -24,7 +25,7 @@ export default function Bug() {
   const params = useParams();
 
   useEffect(() => {
-    setLoading(() => true);
+    // setLoading(() => true);
     try {
       (async () => {
         const data = await axios.get(`${backendURL}/bugs/${params.bugId}`, {
@@ -48,23 +49,25 @@ export default function Bug() {
         // <ReloadIcon className=" h-40 w-40 animate-spin" />
         <></>
       ) : (
-        <div className="ml-16 px-10 pt-8 pb-96">
+        <div className="ml-16 px-8 md:px-20 mt-10 pb-96">
           <BugMain bug={bug} />
-          {/* <div className=".header flex items-center">
-            <Button className="">Back </Button>
-            <h1 className="mx-auto">Bug</h1>
-          </div> */}
-          {/* <span className="">{bug.title}</span> */}
 
-          <AssignBug
-            bugId={bug.id}
-            currentAssigned={bug.assignedTo}
-            projectUsers={bug.project.members}
-            // refetch={refetch}
-            // toggleRefetch={toggleFetch}
-          />
-          {/* <Deletebug className="" bugId={bug.id} projectId={bug.project.id} /> */}
-          {/* <EditBug bug={bug} /> */}
+          <div className=".assign&status flex">
+            <AssignBug
+              bugId={bug.id}
+              currentAssigned={bug.assignedTo}
+              projectUsers={bug.project.members}
+              refetch={refetch}
+              toggleRefetch={toggleFetch}
+            />
+            <ChangeProgress
+              bugId={bug.id}
+              currentStatus={bug.progress}
+              refetch={refetch}
+              toggleRefetch={toggleFetch}
+            />
+          </div>
+
           <Stream stream={bug.stream} bugId={bug.id} />
         </div>
       )}

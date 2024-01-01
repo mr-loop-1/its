@@ -8,6 +8,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { config } from '@/config/settingStore';
+import { getFullDate } from '@/lib/utils';
 import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -59,7 +60,7 @@ export default function BugsList({ bugs }) {
                 <TableCell className="w-fit break-words">
                   <span className="hover:underline">{bug.title}</span>
                   <span className="ml-5 text-xs text-gray-400">
-                    {bug.updatedAt}
+                    {getFullDate(bug.updatedAt)}
                   </span>
                 </TableCell>
                 <StatusCell progress={bug.progress} />

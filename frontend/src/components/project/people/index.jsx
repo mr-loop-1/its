@@ -16,33 +16,63 @@ import {
 import { sendInvite } from 'api/invites';
 import { useSelector } from 'react-redux';
 import { makeManager, removeMember } from 'api/projects';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import {
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  FormField,
+} from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
 
 export default function ProjectPeople({ project, refetch, toggleRefetch }) {
   const [invite, setInvite] = useState('');
   const user = useSelector((state) => state.auth.userInfo);
 
-  const handleInvite = async () => {
+  const formSchema = z.object({ invite: z.string().email() });
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    shouldUnregister: true,
+  });
+
+  const handleInvite = async (inputs) => {
+    console.log('🚀 ~ file: index.jsx:43 ~ handleInvite ~ inputs:', inputs);
     try {
-      await sendInvite(localStorage.getItem('token'), project.id, user.id);
-      //toast
-      setInvite(() => '');
+      if (
+        project.members.map((member) => member.email).includes(inputs.invite)
+      ) {
+        form.setError('invite', { type: 'server', message: 'Duplicate email' });
+      } else {
+        const data = {
+          invitedEmail: inputs.invite,
+        };
+        await sendInvite(localStorage.getItem('token'), data, project.id);
+        form.setValue('invite', '');
+      }
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:28 ~ handleInvite ~ err:', err);
     }
   };
 
-  const handleManager = async () => {
+  const handleManager = async (memberId) => {
     try {
-      await makeManager(localStorage.getItem('token'), project.id, user.id);
+      const data = {
+        memberId: memberId,
+      };
+      await makeManager(localStorage.getItem('token'), project.id, data);
       toggleRefetch(() => (refetch ? false : true));
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:38 ~ handleManager ~ err:', err);
     }
   };
 
-  const handleRemove = async () => {
+  const handleRemove = async (memberId) => {
     try {
-      await removeMember(localStorage.getItem('token'), project.id, user.id);
+      await removeMember(localStorage.getItem('token'), project.id, memberId);
       toggleRefetch(() => (refetch ? false : true));
     } catch (err) {
       console.log('🚀 ~ file: index.jsx:47 ~ handleRemove ~ err:', err);
@@ -52,20 +82,34 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
   return (
     <div className="w-full mt-5">
       <Accordion type="single" collapsible>
-        <AccordionItem value="item-1" className=" border-b-0">
-          <AccordionTrigger>Manage Members</AccordionTrigger>
+        <AccordionItem value="item-1" className="border-b-0">
+          <AccordionTrigger className="bg-gray-100 rounded px-3">
+            Manage Members
+          </AccordionTrigger>
           <AccordionContent>
-            <div className="flex items-center justify-between">
-              <Input
-                type="email"
-                className="my-1 ml-1"
-                placeholder="hello@gmail.com"
-                value={invite}
-                onChange={(e) => setInvite(e.target.value)}
-              />
-              <Button className="ml-2 mr-1 my-1" onClick={handleInvite}>
-                Invite
-              </Button>
+            <div className="">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(handleInvite)}
+                  className="flex items-center mt-4"
+                >
+                  <FormField
+                    control={form.control}
+                    name="invite"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button className="ml-2 mr-1 my-1" type="submit">
+                    Invite
+                  </Button>
+                </form>
+              </Form>
             </div>
             <div>
               <ul>
@@ -91,7 +135,7 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
                         {member.id != project.manager.id && (
                           <span
                             className="ml-2 hover:underline text-lime-800  cursor-pointer"
-                            onClick={handleManager}
+                            onClick={() => handleManager(member.id)}
                           >
                             Make Manager
                           </span>
@@ -100,7 +144,7 @@ export default function ProjectPeople({ project, refetch, toggleRefetch }) {
                           member.id != project.admin.id && (
                             <span
                               className="ml-2 hover:underline text-red-800  cursor-pointer"
-                              onClick={handleRemove}
+                              onClick={() => handleRemove(member.id)}
                             >
                               Remove
                             </span>
