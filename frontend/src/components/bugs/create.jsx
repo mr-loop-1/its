@@ -89,90 +89,109 @@ export default function CreateBug({ project }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="default" className="w-full">
-          Create Bug
-        </Button>
-      </DialogTrigger>
-      <Separator className="my-6 w-full" orientation="horizontal" />
-      <DialogContent className="block box-border w-[70vw] h-fit">
-        <DialogHeader>
-          <DialogTitle>Create new Bug</DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
-        <div className="">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="shadcn" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    {form.formState.errors.titleExists && (
-                      <p>Project Title should be unique</p>
-                    )}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel>Description (optional)</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        // defaultValue="asddsa"
-                        placeholder="summary"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <div className="">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button
+            variant="default"
+            className="w-40 rounded-lg mb-4 bg-[#1a52a7]"
+          >
+            Create Bug
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="block box-border w-[70vw] h-fit">
+          <DialogHeader>
+            <DialogTitle>Create new Bug</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <div className="">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem className="my-4">
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input placeholder="shadcn" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                      {form.formState.errors.titleExists && (
+                        <p>Project Title should be unique</p>
+                      )}
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="my-4">
+                      <FormLabel>Description (optional)</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          // defaultValue="asddsa"
+                          placeholder="summary"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="priority"
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel>Priority</FormLabel>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        required
-                      >
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Select Priority Level" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="LOW">Low</SelectItem>
-                            <SelectItem value="NORMAL">Normal</SelectItem>
-                            <SelectItem value="SEVERE">Severe</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-                required
-              />
+                <FormField
+                  control={form.control}
+                  name="priority"
+                  render={({ field }) => (
+                    <FormItem className="my-4">
+                      <FormLabel>Priority</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          required
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Select Priority Level" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {/* <SelectGroup> */}
+                            <SelectItem
+                              value="LOW"
+                              className="bg-[#54BBFF] hover:bg-[#54BBFF] text-black"
+                            >
+                              Low
+                            </SelectItem>
+                            <SelectItem
+                              value="NORMAL"
+                              className="bg-[#f2a93a] hover:bg-[#f2a93a] text-black"
+                            >
+                              Normal
+                            </SelectItem>
+                            <SelectItem
+                              value="SEVERE"
+                              className="bg-[#E0230D] hover:bg-[#E0230D] text-black"
+                            >
+                              Severe
+                            </SelectItem>
+                            {/* </SelectGroup>   */}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                  required
+                />
 
-              <Button type="submit">Submit</Button>
-            </form>
-          </Form>
-        </div>
-      </DialogContent>
-    </Dialog>
+                <Button type="submit">Submit</Button>
+              </form>
+            </Form>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

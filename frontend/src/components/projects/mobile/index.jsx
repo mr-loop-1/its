@@ -27,33 +27,37 @@ export default function ProjectSidebar({ projects, refetch, toggleRefetch }) {
 
       <div className="">
         <ul>
-          {projects.map((project) => {
-            return (
-              <li key={project.project.id}>
-                <NavLink
-                  to={`/projects/${project.project.id}`}
-                  className={({ isActive }) =>
-                    [isActive ? 'text-[#8b4ea8] bg-[#ebecf0]' : ''].join(' ')
-                  }
-                >
-                  <div className="py-2 px-3 flex flex-col align-middle cursor-pointer bg-inherit rounded-md hover:text-[#8b4ea8]">
-                    <div className="block text-xl font-normal tracking-tight break-words">
-                      {project.project.title}
+          {projects.length ? (
+            projects.map((project) => {
+              return (
+                <li key={project.project.id}>
+                  <NavLink
+                    to={`/projects/${project.project.id}`}
+                    className={({ isActive }) =>
+                      [isActive ? 'text-[#8b4ea8] bg-[#ebecf0]' : ''].join(' ')
+                    }
+                  >
+                    <div className="py-2 px-3 flex flex-col align-middle cursor-pointer bg-inherit rounded-md hover:text-[#8b4ea8]">
+                      <div className="block text-xl font-normal tracking-tight break-words">
+                        {project.project.title}
+                      </div>
+                      <div className="flex mt-2">
+                        <img src="/role/admin.svg" className="w-5" />
+                        <span className="text-sm ml-2">{project.role}</span>
+                      </div>
                     </div>
-                    <div className="flex mt-2">
-                      <img src="/role/admin.svg" className="w-5" />
-                      <span className="text-sm ml-2">{project.role}</span>
-                    </div>
-                  </div>
-                  {/* </Card> */}
-                </NavLink>
-                <Separator
-                  className="w-[50%] mx-auto"
-                  orientation="horizontal"
-                />
-              </li>
-            );
-          })}
+                    {/* </Card> */}
+                  </NavLink>
+                  <Separator
+                    className="w-[50%] mx-auto"
+                    orientation="horizontal"
+                  />
+                </li>
+              );
+            })
+          ) : (
+            <span className="">No projects to show</span>
+          )}
         </ul>
       </div>
     </div>

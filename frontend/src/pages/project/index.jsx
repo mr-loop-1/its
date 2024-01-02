@@ -17,7 +17,7 @@ export default function Project() {
   console.log('🚀 ~ file: index.jsx:16 ~ Project ~ projectId:', projectId);
   useEffect(() => {
     console.log('here,.............................................');
-    setIsLoading(() => true);
+    // setIsLoading(() => true);
     try {
       (async () => {
         const data = await getProject(localStorage.getItem('token'), projectId);
@@ -49,7 +49,7 @@ export default function Project() {
             refetch={refetch}
             toggleRefetch={toggleRefetch}
           />
-          <BugsList bugs={project.bugs} />
+          <BugsList bugs={project.bugs} project={project} />
         </div>
       )}
     </div>

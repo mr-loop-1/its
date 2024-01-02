@@ -4,6 +4,7 @@ const {
     bugsController,
     memberController,
     userController,
+    commitsController,
 } = require("../controllers/index");
 const { authenticateToken } = require("../middleware/jwt");
 const { accessGuard } = require("../middleware/guard");
@@ -11,6 +12,11 @@ const config = require("../config");
 
 const router = express.Router();
 
+router.get(
+    "/:projectId/commits",
+    authenticateToken,
+    commitsController.getLatestCommit
+);
 router.get(
     "/:projectId/bugs",
     authenticateToken,

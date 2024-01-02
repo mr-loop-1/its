@@ -49,9 +49,17 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
         message: 'atlease 2 char',
       })
       .max(40, { message: 'atmost 40 chars' }),
-    description: z.string().max(150, { message: 'atmost 150 chars' }),
-    githubUrl: z.string().url({ message: 'valid url please' }).max(100),
-    githubPAT: z.string().max(100),
+    // description: z.string().max(150, { message: 'atmost 150 chars' }),
+    githubUrl: z
+      .string()
+      // .url({ message: 'valid url please' })
+      // .max(100)
+      .regex(
+        /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/,
+        { message: 'valid github repo url' },
+      )
+      .optional(),
+    githubPAT: z.string().max(100).optional(),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -62,7 +70,7 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
     try {
       const data = {
         title: inputs.title,
-        description: inputs.description,
+        // description: inputs.description,
         github: {
           url: inputs.url,
           token: inputs.token,
@@ -113,7 +121,7 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
                     </FormItem>
                   )}
                 />
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="description"
                   render={({ field }) => (
@@ -129,7 +137,7 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <Card className="py-2 px-3">
                   <FormLabel>Github Repo</FormLabel>

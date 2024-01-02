@@ -27,6 +27,7 @@ import { Card } from '@/components/ui/card';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
 import { createProject } from 'api/projects';
+import { checkGithub } from 'api/github';
 
 export default function CreateProject({ refetch, toggleRefetch }) {
   const [open, setOpen] = useState(false);
@@ -39,9 +40,19 @@ export default function CreateProject({ refetch, toggleRefetch }) {
         message: 'atlease 2 char',
       })
       .max(40, { message: 'atmost 40 chars' }),
-    description: z.string().max(150, { message: 'atmost 150 chars' }),
-    githubUrl: z.string().url({ message: 'valid url please' }).max(100),
-    githubPAT: z.string().max(100),
+    // description: z
+    //   .string()
+    //   .max(150, { message: 'atmost 150 chars' })
+    //   .optional(),
+    githubUrl: z
+      .string()
+      .regex(
+        /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/,
+        { message: 'valid github repo url' },
+      )
+      .optional(),
+    // githubUrl: z.string().url({ message: 'valid url please' }).max(100),
+    githubPAT: z.string().max(100).optional(),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -50,9 +61,16 @@ export default function CreateProject({ refetch, toggleRefetch }) {
 
   const onSubmit = async (inputs) => {
     try {
+      if (!(await checkGithub(inputs.url, inputs.token))) {
+        form.setError('githubPAT', {
+          message: 'some problem in validating repo',
+        });
+        return;
+      }
+
       const data = {
         title: inputs.title,
-        description: inputs.description,
+        // description: inputs.description,
         github: {
           url: inputs.url,
           token: inputs.token,
@@ -125,7 +143,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                     </FormItem>
                   )}
                 />
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="description"
                   render={({ field }) => (
@@ -137,10 +155,10 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <Card className="py-2 px-3">
-                  <FormLabel>Github Repo</FormLabel>
+                  <FormLabel>Github Repo (optional)</FormLabel>
                   <FormField
                     control={form.control}
                     name="githubUrl"
