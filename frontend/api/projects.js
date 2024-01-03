@@ -23,6 +23,20 @@ export const getProject = async (token, projectId) => {
   return result;
 };
 
+export const getCommits = async (token, projectId) => {
+  const result = await axios.get(`${API_URL}/projects/${projectId}/commits`, {
+    headers: { Authorization: `Bearer:${token}` },
+  });
+  return result;
+};
+
+export const getStoredCommits = async (token, projectId) => {
+  const result = await axios.get(`${API_URL}/projects/commits/${projectId}`, {
+    headers: { Authorization: `Bearer:${token}` },
+  });
+  return result;
+};
+
 export const editProject = async (token, data, projectId) => {
   const result = await axios.patch(`${API_URL}/projects/${projectId}`, data, {
     headers: { Authorization: `Bearer:${token}` },

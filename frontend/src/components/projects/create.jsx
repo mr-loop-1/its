@@ -27,22 +27,57 @@ import { Card } from '@/components/ui/card';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
 import { createProject } from 'api/projects';
+import { checkGithub } from 'api/github';
+import { Checkbox } from '../ui/checkbox';
 
 export default function CreateProject({ refetch, toggleRefetch }) {
   const [open, setOpen] = useState(false);
   const user = useSelector((state) => state.auth.userInfo);
 
-  const formSchema = z.object({
-    title: z
-      .string()
-      .min(3, {
-        message: 'atlease 2 char',
-      })
-      .max(40, { message: 'atmost 40 chars' }),
-    description: z.string().max(150, { message: 'atmost 150 chars' }),
-    githubUrl: z.string().url({ message: 'valid url please' }).max(100),
-    githubPAT: z.string().max(100),
-  });
+  const formSchema = z
+    .object({
+      title: z
+        .string()
+        .min(3, {
+          message: 'atlease 2 char',
+        })
+        .max(40, { message: 'atmost 40 chars' }),
+      // description: z
+      //   .string()
+      //   .max(150, { message: 'atmost 150 chars' })
+      //   .optional(),
+      isGithub: z.boolean().default(false).optional(),
+      githubUrl: z
+        .string()
+        .regex(
+          /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/,
+          { message: 'invalid github repo url' },
+        )
+        .optional(),
+      // githubUrl: z.string().url({ message: 'valid url please' }).max(100),
+      githubPAT: z.string().max(100).optional(),
+    })
+    .superRefine((values, ctx) => {
+      if (values.isGithub) {
+        ctx.addIssue({
+          message: 'required',
+          code: z.ZodIssueCode.custom,
+          path: ['githubUrl'],
+        });
+        ctx.addIssue({
+          message: 'required',
+          code: z.ZodIssueCode.custom,
+          path: ['githubPAT'],
+        });
+      }
+    });
+  // .refine((data) => data.isGithub, {
+  //   message: 'Required if using github',
+  //   path: ['githubUrl', 'githubPAT'],
+  // });
+
+  // formSchema.parse()
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     shouldUnregister: true,
@@ -50,13 +85,25 @@ export default function CreateProject({ refetch, toggleRefetch }) {
 
   const onSubmit = async (inputs) => {
     try {
+      if (inputs.isGithub) {
+        if (!(await checkGithub(inputs.githubUrl, inputs.githubPAT))) {
+          form.setError('githubPAT', {
+            message: 'some problem in validating repo',
+          });
+          return;
+        }
+      }
+
       const data = {
         title: inputs.title,
-        description: inputs.description,
-        github: {
-          url: inputs.url,
-          token: inputs.token,
-        },
+        // description: inputs.description,
+        isGithub: inputs.isGithub,
+        ...(inputs.isGithub && {
+          github: {
+            url: inputs.url,
+            token: inputs.token,
+          },
+        }),
         admin: user.id,
         manager: user.id,
         members: [user.id],
@@ -125,7 +172,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                     </FormItem>
                   )}
                 />
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="description"
                   render={({ field }) => (
@@ -137,48 +184,67 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
-                <Card className="py-2 px-3">
-                  <FormLabel>Github Repo</FormLabel>
-                  <FormField
-                    control={form.control}
-                    name="githubUrl"
-                    render={({ field }) => (
-                      <FormItem className="my-4">
-                        <FormLabel>Url</FormLabel>
-                        <FormControl>
-                          <Input placeholder="github url" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="githubPAT"
-                    render={({ field }) => (
-                      <FormItem className="my-4">
-                        <FormLabel>Restricted Access Token</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="github restricted pat"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </Card>
+                <FormField
+                  control={form.control}
+                  name="isGithub"
+                  render={({ field }) => (
+                    <FormItem className="mb-3">
+                      <FormLabel>want to use Github?</FormLabel>
+                      <FormControl>
+                        <Checkbox
+                          className="ml-2"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                {form.watch('isGithub') && (
+                  <Card className="py-2 px-3">
+                    <FormLabel>Github Repo</FormLabel>
+
+                    <FormField
+                      control={form.control}
+                      name="githubUrl"
+                      render={({ field }) => (
+                        <FormItem className="my-4">
+                          <FormLabel>Url</FormLabel>
+                          <FormControl>
+                            <Input placeholder="github url" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="githubPAT"
+                      render={({ field }) => (
+                        <FormItem className="my-4">
+                          <FormLabel>'Restricted' Access Token</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="github restricted pat"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </Card>
+                )}
 
                 <FormField
                   control={form.control}
                   name="invite"
                   render={({ field }) => (
                     <FormItem className="my-4">
-                      <FormLabel>Send invite by email</FormLabel>
+                      <FormLabel>Invite by email (optional)</FormLabel>
                       <div className="flex justify-between">
                         <FormControl>
                           <Input

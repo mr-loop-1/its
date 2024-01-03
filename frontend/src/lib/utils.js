@@ -6,6 +6,7 @@ export function cn(...inputs) {
 }
 
 export function getFullDate(date) {
+  console.log('🚀 ~ file: utils.js:9 ~ getFullDate ~ date:', date);
   const inputDate = new Date(date);
 
   // Convert to IST (Indian Standard Time)

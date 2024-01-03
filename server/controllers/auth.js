@@ -41,3 +41,12 @@ exports.login = async (req, res) => {
 
     return res.json(data);
 };
+
+exports.ping = async (req, res) => {
+    const body = req.body;
+    const user = await userModel.findOne({ email: body.email });
+    if (user) {
+        return res.status(200).json({ data: true });
+    }
+    return res.status(200).json({ data: false });
+};

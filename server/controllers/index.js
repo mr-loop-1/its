@@ -5,4 +5,5 @@ module.exports = {
     bugsController: require("./bugs"),
     streamController: require("./stream"),
     memberController: require("./members"),
+    commitsController: require("./commits"),
 };

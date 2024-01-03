@@ -76,6 +76,7 @@ export default function Comment({ bugId }) {
           slug: user.slug,
         },
         comment: inputs.comment,
+        timestamp: new Date(),
       };
 
       await addStreamItem(localStorage.getItem('token'), data, bugId);

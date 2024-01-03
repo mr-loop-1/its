@@ -6,6 +6,8 @@ import { getProject } from 'api/projects';
 import ProjectHeader from '@/components/project/header';
 import ProjectPeople from '@/components/project/people';
 import BugsList from '@/components/project/bugs';
+import { useSelector } from 'react-redux';
+import ProjectCommits from '@/components/commits/commits';
 
 export default function Project() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +18,7 @@ export default function Project() {
   console.log('🚀 ~ file: index.jsx:16 ~ Project ~ projectId:', projectId);
   useEffect(() => {
     console.log('here,.............................................');
-    setIsLoading(() => true);
+    // setIsLoading(() => true);
     try {
       (async () => {
         const data = await getProject(localStorage.getItem('token'), projectId);
@@ -42,12 +44,14 @@ export default function Project() {
             refetch={refetch}
             toggleRefetch={toggleRefetch}
           />
+
           <ProjectPeople
             project={project}
             refetch={refetch}
             toggleRefetch={toggleRefetch}
           />
-          <BugsList bugs={project.bugs} />
+          <ProjectCommits project={project} />
+          <BugsList bugs={project.bugs} project={project} />
         </div>
       )}
     </div>

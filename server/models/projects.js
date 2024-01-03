@@ -7,6 +7,10 @@ const projectsSchema = new mongoose.Schema(
             required: true,
             index: true,
         },
+        isGithub: {
+            type: Boolean,
+            default: false,
+        },
         github: {
             token: {
                 type: String,
@@ -36,12 +40,12 @@ const projectsSchema = new mongoose.Schema(
                 ref: "bugs",
             },
         ],
-        commits: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "bugs",
-            },
-        ],
+        // commits: [
+        //     {
+        //         type: mongoose.Schema.Types.ObjectId,
+        //         ref: "bugs",
+        //     },
+        // ],
         status: {
             type: Boolean,
         },

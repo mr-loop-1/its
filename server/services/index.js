@@ -1,4 +1,4 @@
 module.exports = {
     jwtService: require("./jwt"),
-    githubService: require("./github"),
+    githubService: require("./github-octokit"),
 };

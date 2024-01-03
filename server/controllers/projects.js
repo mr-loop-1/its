@@ -11,11 +11,14 @@ const {
 exports.createProject = async (req, res) => {
     const body = req?.body;
     const user = req?.user;
+
     try {
+        const github = body?.isGithub ? body?.github : { url: "", token: "" };
         const newProject = new projectsModel({
             title: body?.title,
             description: body?.description,
-            github: body?.github,
+            isGithub: body?.isGithub,
+            github: github,
             admin: user.id,
             manager: user.id,
             members: body?.members,
@@ -48,7 +51,7 @@ exports.createProject = async (req, res) => {
                 invitedBy: user.id,
                 projectId: document._id,
                 role: config.accessLevel.accessCode.MEMBER,
-                status: false,
+                status: true,
             });
             await createInvite.save();
         });
@@ -86,27 +89,27 @@ exports.deleteProject = async (req, res, next) => {
             await userModel.findByIdAndUpdate(bug.createdBy, {
                 $pull: { bugsCreated: bug._id },
             });
-
-            const open = await commitsModel.findByIdAndUpdate(
-                bug.commits.open,
-                {
-                    $pull: { "bugs.open": document._id },
-                }
-            );
-            if (!open.bugs.open.length && !open.bugs.close.length) {
-                open.status = false;
-                await open.save();
-            }
-            const close = await commitsModel.findByIdAndUpdate(
-                bug.commits.close,
-                {
-                    $pull: { "bugs.open": document._id },
-                }
-            );
-            if (!close.bugs.open.length && !close.bugs.close.length) {
-                close.status = false;
-                await close.save();
-            }
+            //! LEAVE FOR NOW
+            // const open = await commitsModel.findByIdAndUpdate(
+            //     bug.commits.open,
+            //     {
+            //         $pull: { "bugs.open": document._id },
+            //     }
+            // );
+            // if (!open.bugs.open.length && !open.bugs.close.length) {
+            //     open.status = false;
+            //     await open.save();
+            // }
+            // const close = await commitsModel.findByIdAndUpdate(
+            //     bug.commits.close,
+            //     {
+            //         $pull: { "bugs.open": document._id },
+            //     }
+            // );
+            // if (!close.bugs.open.length && !close.bugs.close.length) {
+            //     close.status = false;
+            //     await close.save();
+            // }
         });
 
         res.status(200).json({ message: "Deleted" });
@@ -126,7 +129,12 @@ exports.getProjects = async (req, res, next) => {
         //* no need for projcet status as deleted when deleting
         const document = await userModel
             .findById(user.id)
+            // .find({ status: true })
             .populate({ path: "projects.projectId", model: "projects" });
+        // console.log(
+        //     "🚀 ~ file: projects.js:134 ~ exports.getProjects= ~ document:",
+        //     document
+        // );
         const data = projectTransformer.projects(document.projects);
         res.status(200).json(data);
     } catch (err) {
@@ -143,6 +151,7 @@ exports.getProject = async (req, res) => {
     try {
         const document = await projectsModel
             .findById(params.projectId)
+            // .findOne({ status: true })
             .populate({
                 path: "bugs",
                 model: "bugs",
@@ -159,7 +168,13 @@ exports.getProject = async (req, res) => {
             })
             .populate({ path: "admin", model: "users" })
             .populate({ path: "manager", model: "users" })
-            .populate({ path: "members", model: "users" });
+            .populate({ path: "members", model: "users" })
+            .lean();
+        // console.log(
+        //     "🚀 ~ file: projects.js:172 ~ exports.getProject= ~ document:",
+        //     document,
+        //     Object.keys(document)
+        // );
 
         const data = projectTransformer.project(document);
 

@@ -65,7 +65,7 @@ export default function Home() {
                     {invite.projectId.title}
                     <span
                       className="hover:underline ml-2 text-sm text-green-600 cursor-pointer"
-                      onClick={handleAcceptInvite(() => invite.id)}
+                      onClick={() => handleAcceptInvite(invite.id)}
                     >
                       Accept
                     </span>

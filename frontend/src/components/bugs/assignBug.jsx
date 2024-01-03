@@ -77,24 +77,29 @@ export default function AssignBug({
   };
 
   return (
-    <div className="mt-10">
-      <div className="">Assigned To</div>
+    <div className="mt-6">
+      <div className="w-fit">assigned to</div>
       <Select onValueChange={handleAssign} value={currentAssigned.name}>
-        <SelectTrigger className="w-[80%] mx-auto md:ml-0 md:w-[400px]">
+        <SelectTrigger className="mt-2 w-fit px-5 py-2 h-fit">
           <img
             src={`/profile/${currentAssigned.slug}.svg`}
-            className="w-10 h-10 inline"
+            className="w-7 h-7 inline"
           />
-          {currentAssigned.name}
+          <span className="ml-2 max-w-40">
+            {currentAssigned.name}aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          </span>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             {filteredArray.map((user, idx) => {
               return (
-                <SelectItem value={idx}>
+                <SelectItem
+                  value={idx}
+                  className="mt-2 w-full px-5 py-2 h-fit cursor-pointer"
+                >
                   <img
                     src={`/profile/${user.slug}.svg`}
-                    className="w-8 h-8 inline"
+                    className="w-7 h-7 inline"
                   />
                   {user.name}
                 </SelectItem>

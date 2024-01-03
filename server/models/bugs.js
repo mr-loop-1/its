@@ -41,8 +41,9 @@ const bugSchema = new mongoose.Schema(
         ],
         commits: {
             open: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "commits",
+                type: String,
+                // type: mongoose.Schema.Types.ObjectId,
+                // ref: "commits",
             },
             close: {
                 type: mongoose.Schema.Types.ObjectId,

@@ -16,6 +16,7 @@ import EditBug from '@/components/bugs/editBug';
 import Stream from '@/components/stream';
 import BugMain from '@/components/bugs';
 import ChangeProgress from '@/components/bugs/changeStatus';
+import { Separator } from '@/components/ui/separator';
 const backendURL = 'http://127.0.0.1:5000';
 
 export default function Bug() {
@@ -52,22 +53,26 @@ export default function Bug() {
         <div className="ml-16 px-8 md:px-20 mt-10 pb-96">
           <BugMain bug={bug} />
 
-          <div className=".assign&status flex">
-            <AssignBug
-              bugId={bug.id}
-              currentAssigned={bug.assignedTo}
-              projectUsers={bug.project.members}
-              refetch={refetch}
-              toggleRefetch={toggleFetch}
-            />
-            <ChangeProgress
-              bugId={bug.id}
-              currentStatus={bug.progress}
-              refetch={refetch}
-              toggleRefetch={toggleFetch}
-            />
-          </div>
+          <ChangeProgress
+            bugId={bug.id}
+            currentStatus={bug.progress}
+            refetch={refetch}
+            toggleRefetch={toggleFetch}
+          />
 
+          {/* <div className=".assign&status flex flex-wrap"> */}
+          <AssignBug
+            bugId={bug.id}
+            currentAssigned={bug.assignedTo}
+            projectUsers={bug.project.members}
+            refetch={refetch}
+            toggleRefetch={toggleFetch}
+          />
+          {/* </div> */}
+          <Separator
+            className="w-[90%] mt-10 mb-5 mx-auto"
+            orientation="horizontal"
+          />
           <Stream stream={bug.stream} bugId={bug.id} />
         </div>
       )}

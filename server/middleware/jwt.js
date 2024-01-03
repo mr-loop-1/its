@@ -14,7 +14,7 @@ exports.authenticateToken = (req, res, next) => {
 
     jwt.verify(token.slice(7), config.jwt.secret, async (err, payload) => {
         if (err) {
-            console.log("here");
+            // console.log("here");
             return res
                 .status(401)
                 .json({ error: "Unauthorized - Invalid token" });
@@ -23,7 +23,7 @@ exports.authenticateToken = (req, res, next) => {
             const user = await userModel
                 .findById(payload.id)
                 .populate({ path: "projects.projectId", model: "projects" });
-            console.log("here2");
+            // console.log("here2");
             // if (user.status === config.status.INACTIVE) {
             //     throw new error();
             // }
@@ -40,10 +40,10 @@ exports.authenticateToken = (req, res, next) => {
                     };
                 }),
             };
-            console.log(
-                "🚀 ~ file: jwt.js:31 ~ jwt.verify ~ req.user:",
-                req.user
-            );
+            // console.log(
+            //     "🚀 ~ file: jwt.js:31 ~ jwt.verify ~ req.user:",
+            //     req.user
+            // );
             next();
         } catch (err) {
             console.log("🚀 ~ file: jwt.js:35 ~ jwt.verify ~ err:", err);

@@ -11,8 +11,10 @@ import Comment from './comment';
 
 export default function Stream({ stream, bugId }) {
   return (
-    <div>
-      <span className="text-lg font-semibold">created at 24 Nov 2024</span>
+    <div className="mt-5">
+      <span className="text-sm text-gray-600 font-semibold">
+        created at 24 Nov 2024
+      </span>
       {stream.map((content) => {
         return <StreamItem streamItem={content} />;
       })}
