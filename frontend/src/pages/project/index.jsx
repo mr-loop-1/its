@@ -7,6 +7,7 @@ import ProjectHeader from '@/components/project/header';
 import ProjectPeople from '@/components/project/people';
 import BugsList from '@/components/project/bugs';
 import { useSelector } from 'react-redux';
+import ProjectCommits from '@/components/commits/commits';
 
 export default function Project() {
   const [isLoading, setIsLoading] = useState(true);
@@ -49,6 +50,7 @@ export default function Project() {
             refetch={refetch}
             toggleRefetch={toggleRefetch}
           />
+          <ProjectCommits project={project} />
           <BugsList bugs={project.bugs} project={project} />
         </div>
       )}

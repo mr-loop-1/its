@@ -36,11 +36,13 @@ exports.getLatestCommit = async (req, res) => {
 exports.listCommits = async (req, res) => {
     const params = req.params;
 
-    const document = await projectsModel
-        .findById(params.projectId)
-        .populate({ path: "commits", model: "commits" });
+    const document = await commitsModel.find({ projectId: params.projectId });
+    console.log(
+        "🚀 ~ file: commits.js:40 ~ exports.listCommits= ~ document:",
+        document
+    );
 
     //! transformer
 
-    return res.json(data);
+    return res.json(document);
 };

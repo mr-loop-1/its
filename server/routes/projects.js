@@ -22,6 +22,11 @@ router.get(
     authenticateToken,
     projectController.getProjectBugs
 ); //* all bugs in a project
+router.get(
+    "/commits/:projectId",
+    authenticateToken,
+    commitsController.listCommits
+); //* all bugs in a project
 router.get("/:projectId", authenticateToken, projectController.getProject); //* project
 router.get("", authenticateToken, projectController.getProjects); //* list all projects
 
