@@ -14,43 +14,55 @@ exports.createBug = async (req, res) => {
     console.dir(params);
 
     try {
+        const project = await projectsModel.findById(params?.projectId);
+
         const newBug = new bugsModel({
             title: body.title,
             description: body?.description,
             projectId: params.projectId,
             createdBy: user.id,
             assignedTo: user.id,
-            commits: {
-                open: body?.commits?.id,
-            },
+            ...(project.isGithub
+                ? {
+                      commits: {
+                          open: body?.commit?.id,
+                      },
+                  }
+                : { commits: { open: "" } }),
             status: true,
             progress: 1,
             priority: config.priority.priorityCode[body?.priority],
         });
         const document = await newBug.save();
 
-        if (body?.commits) {
-            const commit = await commitsModel.findById(body.commits.id);
+        // await projectsModel.findByIdAndUpdate(params?.projectId, {
+        //     $push: { bugs: document._id },
+        // });
+        project.bugs.push(document._id);
+        await project.save();
+
+        if (project.isGithub) {
+            const commit = await commitsModel.findOne({
+                commitId: body.commit.id,
+                projectId: params.projectId,
+            });
             if (commit) {
                 commit.bugs.open.push(document._id);
             } else {
                 const createCommit = new commitsModel({
-                    commitId: body.commits.id,
+                    commitId: body.commit.id,
                     projectId: params.projectId,
-                    message: body.commit.message,
-                    author: body.commit.author,
+                    // author: body.commit.author,
                     timestamp: body.commit.timestamp,
-                    bugsOpened: [document.id],
+                    bugs: { open: [document.id] },
                 });
-                await projectsModel.findByIdAndUpdate(params?.projectId, {
-                    $push: { commits: body.commits.id },
-                });
+                // await projectsModel.findByIdAndUpdate(params?.projectId, {
+                //     $push: { commits: body.commits.id },
+                // });
                 await createCommit.save();
             }
         }
-        await projectsModel.findByIdAndUpdate(params?.projectId, {
-            $push: { bugs: document._id },
-        });
+
         await userModel.findByIdAndUpdate(user.id, {
             $push: { "bugs.assigned": document._id },
             $push: { "bugs.created": document._id },

@@ -102,6 +102,7 @@ export default function CreateBug({ project }) {
         description: inputs.description,
         admin: user.id,
         priority: inputs.priority,
+        ...(project.isGithub && { commitId: inputs.commit }),
       };
       await createBug(localStorage.getItem('token'), data, project.id);
       setOpen(() => false);

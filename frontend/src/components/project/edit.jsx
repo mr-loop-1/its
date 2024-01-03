@@ -154,45 +154,46 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
                     </FormItem>
                   )}
                 /> */}
-
-                <Card className="py-2 px-3">
-                  <FormLabel>Github Repo</FormLabel>
-                  <FormField
-                    control={form.control}
-                    name="githubUrl"
-                    render={({ field }) => (
-                      <FormItem className="my-4">
-                        <FormLabel>Url</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="github url"
-                            {...field}
-                            defaultValue={project.githubUrl}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="githubPAT"
-                    render={({ field }) => (
-                      <FormItem className="my-4">
-                        <FormLabel>Access Token</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="github pat"
-                            {...field}
-                            defaultValue={project.githubPAT}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </Card>
+                {project.isGithub && (
+                  <Card className="py-2 px-3">
+                    <FormLabel>Github Repo</FormLabel>
+                    <FormField
+                      control={form.control}
+                      name="githubUrl"
+                      render={({ field }) => (
+                        <FormItem className="my-4">
+                          <FormLabel>Url</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="github url"
+                              {...field}
+                              defaultValue={project.githubUrl}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="githubPAT"
+                      render={({ field }) => (
+                        <FormItem className="my-4">
+                          <FormLabel>Access Token</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="github pat"
+                              {...field}
+                              defaultValue={project.githubPAT}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </Card>
+                )}
 
                 <Button type="submit">Edit</Button>
               </form>
