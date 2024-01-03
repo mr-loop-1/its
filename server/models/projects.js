@@ -7,6 +7,10 @@ const projectsSchema = new mongoose.Schema(
             required: true,
             index: true,
         },
+        isGithub: {
+            type: Boolean,
+            default: false,
+        },
         github: {
             token: {
                 type: String,

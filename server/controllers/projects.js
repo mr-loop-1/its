@@ -11,11 +11,14 @@ const {
 exports.createProject = async (req, res) => {
     const body = req?.body;
     const user = req?.user;
+
     try {
+        const github = body?.isGithub ? body?.github : { url: "", token: "" };
         const newProject = new projectsModel({
             title: body?.title,
             description: body?.description,
-            github: body?.github,
+            isGithub: body?.isGithub,
+            github: github,
             admin: user.id,
             manager: user.id,
             members: body?.members,

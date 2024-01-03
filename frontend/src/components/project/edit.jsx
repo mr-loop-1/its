@@ -50,16 +50,18 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
       })
       .max(40, { message: 'atmost 40 chars' }),
     // description: z.string().max(150, { message: 'atmost 150 chars' }),
-    githubUrl: z
-      .string()
-      // .url({ message: 'valid url please' })
-      // .max(100)
-      .regex(
-        /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/,
-        { message: 'valid github repo url' },
-      )
-      .optional(),
-    githubPAT: z.string().max(100).optional(),
+    ...(project.isGithub && {
+      githubUrl: z
+        .string()
+        // .url({ message: 'valid url please' })
+        // .max(100)
+        .regex(
+          /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/,
+          { message: 'valid github repo url' },
+        )
+        .optional(),
+      githubPAT: z.string().max(100).optional(),
+    }),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -68,6 +70,20 @@ export default function EditProject({ project, refetch, toggleRefetch }) {
 
   const onSubmit = async (inputs) => {
     try {
+      if (project.isGithub) {
+        if (
+          !(await checkGithub(
+            inputs.githubUrl || project.github.url,
+            inputs.githubPAT || project.github.token,
+          ))
+        ) {
+          form.setError('githubPAT', {
+            message: 'some problem in validating repo',
+          });
+          return;
+        }
+      }
+
       const data = {
         title: inputs.title,
         // description: inputs.description,

@@ -67,7 +67,7 @@ export default function CreateBug({ project }) {
       .max(40, { message: 'atmost 40 chars' }),
     description: z.string().max(150, { message: 'atmost 150 chars' }),
     priority: z.string(),
-    commit: z.string(),
+    ...(project.isGithub && { commit: z.string() }),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -78,11 +78,13 @@ export default function CreateBug({ project }) {
   useEffect(() => {
     try {
       (async () => {
-        const result = await getCommits(
-          localStorage.getItem('token'),
-          project.id,
-        );
-        setCommits(() => result.data);
+        if (project.isGithub) {
+          const result = await getCommits(
+            localStorage.getItem('token'),
+            project.id,
+          );
+          setCommits(() => result.data);
+        }
         setLoading(() => true);
       })();
     } catch (err) {
@@ -205,7 +207,7 @@ export default function CreateBug({ project }) {
                   )}
                   required
                 />
-                {loading && (
+                {project.isGithub && loading && (
                   <FormField
                     control={form.control}
                     name="commit"
