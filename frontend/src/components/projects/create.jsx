@@ -61,7 +61,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
 
   const onSubmit = async (inputs) => {
     try {
-      if (!(await checkGithub(inputs.url, inputs.token))) {
+      if (!(await checkGithub(inputs.githubUrl, inputs.githubPAT))) {
         form.setError('githubPAT', {
           message: 'some problem in validating repo',
         });

@@ -4,6 +4,10 @@ const githubRepoRegex =
     /^(?:https?:\/\/)?(?:www\.)?github\.com\/([a-zA-Z0-9_-]+)\/([a-zA-Z0-9_-]+)$/;
 
 exports.getCommits = async (repoUrl, token) => {
+    console.log(
+        "🚀 ~ file: github-octokit.js:7 ~ exports.getCommits= ~ repoUrl:",
+        repoUrl
+    );
     try {
         const match = repoUrl.match(githubRepoRegex);
 
@@ -20,7 +24,7 @@ exports.getCommits = async (repoUrl, token) => {
 
             const branchesResponse = await octokit.repos.listBranches({
                 owner: username,
-                repo: repository,
+                repo: repoName,
             });
 
             const branches = branchesResponse.data;
@@ -30,7 +34,7 @@ exports.getCommits = async (repoUrl, token) => {
                     const branchName = branch.name;
                     const commitResponse = await octokit.repos.getBranch({
                         owner: username,
-                        repo: repository,
+                        repo: repoName,
                         branch: branchName,
                     });
 
@@ -44,7 +48,7 @@ exports.getCommits = async (repoUrl, token) => {
             );
             console.log("Latest commits for each branch:", commits);
 
-            return [];
+            return commits;
         } else {
             console.log("Github not responding");
             return [];

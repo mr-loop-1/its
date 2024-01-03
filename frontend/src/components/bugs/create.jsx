@@ -49,12 +49,14 @@ import {
 } from '@/components/ui/card';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { useSelector } from 'react-redux';
-import { createProject } from 'api/projects';
+import { createProject, getCommits } from 'api/projects';
 import { createBug } from 'api/bugs';
 
 export default function CreateBug({ project }) {
   console.log('🚀 ~ file: create.jsx:56 ~ CreateBug ~ project:', project);
   const [open, setOpen] = useState(false);
+  const [commits, setCommits] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const formSchema = z.object({
     title: z
@@ -65,12 +67,30 @@ export default function CreateBug({ project }) {
       .max(40, { message: 'atmost 40 chars' }),
     description: z.string().max(150, { message: 'atmost 150 chars' }),
     priority: z.string(),
+    commit: z.string(),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
     shouldUnregister: true,
   });
   const user = useSelector((state) => state.auth.userInfo);
+
+  useEffect(() => {
+    try {
+      (async () => {
+        const result = await getCommits(
+          localStorage.getItem('token'),
+          project.id,
+        );
+        setCommits(() => result.data);
+        setLoading(() => true);
+      })();
+    } catch (err) {
+      console.log('🚀 ~ file: create.jsx:81 ~ useEffect ~ err:', err);
+    }
+  }, [open]);
+
+  console.log('commits', commits);
 
   const onSubmit = async (inputs) => {
     console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
@@ -185,6 +205,43 @@ export default function CreateBug({ project }) {
                   )}
                   required
                 />
+                {loading && (
+                  <FormField
+                    control={form.control}
+                    name="commit"
+                    render={({ field }) => (
+                      <FormItem className="my-4">
+                        <FormLabel>Priority</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                            required
+                          >
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue
+                                defaultValue={commits[0].commitId}
+                                placeholder="Select commit"
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {/* <SelectGroup> */}
+                              {commits.map((commit) => {
+                                return (
+                                  <SelectItem value={commit.commitId}>
+                                    {commit.commitId}||{commit.branchName}
+                                  </SelectItem>
+                                );
+                              })}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                    required
+                  />
+                )}
 
                 <Button type="submit">Submit</Button>
               </form>
