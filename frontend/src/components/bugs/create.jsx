@@ -79,6 +79,10 @@ export default function CreateBug({ project }) {
     try {
       (async () => {
         if (project.isGithub) {
+          console.log(
+            '🚀 ~ file: create.jsx:82 ~ project.isGithub:',
+            project.isGithub,
+          );
           const result = await getCommits(
             localStorage.getItem('token'),
             project.id,
@@ -102,7 +106,12 @@ export default function CreateBug({ project }) {
         description: inputs.description,
         admin: user.id,
         priority: inputs.priority,
-        ...(project.isGithub && { commitId: inputs.commit }),
+        ...(project.isGithub && {
+          commit: {
+            id: commits[inputs.commit].commitId,
+            timestamp: commits[inputs.commit].timestamp,
+          },
+        }),
       };
       await createBug(localStorage.getItem('token'), data, project.id);
       setOpen(() => false);
@@ -208,13 +217,13 @@ export default function CreateBug({ project }) {
                   )}
                   required
                 />
-                {project.isGithub && loading && (
+                {project.isGithub && loading && commits.length ? (
                   <FormField
                     control={form.control}
                     name="commit"
                     render={({ field }) => (
                       <FormItem className="my-4">
-                        <FormLabel>Priority</FormLabel>
+                        <FormLabel>Reporting Commit</FormLabel>
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
@@ -223,16 +232,21 @@ export default function CreateBug({ project }) {
                           >
                             <SelectTrigger className="w-[180px]">
                               <SelectValue
-                                defaultValue={commits[0].commitId}
-                                placeholder="Select commit"
+                                defaultValue={0}
+                                placeholder={commits[0].commitId}
                               />
                             </SelectTrigger>
                             <SelectContent>
                               {/* <SelectGroup> */}
-                              {commits.map((commit) => {
+                              {commits.map((commit, idx) => {
+                                console.log(
+                                  '🚀 ~ file: create.jsx:242 ~ {commits.map ~ idx:',
+                                  idx + 1,
+                                );
                                 return (
-                                  <SelectItem value={commit.commitId}>
-                                    {commit.commitId}||{commit.branchName}
+                                  <SelectItem value={idx.toString()}>
+                                    #{commit.commitId}&nbsp;({commit.branchName}
+                                    )
                                   </SelectItem>
                                 );
                               })}
@@ -244,6 +258,8 @@ export default function CreateBug({ project }) {
                     )}
                     required
                   />
+                ) : (
+                  <FormLabel>No commits in the project yet</FormLabel>
                 )}
 
                 <Button type="submit">Submit</Button>

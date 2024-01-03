@@ -67,13 +67,6 @@ exports.createBug = async (req, res) => {
             $push: { "bugs.assigned": document._id },
             $push: { "bugs.created": document._id },
         });
-        // if (body?.assignedTo) {
-        //     await userModel.findByIdAndUpdate(user.id, {
-        //         $push: { projects: document._id },
-        //     });
-        // }
-
-        // const data = bugTransformer.bug(document);
 
         res.status(200).json({ message: "Bug created" });
     } catch (err) {
@@ -89,6 +82,7 @@ exports.getBug = async (req, res, next) => {
     try {
         const document = await bugsModel
             .findById(params.bugId)
+            // .find({ status: true })
             .populate({
                 path: "projectId",
                 model: "projects",

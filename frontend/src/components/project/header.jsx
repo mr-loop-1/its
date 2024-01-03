@@ -46,6 +46,23 @@ export default function ProjectHeader({
             'the manager. You cannot edit, delete details and change manager in the project.') ||
           'a member. You only have bug related permissions.'}
       </div>
+      <div className="mt-5 text-sm text-gray-600">
+        This project{' '}
+        {project.isGithub ? (
+          <span>
+            has Github support. The repo url is{' '}
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              className="text-blue underline cursor-pointer"
+            >
+              {project.githubUrl}
+            </a>
+          </span>
+        ) : (
+          <span>doesn't have github support</span>
+        )}
+      </div>
     </div>
   );
 }

@@ -129,7 +129,12 @@ exports.getProjects = async (req, res, next) => {
         //* no need for projcet status as deleted when deleting
         const document = await userModel
             .findById(user.id)
+            // .find({ status: true })
             .populate({ path: "projects.projectId", model: "projects" });
+        // console.log(
+        //     "🚀 ~ file: projects.js:134 ~ exports.getProjects= ~ document:",
+        //     document
+        // );
         const data = projectTransformer.projects(document.projects);
         res.status(200).json(data);
     } catch (err) {
@@ -146,6 +151,7 @@ exports.getProject = async (req, res) => {
     try {
         const document = await projectsModel
             .findById(params.projectId)
+            // .findOne({ status: true })
             .populate({
                 path: "bugs",
                 model: "bugs",
@@ -162,7 +168,13 @@ exports.getProject = async (req, res) => {
             })
             .populate({ path: "admin", model: "users" })
             .populate({ path: "manager", model: "users" })
-            .populate({ path: "members", model: "users" });
+            .populate({ path: "members", model: "users" })
+            .lean();
+        // console.log(
+        //     "🚀 ~ file: projects.js:172 ~ exports.getProject= ~ document:",
+        //     document,
+        //     Object.keys(document)
+        // );
 
         const data = projectTransformer.project(document);
 

@@ -32,17 +32,29 @@ exports.getCommits = async (repoUrl, token) => {
             const commits = await Promise.all(
                 branches.map(async (branch) => {
                     const branchName = branch.name;
-                    const commitResponse = await octokit.repos.getBranch({
+                    // const commitResponse = await octokit.repos.getBranch({
+                    //     owner: username,
+                    //     repo: repoName,
+                    //     branch: branchName,
+                    // });
+
+                    // const commitId = commitResponse.data.commit.sha.slice(0, 7); // Shorten to 7 characters
+                    // const timestamp = commitResponse.data.commit.committer;
+                    const commitsResponse = await octokit.repos.listCommits({
                         owner: username,
                         repo: repoName,
-                        branch: branchName,
+                        sha: branchName,
+                        per_page: 1, // Only retrieve the latest commit
                     });
 
-                    const commitId = commitResponse.data.commit.sha.slice(0, 7); // Shorten to 7 characters
+                    const latestCommit = commitsResponse.data[0];
 
+                    const commitId = latestCommit.sha.slice(0, 7); // Shorten to 7 characters
+                    const timestamp = latestCommit.commit.committer.date;
                     return {
                         branchName: branchName,
                         commitId: commitId,
+                        timestamp: timestamp,
                     };
                 })
             );
