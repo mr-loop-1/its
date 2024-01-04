@@ -4,10 +4,10 @@ const githubRepoRegex =
     /^(?:https?:\/\/)?(?:www\.)?github\.com\/([a-zA-Z0-9_-]+)\/([a-zA-Z0-9_-]+)$/;
 
 exports.getCommits = async (repoUrl, token) => {
-    console.log(
-        "🚀 ~ file: github-octokit.js:7 ~ exports.getCommits= ~ repoUrl:",
-        repoUrl
-    );
+    // console.log(
+    //     "🚀 ~ file: github-octokit.js:7 ~ exports.getCommits= ~ repoUrl:",
+    //     repoUrl
+    // );
     try {
         const match = repoUrl.match(githubRepoRegex);
 
@@ -15,8 +15,8 @@ exports.getCommits = async (repoUrl, token) => {
             const username = match[1];
             const repoName = match[2];
 
-            console.log("Username:", username);
-            console.log("Repository Name:", repoName);
+            // console.log("Username:", username);
+            // console.log("Repository Name:", repoName);
 
             const octokit = new Octokit({
                 auth: token,
@@ -58,7 +58,7 @@ exports.getCommits = async (repoUrl, token) => {
                     };
                 })
             );
-            console.log("Latest commits for each branch:", commits);
+            // console.log("Latest commits for each branch:", commits);
 
             return commits;
         } else {

@@ -10,7 +10,9 @@ exports.bug = (bug) => {
         project: {
             id: bug.projectId._id,
             title: bug.projectId.title,
-            description: bug.projectId.description,
+            isGithub: bug.projectId.isGithub,
+            githubUrl: bug.projectId.github.url,
+            // description: bug.projectId.description,
             members: bug.projectId.members.map((user) => {
                 return {
                     id: user.id,

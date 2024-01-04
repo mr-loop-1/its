@@ -34,7 +34,7 @@ export default function Projects() {
           projects={projects}
           loading={isLoading}
         />
-        <LandingPage />
+        <LandingPage length={projects.length} />
       </div>
       <div
         id="small-screen"

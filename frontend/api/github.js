@@ -11,8 +11,8 @@ export const checkGithub = async (repoUrl, token) => {
       const username = match[1];
       const repoName = match[2];
 
-      console.log('Username:', username);
-      console.log('Repository Name:', repoName);
+      // console.log('Username:', username);
+      // console.log('Repository Name:', repoName);
 
       const octokit = new Octokit({
         auth: token,

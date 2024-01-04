@@ -141,7 +141,11 @@ exports.getProjects = async (req, res, next) => {
         const document = await userModel
             .findById(user.id)
             // .find({ status: true })
-            .populate({ path: "projects.projectId", model: "projects" });
+            .populate({
+                path: "projects.projectId",
+                model: "projects",
+                match: { status: true },
+            });
         // console.log(
         //     "🚀 ~ file: projects.js:134 ~ exports.getProjects= ~ document:",
         //     document
@@ -166,6 +170,7 @@ exports.getProject = async (req, res) => {
             .populate({
                 path: "bugs",
                 model: "bugs",
+                match: { status: true },
                 populate: [
                     {
                         path: "createdBy",
@@ -217,11 +222,16 @@ exports.getProjectBugs = async (req, res, next) => {
                     },
                 ],
             });
-        console.log(
-            "🚀 ~ file: projects.js:169 ~ exports.getProjectBugs= ~ document:",
-            document
-        );
+
+        // console.log(
+        //     "🚀 ~ file: projects.js:169 ~ exports.getProjectBugs= ~ document:",
+        //     document
+        // );
         const data = projectTransformer.bugs(document);
+        console.log(
+            "🚀 ~ file: projects.js:226 ~ exports.getProjectBugs= ~ data:",
+            data
+        );
         return res.status(200).json(data);
     } catch (err) {
         console.log(

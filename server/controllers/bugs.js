@@ -78,7 +78,7 @@ exports.createBug = async (req, res) => {
 
 exports.getBug = async (req, res, next) => {
     const params = req?.params;
-    console.log("🚀 ~ file: bugs.js:75 ~ exports.getBug= ~ params:", params);
+    // console.log("🚀 ~ file: bugs.js:75 ~ exports.getBug= ~ params:", params);
 
     try {
         const document = await bugsModel
@@ -98,7 +98,7 @@ exports.getBug = async (req, res, next) => {
             .populate("assignedTo");
 
         const data = bugTransformer.bug(document);
-        console.log("🚀 ~ file: bugs.js:93 ~ exports.getBug= ~ data:", data);
+        // console.log("🚀 ~ file: bugs.js:93 ~ exports.getBug= ~ data:", data);
         return res.status(200).json(data);
     } catch (err) {
         console.log("🚀 ~ file: bugs.js:86 ~ exports.getBug= ~ err:", err);
@@ -119,14 +119,14 @@ exports.updateBug = async (req, res, next) => {
             progress: config.bugs.progressCode[body?.progress],
         }),
     };
-    console.log(
-        "🚀 ~ file: bugs.js:115 ~ exports.updateBug= ~ body?.progress:",
-        body?.progress
-    );
-    console.log(
-        "🚀 ~ file: bugs.js:106 ~ exports.updateBug= ~ inputs:",
-        inputs
-    );
+    // console.log(
+    //     "🚀 ~ file: bugs.js:115 ~ exports.updateBug= ~ body?.progress:",
+    //     body?.progress
+    // );
+    // console.log(
+    //     "🚀 ~ file: bugs.js:106 ~ exports.updateBug= ~ inputs:",
+    //     inputs
+    // );
     try {
         const document = await bugsModel.findByIdAndUpdate(
             params.bugId,
@@ -145,19 +145,27 @@ exports.deleteBug = async (req, res, next) => {
     const params = req?.params;
 
     try {
-        const document = await bugsModel.findByIdAndUpdate(params.bugId, {
-            status: false, //! Soft delete
-        });
-        const open = await commitsModel.findOneAndUpdate(
-            { commitId: document.commits.open },
-            {
-                $pull: { "bugs.open": document._id },
+        const document = await bugsModel
+            .findByIdAndUpdate(params.bugId, {
+                status: false, //! Soft delete
+            })
+            .populate({
+                path: "projectId",
+                model: "projects",
+            });
+        if (document.projectId.isGithub) {
+            const open = await commitsModel.findOneAndUpdate(
+                { commitId: document.commits.open },
+                {
+                    $pull: { "bugs.open": document._id },
+                }
+            );
+            if (!open.bugs.open.length) {
+                open.status = false;
+                await open.save();
             }
-        );
-        if (!open.bugs.open.length) {
-            open.status = false;
-            await open.save();
         }
+
         // if (!open.bugs.open.length && !open.bugs.close.length) {
         //     open.status = false;
         //     await open.save();
@@ -180,8 +188,9 @@ exports.deleteBug = async (req, res, next) => {
         });
 
         return res.status(200).json({ message: "Deleted Bug" });
-    } catch {
-        return res.send(500).json({ error: "Server Error" });
+    } catch (err) {
+        console.log("🚀 ~ file: bugs.js:184 ~ exports.deleteBug ~ err:", err);
+        return res.status(500).json({ error: "Server Error" });
     }
 };
 
