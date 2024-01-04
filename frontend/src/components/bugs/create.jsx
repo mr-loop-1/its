@@ -55,7 +55,8 @@ import { createBug } from 'api/bugs';
 export default function CreateBug({ project, refetch, toggleRefetch }) {
   // console.log('🚀 ~ file: create.jsx:56 ~ CreateBug ~ project:', project);
   const [open, setOpen] = useState(false);
-  const [commits, setCommits] = useState(null);
+  const [commits, setCommits] = useState([]);
+  console.log('🚀 ~ file: create.jsx:59 ~ commits:', commits);
   const [loading, setLoading] = useState(false);
 
   const formSchema = z.object({

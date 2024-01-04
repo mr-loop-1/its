@@ -20,7 +20,7 @@ import { Separator } from '@/components/ui/separator';
 const backendURL = 'http://127.0.0.1:5000';
 
 export default function Bug() {
-  const [bug, setBug] = useState([]);
+  const [bug, setBug] = useState(null);
   const [refetch, toggleFetch] = useState(false);
   const [loading, setLoading] = useState(true);
   const params = useParams();
@@ -50,31 +50,33 @@ export default function Bug() {
         // <ReloadIcon className=" h-40 w-40 animate-spin" />
         <></>
       ) : (
-        <div className="ml-16 px-8 md:px-20 mt-10 pb-96">
-          <BugMain bug={bug} />
+        bug && (
+          <div className="ml-16 px-8 md:px-20 mt-10 pb-96">
+            <BugMain bug={bug} setBug={setBug} />
 
-          <ChangeProgress
-            bugId={bug.id}
-            currentStatus={bug.progress}
-            refetch={refetch}
-            toggleRefetch={toggleFetch}
-          />
+            <ChangeProgress
+              bugId={bug.id}
+              currentStatus={bug.progress}
+              refetch={refetch}
+              toggleRefetch={toggleFetch}
+            />
 
-          {/* <div className=".assign&status flex flex-wrap"> */}
-          <AssignBug
-            bugId={bug.id}
-            currentAssigned={bug.assignedTo}
-            projectUsers={bug.project.members}
-            refetch={refetch}
-            toggleRefetch={toggleFetch}
-          />
-          {/* </div> */}
-          <Separator
-            className="w-[90%] mt-10 mb-5 mx-auto"
-            orientation="horizontal"
-          />
-          <Stream stream={bug.stream} bugId={bug.id} />
-        </div>
+            {/* <div className=".assign&status flex flex-wrap"> */}
+            <AssignBug
+              bugId={bug.id}
+              currentAssigned={bug.assignedTo}
+              projectUsers={bug.project.members}
+              refetch={refetch}
+              toggleRefetch={toggleFetch}
+            />
+            {/* </div> */}
+            <Separator
+              className="w-[90%] mt-10 mb-5 mx-auto"
+              orientation="horizontal"
+            />
+            <Stream stream={bug.stream} bugId={bug.id} />
+          </div>
+        )
       )}
     </>
   );

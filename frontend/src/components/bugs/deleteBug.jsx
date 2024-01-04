@@ -19,7 +19,7 @@ import { TrashIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import { deleteBug } from 'api/bugs';
 
-export default function Deletebug({ bug }) {
+export default function Deletebug({ bug, setBug }) {
   const user = useSelector((state) => state.auth.userInfo);
   const [disable, setDisable] = useState(false);
   const { toast } = useToast();
@@ -34,10 +34,12 @@ export default function Deletebug({ bug }) {
       // toast({
       //   title: 'Deleted successfully',
       // });
+      setBug(() => null);
       setTimeout(() => {
         deleteBug(localStorage.getItem('token'), bug.id);
+        navigate(`/projects/${bug.project.id}`);
       }, 1000);
-      navigate(`/projects/${bug.project.id}`);
+
       //! do not update the effect in this one
     } catch (err) {
       console.log(err);

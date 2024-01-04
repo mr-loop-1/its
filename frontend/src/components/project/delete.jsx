@@ -46,7 +46,9 @@ export default function DeleteProject({ project, setProject }) {
   const handleDelete = async () => {
     try {
       setOpen(() => false);
-      setProject(() => null);
+      setProject(() => {
+        title: null;
+      });
       setTimeout(() => {
         deleteProject(localStorage.getItem('token'), project.id);
         navigate('/projects');

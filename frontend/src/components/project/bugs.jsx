@@ -78,9 +78,9 @@ export default function BugsList({ bugs, project, refetch, toggleRefetch }) {
                     />
                   </TableCell>
                 </TableRow>
-                <TableRow key={bug.id}>
-                  {/* <TableCell colspan={2}>{bug.updatedAt}</TableCell> */}
-                </TableRow>
+                {/* <TableRow key={bug.id}>
+                  <TableCell colspan={2}>{bug.updatedAt}</TableCell>
+                </TableRow> */}
               </>
             ))
           ) : (

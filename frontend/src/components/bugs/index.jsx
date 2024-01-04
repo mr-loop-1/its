@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-export default function BugMain({ bug }) {
+export default function BugMain({ bug, setBug }) {
   // console.log('🚀 ~ file: index.jsx:14 ~ BugMain ~ bug:', bug);
   return (
     <>
@@ -52,7 +52,7 @@ export default function BugMain({ bug }) {
             {bug.title}
           </span>
           <EditBug bug={bug} />
-          <Deletebug bug={bug} />
+          <Deletebug bug={bug} setBug={setBug} />
         </div>
         <Textarea
           value={bug.description}
