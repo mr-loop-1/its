@@ -50,7 +50,7 @@ export default function Projects() {
           loading={isLoading}
         />
       </div>
-      <Outlet />
+      <Outlet context={[refetch, toggleRefetch]} />
     </>
   );
 }

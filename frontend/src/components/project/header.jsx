@@ -12,6 +12,8 @@ export default function ProjectHeader({
   project,
   toggleRefetch,
   setProject,
+  refetchParent,
+  toggleRefetchParent,
 }) {
   const user = useSelector((state) => state.auth.userInfo);
 
@@ -36,7 +38,12 @@ export default function ProjectHeader({
               toggleRefetch={toggleRefetch}
               project={project}
             />
-            <DeleteProject project={project} setProject={setProject} />
+            <DeleteProject
+              project={project}
+              setProject={setProject}
+              refetchParent={refetchParent}
+              toggleRefetchParent={toggleRefetchParent}
+            />
           </>
         )}
       </div>

@@ -23,7 +23,7 @@ exports.createProject = async (req, res) => {
             manager: user.id,
             members: body?.members,
             bugs: [],
-            commits: [],
+            // commits: [],
             status: true,
         });
         const document = await newProject.save();
@@ -55,9 +55,9 @@ exports.createProject = async (req, res) => {
             });
             await createInvite.save();
         });
-        const data = projectTransformer.project(document);
+        // const data = projectTransformer.project(document);
 
-        res.status(200).json(data);
+        res.status(200).json({ message: "Done" });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: "Server Error" });
@@ -146,10 +146,10 @@ exports.getProjects = async (req, res, next) => {
                 model: "projects",
                 match: { status: true },
             });
-        // console.log(
-        //     "🚀 ~ file: projects.js:134 ~ exports.getProjects= ~ document:",
-        //     document
-        // );
+        console.log(
+            "🚀 ~ file: projects.js:134 ~ exports.getProjects= ~ document:",
+            document
+        );
         const data = projectTransformer.projects(document.projects);
         res.status(200).json(data);
     } catch (err) {
