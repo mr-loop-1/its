@@ -6,7 +6,7 @@ export default function LandingPage({ length }) {
   return (
     <div
       className={clsx(
-        'ml-72 lg:ml-[22rem]',
+        'ml-72 lg:ml-[22rem] mt-10',
         !/^\/projects?[^/]*$/.test(location.pathname) && 'hidden',
       )}
     >

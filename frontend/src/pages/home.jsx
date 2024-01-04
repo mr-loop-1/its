@@ -56,39 +56,40 @@ export default function Home() {
         <CardHeader>
           <CardTitle>here are your project invites</CardTitle>
         </CardHeader>
-        <CardContent>
-          {invites.length ? (
-            invites.map((invite) => {
-              return (
-                <div>
-                  <div className="break-words text-2xl">
-                    {invite.projectId.title}
-                    <span
-                      className="hover:underline ml-2 text-sm text-green-600 cursor-pointer"
-                      onClick={() => handleAcceptInvite(invite.id)}
-                    >
-                      Accept
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <img
-                      src={`/profile/${invite.invitedBy.slug}.svg`}
-                      className="h-7 w-7 inline "
+        {!isLoading && (
+          <CardContent>
+            {invites.length ? (
+              invites.map((invite) => {
+                return (
+                  <div>
+                    <div className="break-words text-2xl">
+                      {invite.projectId.title}
+                      <span
+                        className="hover:underline ml-2 text-sm text-green-600 cursor-pointer"
+                        onClick={() => handleAcceptInvite(invite.id)}
+                      >
+                        Accept
+                      </span>
+                    </div>
+                    <div className="mt-2">
+                      <img
+                        src={`/profile/${invite.invitedBy.slug}.svg`}
+                        className="h-7 w-7 inline "
+                      />
+                      <span className="ml-2">{invite.invitedBy.name}</span>
+                    </div>
+                    <Separator
+                      orientation="horizontal"
+                      className="mx-auto mt-3 w-[80%]"
                     />
-                    <span className="ml-2">{invite.invitedBy.name}</span>
                   </div>
-                  <Separator
-                    orientation="horizontal"
-                    className="mx-auto mt-3 w-[80%]"
-                  />
-                </div>
-              );
-            })
-          ) : (
-            <div className="">NO INVITES TO SHOW</div>
-          )}
+                );
+              })
+            ) : (
+              <div className="">NO INVITES TO SHOW</div>
+            )}
 
-          {/* <Table>
+            {/* <Table>
             <TableHeader>
               <TableHead>project</TableHead>
               <TableHead>
@@ -149,7 +150,8 @@ export default function Home() {
               })}
             </TableBody>
           </Table> */}
-        </CardContent>
+          </CardContent>
+        )}
       </Card>
     </div>
   );

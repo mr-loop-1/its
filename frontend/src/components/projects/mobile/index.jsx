@@ -14,17 +14,26 @@ export default function ProjectSidebar({ projects, refetch, toggleRefetch }) {
         onClick={() => navigate('/projects')}
       >
         {/* <img src="/rose.svg" className="w-8 md:w-12 lg:w-16" /> */}
-        <span className="ml-2 align-top">
-          <span className="text-4xl font-semibold tracking-tight">
+        <span className="ml-2 align-top flex items-center">
+          <img src="/exclude.svg" className="w-12 h-12 md:w-12 lg:w-16" />
+          <span className="ml-2 align-top">
+            <span className="text-4xl font-semibold tracking-tight">
+              {' '}
+              all projects
+            </span>
+            <br />
+            <span className="font-mono tracking-tight">active</span>
+          </span>
+          {/* <span className="text-4xl font-semibold tracking-tight">
             all projects
           </span>
           <br />
-          <span className="font-mono tracking-tight">active</span>
+          <span className="font-mono tracking-tight">active</span> */}
         </span>
       </header>
-
+      {/* <div className="mr-0"> */}
       <CreateProject refetch={refetch} toggleRefetch={toggleRefetch} />
-
+      {/* </div> */}
       <div className="">
         <ul>
           {projects.length ? (
