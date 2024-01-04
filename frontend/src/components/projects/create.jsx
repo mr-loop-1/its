@@ -224,7 +224,17 @@ export default function CreateProject({ refetch, toggleRefetch }) {
                       name="githubPAT"
                       render={({ field }) => (
                         <FormItem className="my-4">
-                          <FormLabel>'Restricted' Access Token</FormLabel>
+                          <FormLabel>'Repo Restricted' Access Token</FormLabel>
+                          <div className="text-sm">
+                            see&nbsp;
+                            <a
+                              className="text-blue-500 underline"
+                              target="_blank"
+                              href="https://github.blog/2022-10-18-introducing-fine-grained-personal-access-tokens-for-github/"
+                            >
+                              fine-grained access tokens
+                            </a>
+                          </div>
                           <FormControl>
                             <Input
                               type="text"

@@ -50,7 +50,14 @@ export default function Project() {
             refetch={refetch}
             toggleRefetch={toggleRefetch}
           />
-          <ProjectCommits project={project} />
+          {project.isGithub ? (
+            <ProjectCommits project={project} />
+          ) : (
+            <div className="mt-5 text-sm text-gray-700">
+              No commit stats to show
+            </div>
+          )}
+
           <BugsList bugs={project.bugs} project={project} />
         </div>
       )}

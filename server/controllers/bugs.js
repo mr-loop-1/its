@@ -48,6 +48,7 @@ exports.createBug = async (req, res) => {
             });
             if (commit) {
                 commit.bugs.open.push(document._id);
+                await commit.save();
             } else {
                 const createCommit = new commitsModel({
                     commitId: body.commit.id,
@@ -147,26 +148,30 @@ exports.deleteBug = async (req, res, next) => {
         const document = await bugsModel.findByIdAndUpdate(params.bugId, {
             status: false, //! Soft delete
         });
-        const open = await commitsModel.findByIdAndUpdate(
-            document.commits.open,
+        const open = await commitsModel.findOneAndUpdate(
+            { commitId: document.commits.open },
             {
                 $pull: { "bugs.open": document._id },
             }
         );
-        if (!open.bugs.open.length && !open.bugs.close.length) {
+        if (!open.bugs.open.length) {
             open.status = false;
             await open.save();
         }
-        const close = await commitsModel.findByIdAndUpdate(
-            document.commits.close,
-            {
-                $pull: { "bugs.open": document._id },
-            }
-        );
-        if (!close.bugs.open.length && !close.bugs.close.length) {
-            close.status = false;
-            await close.save();
-        }
+        // if (!open.bugs.open.length && !open.bugs.close.length) {
+        //     open.status = false;
+        //     await open.save();
+        // }
+        // const close = await commitsModel.findByIdAndUpdate(
+        //     document.commits.close,
+        //     {
+        //         $pull: { "bugs.open": document._id },
+        //     }
+        // );
+        // if (!close.bugs.open.length && !close.bugs.close.length) {
+        //     close.status = false;
+        //     await close.save();
+        // }
         await userModel.findByIdAndUpdate(document.assignedTo, {
             $pull: { bugsAssigned: document._id },
         });

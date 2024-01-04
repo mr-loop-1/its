@@ -24,7 +24,7 @@ export default function ProjectHeader({
   return (
     <div className="w-full">
       <div className="text-gray-500 text-sm">
-        Projects /<Link to={`/projects/${id}`}>{title}</Link>
+        Projects / <Link to={`/projects/${id}`}>{title}</Link>
       </div>
       <div className="w-full text-4xl font-bold leading-tight flex">
         <span>{title}</span>

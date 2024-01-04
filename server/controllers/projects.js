@@ -89,6 +89,17 @@ exports.deleteProject = async (req, res, next) => {
             await userModel.findByIdAndUpdate(bug.createdBy, {
                 $pull: { bugsCreated: bug._id },
             });
+
+            const open = await commitsModel.findOneAndUpdate(
+                { commitId: bug.commits.open },
+                {
+                    $pull: { "bugs.open": document._id },
+                }
+            );
+            if (!open.bugs.open.length) {
+                open.status = false;
+                await open.save();
+            }
             //! LEAVE FOR NOW
             // const open = await commitsModel.findByIdAndUpdate(
             //     bug.commits.open,
