@@ -70,10 +70,10 @@ export default function ChangeProgress({
   );
 
   const handleChange = async (newKey) => {
-    console.log(
-      '🚀 ~ file: changeStatus.jsx:73 ~ handleChange ~ newKey:',
-      newKey,
-    );
+    // console.log(
+    //   '🚀 ~ file: changeStatus.jsx:73 ~ handleChange ~ newKey:',
+    //   newKey,
+    // );
     try {
       let data = {
         progress: filteredArray[newKey].key,

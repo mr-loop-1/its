@@ -20,10 +20,10 @@ exports.getInvites = async (req, res) => {
                 { path: "invitedBy", model: "users" },
                 { path: "projectId", model: "projects" },
             ]);
-        console.log(
-            "🚀 ~ file: users.js:23 ~ exports.getInvites= ~ documents:",
-            documents
-        );
+        // console.log(
+        //     "🚀 ~ file: users.js:23 ~ exports.getInvites= ~ documents:",
+        //     documents
+        // );
 
         const data = userTransformer.invites(documents);
         return res.json(data);

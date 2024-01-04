@@ -40,7 +40,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { Card, CardContent, CardTitle } from '../ui/card';
+import { Card, CardContent, CardDescription, CardTitle } from '../ui/card';
+import { getFullDate } from '@/lib/utils';
 export default function ProjectCommits({ project }) {
   const user = useSelector((state) => state.auth.userInfo);
   const [value, setValue] = React.useState('one');
@@ -76,22 +77,35 @@ export default function ProjectCommits({ project }) {
           </AccordionTrigger>
           <AccordionContent>
             {commits.length ? (
-              <Carousel>
+              <Carousel className="mt-5 ml-12 mr-12">
                 <CarouselContent>
                   {commits.map((commit) => {
                     return (
-                      <CarouselItem>
-                        <Card>
-                          <CardTitle>{commit.commitId}</CardTitle>
-                          <CardContent>
-                            open: {commit.bugs.open.length}
-                          </CardContent>
+                      <CarouselItem className="basis-1/10">
+                        <Card className="w-fit max-w-48 md:max-w-96  p-5">
+                          <CardTitle className="text-center">
+                            <a
+                              href={`${project.githubUrl}/commit/${commit.commitId}`}
+                              target="_blank"
+                              className="text-blue-500"
+                            >
+                              {commit.commitId}
+                            </a>
+                          </CardTitle>
+                          <CardDescription>
+                            <div className="">
+                              linked: {commit.bugs.open.length}
+                            </div>
+                            <div className="break-words">
+                              timestamp: {getFullDate(commit.timestamp)}
+                            </div>
+                          </CardDescription>
                         </Card>
                       </CarouselItem>
                     );
                   })}
                 </CarouselContent>
-                <CarouselPrevious />
+                <CarouselPrevious className="" />
                 <CarouselNext />
               </Carousel>
             ) : (

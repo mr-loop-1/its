@@ -19,7 +19,7 @@ export default function ProjectSidebar({
         className="flex items-center mt-8 mb-6 cursor-pointer"
         onClick={() => navigate('/projects')}
       >
-        <img src="/rose.svg" className="w-8 md:w-12 lg:w-16" />
+        <img src="/exclude.svg" className="w-12 h-12 md:w-12 lg:w-16" />
         <span className="ml-2 align-top">
           <span className="text-2xl font-semibold tracking-tight">
             {' '}

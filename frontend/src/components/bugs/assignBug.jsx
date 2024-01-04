@@ -56,7 +56,7 @@ export default function AssignBug({
         },
         timestamp: new Date(),
       };
-      console.log('🚀 ~ file: assignBug.jsx:44 ~ handleAssign ~ data:', data);
+      // console.log('🚀 ~ file: assignBug.jsx:44 ~ handleAssign ~ data:', data);
 
       //* api call using bugId and all
       await addStreamItem(localStorage.getItem('token'), data, bugId);
@@ -67,7 +67,7 @@ export default function AssignBug({
 
       toggleRefetch(() => (refetch ? false : true));
 
-      console.log('here.....................');
+      // console.log('here.....................');
     } catch (err) {
       console.log(err);
       toast({

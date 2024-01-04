@@ -10,7 +10,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-export default function BugMain({ bug }) {
+export default function BugMain({ bug, setBug }) {
+  // console.log('🚀 ~ file: index.jsx:14 ~ BugMain ~ bug:', bug);
   return (
     <>
       <div className="text-sm text-gray-600">
@@ -51,7 +52,7 @@ export default function BugMain({ bug }) {
             {bug.title}
           </span>
           <EditBug bug={bug} />
-          <Deletebug bug={bug} />
+          <Deletebug bug={bug} setBug={setBug} />
         </div>
         <Textarea
           value={bug.description}
@@ -68,12 +69,21 @@ export default function BugMain({ bug }) {
           />
           <span className="ml-2">{bug.createdBy.name}</span>
         </span>
-        <div className="mt-4 mb-2">base commit</div>
-        <span className="">
-          <a href="">
-            <span className="ml-2">#hgas6hq32h3</span>
-          </a>
-        </span>
+        {bug.project.isGithub && (
+          <>
+            <div className="mt-4 mb-2">base commit</div>
+            <span className="">
+              <span className="ml-2 text-gray-600 ">
+                <a
+                  href={`${bug.project.githubUrl}/commits/${bug.commits.open}`}
+                  target="_blank"
+                >
+                  #&nbsp;{bug.commits.open}
+                </a>
+              </span>
+            </span>
+          </>
+        )}
       </main>
     </>
   );

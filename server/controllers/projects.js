@@ -23,7 +23,7 @@ exports.createProject = async (req, res) => {
             manager: user.id,
             members: body?.members,
             bugs: [],
-            commits: [],
+            // commits: [],
             status: true,
         });
         const document = await newProject.save();
@@ -55,9 +55,9 @@ exports.createProject = async (req, res) => {
             });
             await createInvite.save();
         });
-        const data = projectTransformer.project(document);
+        // const data = projectTransformer.project(document);
 
-        res.status(200).json(data);
+        res.status(200).json({ message: "Done" });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ error: "Server Error" });
@@ -89,6 +89,17 @@ exports.deleteProject = async (req, res, next) => {
             await userModel.findByIdAndUpdate(bug.createdBy, {
                 $pull: { bugsCreated: bug._id },
             });
+
+            const open = await commitsModel.findOneAndUpdate(
+                { commitId: bug.commits.open },
+                {
+                    $pull: { "bugs.open": document._id },
+                }
+            );
+            if (!open.bugs.open.length) {
+                open.status = false;
+                await open.save();
+            }
             //! LEAVE FOR NOW
             // const open = await commitsModel.findByIdAndUpdate(
             //     bug.commits.open,
@@ -130,11 +141,15 @@ exports.getProjects = async (req, res, next) => {
         const document = await userModel
             .findById(user.id)
             // .find({ status: true })
-            .populate({ path: "projects.projectId", model: "projects" });
-        // console.log(
-        //     "🚀 ~ file: projects.js:134 ~ exports.getProjects= ~ document:",
-        //     document
-        // );
+            .populate({
+                path: "projects.projectId",
+                model: "projects",
+                match: { status: true },
+            });
+        console.log(
+            "🚀 ~ file: projects.js:134 ~ exports.getProjects= ~ document:",
+            document
+        );
         const data = projectTransformer.projects(document.projects);
         res.status(200).json(data);
     } catch (err) {
@@ -155,6 +170,7 @@ exports.getProject = async (req, res) => {
             .populate({
                 path: "bugs",
                 model: "bugs",
+                match: { status: true },
                 populate: [
                     {
                         path: "createdBy",
@@ -206,11 +222,16 @@ exports.getProjectBugs = async (req, res, next) => {
                     },
                 ],
             });
-        console.log(
-            "🚀 ~ file: projects.js:169 ~ exports.getProjectBugs= ~ document:",
-            document
-        );
+
+        // console.log(
+        //     "🚀 ~ file: projects.js:169 ~ exports.getProjectBugs= ~ document:",
+        //     document
+        // );
         const data = projectTransformer.bugs(document);
+        console.log(
+            "🚀 ~ file: projects.js:226 ~ exports.getProjectBugs= ~ data:",
+            data
+        );
         return res.status(200).json(data);
     } catch (err) {
         console.log(
@@ -225,18 +246,15 @@ exports.updateProject = async (req, res) => {
     const body = req?.body;
     const params = req?.params;
     try {
-        const update = new projectsModel({
+        const update = {
             ...(body?.title && { title: body.title }),
-            ...(body?.description && { description: body.description }),
+            // ...(body?.description && { description: body.description }),
             ...(body?.github && { github: body.github }),
-        });
-        const document = await projectsModel.findByIdAndUpdate(
-            params.projectId,
-            update
-        );
-        const data = projectTransformer.project(document);
+        };
+        await projectsModel.findByIdAndUpdate(params.projectId, update);
+        // const data = projectTransformer.project(document);
 
-        res.status(200).json(data);
+        res.status(200).json({ message: "Sucess" });
     } catch (err) {
         console.log(
             "🚀 ~ file: projects.js:226 ~ exports.updateProject= ~ err:",

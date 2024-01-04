@@ -52,10 +52,11 @@ import { useSelector } from 'react-redux';
 import { createProject, getCommits } from 'api/projects';
 import { createBug } from 'api/bugs';
 
-export default function CreateBug({ project }) {
-  console.log('🚀 ~ file: create.jsx:56 ~ CreateBug ~ project:', project);
+export default function CreateBug({ project, refetch, toggleRefetch }) {
+  // console.log('🚀 ~ file: create.jsx:56 ~ CreateBug ~ project:', project);
   const [open, setOpen] = useState(false);
-  const [commits, setCommits] = useState(null);
+  const [commits, setCommits] = useState([]);
+  console.log('🚀 ~ file: create.jsx:59 ~ commits:', commits);
   const [loading, setLoading] = useState(false);
 
   const formSchema = z.object({
@@ -79,10 +80,10 @@ export default function CreateBug({ project }) {
     try {
       (async () => {
         if (project.isGithub) {
-          console.log(
-            '🚀 ~ file: create.jsx:82 ~ project.isGithub:',
-            project.isGithub,
-          );
+          // console.log(
+          //   '🚀 ~ file: create.jsx:82 ~ project.isGithub:',
+          //   project.isGithub,
+          // );
           const result = await getCommits(
             localStorage.getItem('token'),
             project.id,
@@ -92,14 +93,14 @@ export default function CreateBug({ project }) {
         setLoading(() => true);
       })();
     } catch (err) {
-      console.log('🚀 ~ file: create.jsx:81 ~ useEffect ~ err:', err);
+      // console.log('🚀 ~ file: create.jsx:81 ~ useEffect ~ err:', err);
     }
   }, [open]);
 
-  console.log('commits', commits);
+  // console.log('commits', commits);
 
   const onSubmit = async (inputs) => {
-    console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
+    // console.log('🚀 ~ file: index.jsx:90 ~ onSubmit ~ inputs:', inputs);
     try {
       const data = {
         title: inputs.title,
@@ -114,6 +115,7 @@ export default function CreateBug({ project }) {
         }),
       };
       await createBug(localStorage.getItem('token'), data, project.id);
+      toggleRefetch(() => (refetch ? false : true));
       setOpen(() => false);
     } catch (err) {
       console.log(err);
@@ -239,10 +241,10 @@ export default function CreateBug({ project }) {
                             <SelectContent>
                               {/* <SelectGroup> */}
                               {commits.map((commit, idx) => {
-                                console.log(
-                                  '🚀 ~ file: create.jsx:242 ~ {commits.map ~ idx:',
-                                  idx + 1,
-                                );
+                                // console.log(
+                                //   '🚀 ~ file: create.jsx:242 ~ {commits.map ~ idx:',
+                                //   idx + 1,
+                                // );
                                 return (
                                   <SelectItem value={idx.toString()}>
                                     #{commit.commitId}&nbsp;({commit.branchName}
@@ -259,7 +261,9 @@ export default function CreateBug({ project }) {
                     required
                   />
                 ) : (
-                  <FormLabel>No commits in the project yet</FormLabel>
+                  <FormLabel className="block mb-4">
+                    No commits in the project yet
+                  </FormLabel>
                 )}
 
                 <Button type="submit">Submit</Button>

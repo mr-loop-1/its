@@ -9,10 +9,10 @@ exports.getLatestCommit = async (req, res) => {
         const params = req.params;
 
         const document = await projectsModel.findById(params.projectId);
-        console.log(
-            "🚀 ~ file: commits.js:12 ~ exports.getLatestCommit= ~ document:",
-            document
-        );
+        // console.log(
+        //     "🚀 ~ file: commits.js:12 ~ exports.getLatestCommit= ~ document:",
+        //     document
+        // );
 
         // const commit = githubService.getCommits(
         //     document.github.token,
@@ -37,10 +37,10 @@ exports.listCommits = async (req, res) => {
     const params = req.params;
 
     const document = await commitsModel.find({ projectId: params.projectId });
-    console.log(
-        "🚀 ~ file: commits.js:40 ~ exports.listCommits= ~ document:",
-        document
-    );
+    // console.log(
+    //     "🚀 ~ file: commits.js:40 ~ exports.listCommits= ~ document:",
+    //     document
+    // );
 
     //! transformer
 

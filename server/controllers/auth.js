@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-    console.log("insd akd");
+    // console.log("insd akd");
     const body = req.body;
     const user = await userModel.findOne({ email: body.email });
 

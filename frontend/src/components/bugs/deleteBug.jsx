@@ -17,8 +17,9 @@ import { Button } from '../ui/button';
 import { ToastAction } from '../ui/toast';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
+import { deleteBug } from 'api/bugs';
 
-export default function Deletebug({ bug }) {
+export default function Deletebug({ bug, setBug }) {
   const user = useSelector((state) => state.auth.userInfo);
   const [disable, setDisable] = useState(false);
   const { toast } = useToast();
@@ -30,10 +31,12 @@ export default function Deletebug({ bug }) {
     setDisable(() => true);
     try {
       //* api call using bugId and user
-      toast({
-        title: 'Deleted successfully',
-      });
+      // toast({
+      //   title: 'Deleted successfully',
+      // });
+      setBug(() => null);
       setTimeout(() => {
+        deleteBug(localStorage.getItem('token'), bug.id);
         navigate(`/projects/${bug.project.id}`);
       }, 1000);
 

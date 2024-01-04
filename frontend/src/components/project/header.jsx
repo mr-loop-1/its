@@ -11,6 +11,9 @@ export default function ProjectHeader({
   refetch,
   project,
   toggleRefetch,
+  setProject,
+  refetchParent,
+  toggleRefetchParent,
 }) {
   const user = useSelector((state) => state.auth.userInfo);
 
@@ -24,7 +27,7 @@ export default function ProjectHeader({
   return (
     <div className="w-full">
       <div className="text-gray-500 text-sm">
-        Projects /<Link to={`/projects/${id}`}>{title}</Link>
+        Projects / <Link to={`/projects/${id}`}>{title}</Link>
       </div>
       <div className="w-full text-4xl font-bold leading-tight flex">
         <span>{title}</span>
@@ -35,7 +38,12 @@ export default function ProjectHeader({
               toggleRefetch={toggleRefetch}
               project={project}
             />
-            <DeleteProject project={project} />
+            <DeleteProject
+              project={project}
+              setProject={setProject}
+              refetchParent={refetchParent}
+              toggleRefetchParent={toggleRefetchParent}
+            />
           </>
         )}
       </div>

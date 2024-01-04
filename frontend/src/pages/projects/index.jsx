@@ -34,7 +34,7 @@ export default function Projects() {
           projects={projects}
           loading={isLoading}
         />
-        <LandingPage />
+        <LandingPage length={projects.length} />
       </div>
       <div
         id="small-screen"
@@ -50,7 +50,7 @@ export default function Projects() {
           loading={isLoading}
         />
       </div>
-      <Outlet />
+      <Outlet context={[refetch, toggleRefetch]} />
     </>
   );
 }

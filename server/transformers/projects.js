@@ -73,7 +73,7 @@ exports.project = (doc) => {
                 updatedAt: bug.updatedAt,
             };
         }),
-        commitsCount: doc.commits.length,
+        // commitsCount: doc.commits.length,
     };
 };
 
