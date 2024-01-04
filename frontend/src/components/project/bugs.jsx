@@ -38,12 +38,16 @@ function StatusCell({ progress }) {
   );
 }
 
-export default function BugsList({ bugs, project }) {
+export default function BugsList({ bugs, project, refetch, toggleRefetch }) {
   const navigate = useNavigate();
 
   return (
     <div className="w-full px-2 pb-3 pt-5 mt-10 bg-gray-100 rounded">
-      <CreateBug project={project} />
+      <CreateBug
+        project={project}
+        refetch={refetch}
+        toggleRefetch={toggleRefetch}
+      />
       <Table>
         <TableBody>
           {bugs.length ? (

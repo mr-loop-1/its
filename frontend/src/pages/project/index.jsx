@@ -42,6 +42,7 @@ export default function Project() {
             id={project.id}
             project={project}
             refetch={refetch}
+            setProject={setProject}
             toggleRefetch={toggleRefetch}
           />
 
@@ -58,7 +59,12 @@ export default function Project() {
             </div>
           )}
 
-          <BugsList bugs={project.bugs} project={project} />
+          <BugsList
+            bugs={project.bugs}
+            project={project}
+            refetch={refetch}
+            toggleRefetch={toggleRefetch}
+          />
         </div>
       )}
     </div>

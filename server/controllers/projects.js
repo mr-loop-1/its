@@ -246,18 +246,15 @@ exports.updateProject = async (req, res) => {
     const body = req?.body;
     const params = req?.params;
     try {
-        const update = new projectsModel({
+        const update = {
             ...(body?.title && { title: body.title }),
-            ...(body?.description && { description: body.description }),
+            // ...(body?.description && { description: body.description }),
             ...(body?.github && { github: body.github }),
-        });
-        const document = await projectsModel.findByIdAndUpdate(
-            params.projectId,
-            update
-        );
-        const data = projectTransformer.project(document);
+        };
+        await projectsModel.findByIdAndUpdate(params.projectId, update);
+        // const data = projectTransformer.project(document);
 
-        res.status(200).json(data);
+        res.status(200).json({ message: "Sucess" });
     } catch (err) {
         console.log(
             "🚀 ~ file: projects.js:226 ~ exports.updateProject= ~ err:",

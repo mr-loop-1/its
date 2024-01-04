@@ -39,15 +39,18 @@ import { useSelector } from 'react-redux';
 import { createProject, deleteProject, editProject } from 'api/projects';
 import { useNavigate } from 'react-router-dom';
 
-export default function DeleteProject({ project }) {
+export default function DeleteProject({ project, setProject }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
-      await deleteProject(localStorage.getItem('token'), project.id);
-      navigate('/projects');
       setOpen(() => false);
+      setProject(() => null);
+      setTimeout(() => {
+        deleteProject(localStorage.getItem('token'), project.id);
+        navigate('/projects');
+      }, 1000);
     } catch (err) {
       console.log(err);
     }

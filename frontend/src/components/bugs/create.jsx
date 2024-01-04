@@ -52,7 +52,7 @@ import { useSelector } from 'react-redux';
 import { createProject, getCommits } from 'api/projects';
 import { createBug } from 'api/bugs';
 
-export default function CreateBug({ project }) {
+export default function CreateBug({ project, refetch, toggleRefetch }) {
   // console.log('🚀 ~ file: create.jsx:56 ~ CreateBug ~ project:', project);
   const [open, setOpen] = useState(false);
   const [commits, setCommits] = useState(null);
@@ -114,6 +114,7 @@ export default function CreateBug({ project }) {
         }),
       };
       await createBug(localStorage.getItem('token'), data, project.id);
+      toggleRefetch(() => (refetch ? false : true));
       setOpen(() => false);
     } catch (err) {
       console.log(err);
@@ -259,7 +260,9 @@ export default function CreateBug({ project }) {
                     required
                   />
                 ) : (
-                  <FormLabel>No commits in the project yet</FormLabel>
+                  <FormLabel className="block mb-4">
+                    No commits in the project yet
+                  </FormLabel>
                 )}
 
                 <Button type="submit">Submit</Button>
