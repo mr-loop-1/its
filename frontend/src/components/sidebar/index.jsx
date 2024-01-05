@@ -20,10 +20,10 @@ export default function Sidebar() {
   const handleLogout = async () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    dispatch(setUser({ user: null, token: null }));
+    // dispatch(setUser({ user: null, token: null }));
     // setTimeout(() => {
     //   dispatch(setUser({ user: null, token: null }));
-    // }, 1000);
+    // }, 3000);
     navigate('/login');
   };
 

@@ -47,7 +47,9 @@ export default function Register() {
       localStorage.setItem('token', res.token);
       localStorage.setItem('user', JSON.stringify(res.user));
       navigate('/projects');
-    } catch {}
+    } catch (err) {
+      console.log('🚀 ~ file: register.jsx:51 ~ onSubmit ~ err:', err);
+    }
   };
 
   return (

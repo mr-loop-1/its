@@ -23,7 +23,9 @@ export default function Login() {
       localStorage.setItem('token', res.token);
       localStorage.setItem('user', JSON.stringify(res.user));
       navigate('/projects');
-    } catch {}
+    } catch (err) {
+      console.log('🚀 ~ file: login.jsx:27 ~ onSubmit ~ err:', err);
+    }
   };
   return (
     <div class="flex flex-col h-screen bg-gray-100">
