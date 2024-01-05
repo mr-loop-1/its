@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || process.env.VITE_API_URL;
 
 export async function createProject(token, data) {
   const result = await axios.post(`${API_URL}/projects`, data, {
