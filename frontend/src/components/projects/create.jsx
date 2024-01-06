@@ -58,7 +58,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
       githubPAT: z.string().max(100).optional(),
     })
     .superRefine((values, ctx) => {
-      if (values.isGithub) {
+      if (values.isGithub && (!values.githubUrl || !values.githubPAT)) {
         ctx.addIssue({
           message: 'required',
           code: z.ZodIssueCode.custom,
