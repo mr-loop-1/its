@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Projects from './pages/projects';
 import Register from './pages/auth/register';
 import Login from './pages/auth/login';
-import RouteGuard from './guard/route';
+import RouteGuard from './guard/route-enhanced';
 import Sidebar from './components/sidebar';
 import Info from './pages/invites';
 import Bug from './pages/bugs/bug';

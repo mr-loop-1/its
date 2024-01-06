@@ -14,5 +14,5 @@ export const registerUser = async (data) => {
 
 export const pingUser = async (data) => {
   const result = await axios.post(`${API_URL}/auth/ping`, data);
-  return result.data;
+  return result.status;
 };

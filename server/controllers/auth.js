@@ -48,5 +48,5 @@ exports.ping = async (req, res) => {
     if (user) {
         return res.status(200).json({ data: true });
     }
-    return res.status(200).json({ data: false });
+    return res.status(404).json({ data: false });
 };
