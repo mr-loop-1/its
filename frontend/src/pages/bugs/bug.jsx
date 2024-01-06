@@ -17,7 +17,7 @@ import Stream from '@/components/stream';
 import BugMain from '@/components/bugs';
 import ChangeProgress from '@/components/bugs/changeStatus';
 import { Separator } from '@/components/ui/separator';
-const backendURL = 'http://127.0.0.1:5000';
+import { getBug } from 'api/bugs';
 
 export default function Bug() {
   const [bug, setBug] = useState(null);
@@ -29,12 +29,13 @@ export default function Bug() {
     // setLoading(() => true);
     try {
       (async () => {
-        const data = await axios.get(`${backendURL}/bugs/${params.bugId}`, {
-          headers: {
-            Authorization: 'Bearer:' + localStorage.getItem('token'),
-          },
-        });
-        console.log('🚀 ~ file: bug.jsx:30 ~ data.data:', data.data);
+        const data = await getBug(localStorage.getItem('token'), params.bugId);
+        // const data = await axios.get(`${backendURL}/bugs/${params.bugId}`, {
+        //   headers: {
+        //     Authorization: 'Bearer:' + localStorage.getItem('token'),
+        //   },
+        // });
+        // console.log('🚀 ~ file: bug.jsx:30 ~ data.data:', data.data);
         setBug(() => data.data);
         setLoading(() => false);
       })();
