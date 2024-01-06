@@ -66,7 +66,7 @@ export default function CreateBug({ project, refetch, toggleRefetch }) {
         message: 'atlease 2 char',
       })
       .max(40, { message: 'atmost 40 chars' }),
-    description: z.string().max(150, { message: 'atmost 150 chars' }),
+    description: z.string().max(500, { message: 'atmost 150 chars' }),
     priority: z.string(),
     ...(project.isGithub && { commit: z.string() }),
   });
