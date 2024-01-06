@@ -4,6 +4,7 @@ import { loginUser } from 'api/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './../../app/reducers/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import { Card, CardDescription } from '@/components/ui/card';
 
 export default function Login() {
   const {
@@ -38,6 +39,32 @@ export default function Login() {
           <h2 class="text-center font-semibold text-3xl lg:text-4xl text-gray-800">
             Login
           </h2>
+
+          <Card className="w-fit px-2 py-1 mt-4">
+            <CardDescription>
+              sample users
+              <ul>
+                <li>
+                  <img src="/profile/0.svg" className="w-6 h-6 inline mt-2" />
+                  <span className="ml-2">
+                    abd1@gmail.com : password1 : Abdul Samad
+                  </span>
+                </li>
+                <li>
+                  <img src="/profile/8.svg" className="w-6 h-6 inline mt-2" />
+                  <span className="ml-2">
+                    abd2@gmail.com : password2 : Michael
+                  </span>
+                </li>
+                <li>
+                  <img src="/profile/3.svg" className="w-6 h-6 inline mt-2" />
+                  <span className="ml-2">
+                    abd3@gmail.com : password3 : Daniel
+                  </span>
+                </li>
+              </ul>
+            </CardDescription>
+          </Card>
 
           <form class="mt-10" method="POST" onSubmit={handleSubmit(onSubmit)}>
             <label

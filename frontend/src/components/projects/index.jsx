@@ -14,7 +14,7 @@ export default function ProjectSidebar({
 }) {
   const navigate = useNavigate();
   return (
-    <div className="fixed left-16 top-0 w-56 lg:w-72 h-screen pt-0 pb-6 px-7 bg-gray-50 overflow-y-auto border-r border-solid border-r-[#dfe1e6]">
+    <div className="fixed left-16 top-6 w-56 lg:w-72 h-screen pt-0 pb-6 px-7 bg-gray-50 overflow-y-auto border-r border-solid border-r-[#dfe1e6]">
       <header
         className="flex items-center mt-8 mb-6 cursor-pointer"
         onClick={() => navigate('/projects')}

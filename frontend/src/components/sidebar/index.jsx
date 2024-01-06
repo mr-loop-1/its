@@ -7,6 +7,7 @@ import {
   Crosshair2Icon,
   ExitIcon,
   HomeIcon,
+  InfoCircledIcon,
 } from '@radix-ui/react-icons';
 import { Avatar, AvatarFallback, AvatarImage } from './avatar';
 import { setUser } from '@/app/reducers/auth';
@@ -31,7 +32,7 @@ export default function Sidebar() {
     <div
       className={clsx(
         ['/register', '/login'].includes(location.pathname) && 'hidden',
-        'fixed flex flex-col justify-between z-50 left-0 top-0 w-16 hover:w-[60%] md:hover:w-48 h-screen bg-[#0747A6] overflow-x-hidden transition-all duration-[0.1s] hover:shadow-[0_0_50px_0_rgba(0,0,0,0.6)] transform translate-z-0',
+        'fixed flex flex-col justify-between z-30 left-0 top-6 w-16 hover:w-[60%] md:hover:w-48 h-screen bg-[#0747A6] overflow-x-hidden transition-all duration-[0.1s] hover:shadow-[0_0_50px_0_rgba(0,0,0,0.6)] transform translate-z-0',
       )}
     >
       <div>
@@ -58,10 +59,10 @@ export default function Sidebar() {
             <span className="text-white font-semibold ml-4">Projects</span>
           </div>
         </Link>
-        <Link to="/bugs">
+        <Link to="/info">
           <div className="py-3 rounded flex items-center w-full hover:bg-[#1a52a7] active:bg-[#1a52a7] cursor-pointer">
             <span className="w-16">
-              <Crosshair2Icon className="w-8 h-8 ml-4 text-white" />
+              <InfoCircledIcon className="w-8 h-8 ml-4 text-white" />
             </span>
             <span className="text-white font-semibold ml-4">Bugs</span>
           </div>

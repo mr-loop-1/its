@@ -5,17 +5,19 @@ import Register from './pages/auth/register';
 import Login from './pages/auth/login';
 import RouteGuard from './guard/route-enhanced';
 import Sidebar from './components/sidebar';
-import Info from './pages/invites';
+import Info from './pages/info';
 import Bug from './pages/bugs/bug';
 import Home from './pages/home';
 import ProjectMain from './components/projects/main';
 import Project from './pages/project';
+import TopBar from './pages/topbar';
 
 function App() {
   return (
     <>
       {/* <Sidebar /> */}
       <Router>
+        <TopBar />
         <Sidebar />
         <Routes>
           <Route path="/register" element={<Register />} />
@@ -30,6 +32,7 @@ function App() {
             {/* <Route path="/invites" element={<Projects />} /> */}
             <Route path="/bugs/:bugId" element={<Bug />} />
             <Route path="/bugs" element={<Bug />} />
+            <Route path="/info" element={<Info />} />
           </Route>
         </Routes>
       </Router>
