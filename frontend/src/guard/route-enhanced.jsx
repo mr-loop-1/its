@@ -57,7 +57,7 @@ const RouteGuard = ({ component: Component, ...rest }) => {
 
   console.log('it ran ----------------------------------------------');
 
-  return <ServerLoad />;
+  // return <ServerLoad />;
 
   return loading ? (
     validUser ? (
