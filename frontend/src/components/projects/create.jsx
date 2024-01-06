@@ -100,8 +100,8 @@ export default function CreateProject({ refetch, toggleRefetch }) {
         isGithub: inputs.isGithub,
         ...(inputs.isGithub && {
           github: {
-            url: inputs.url,
-            token: inputs.token,
+            url: inputs.githubUrl,
+            token: inputs.githubPAT,
           },
         }),
         admin: user.id,
@@ -109,6 +109,7 @@ export default function CreateProject({ refetch, toggleRefetch }) {
         members: [user.id],
         invites: form.getValues('members') || [],
       };
+      console.log('🚀 ~ file: create.jsx:112 ~ onSubmit ~ data:', data);
 
       await createProject(localStorage.getItem('token'), data);
       toggleRefetch(() => (refetch ? false : true));
