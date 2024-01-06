@@ -37,14 +37,19 @@ const RouteGuard = ({ component: Component, ...rest }) => {
               setValidUser(() => true);
               setLoading(() => false);
             } else {
+              localStorage.removeItem('user');
+              localStorage.removeItem('token');
               setValidUser(() => false);
               setLoading(() => false);
             }
           } else {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             setValidUser(() => false);
             setLoading(() => false);
           }
         } else {
+          localStorage.removeItem('user');
           setValidUser(() => false);
           setLoading(() => false);
         }
@@ -60,13 +65,11 @@ const RouteGuard = ({ component: Component, ...rest }) => {
   // return <ServerLoad />;
 
   return loading ? (
-    validUser ? (
-      <Outlet />
-    ) : (
-      <Navigate to="/login" />
-    )
-  ) : (
     <ServerLoad />
+  ) : validUser ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" />
   );
 };
 
