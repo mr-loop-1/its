@@ -51,7 +51,10 @@ export default function ProjectSidebar({ projects, refetch, toggleRefetch }) {
                         {project.project.title}
                       </div>
                       <div className="flex mt-2">
-                        <img src="/role/admin.svg" className="w-5" />
+                        <img
+                          src={`/role/${project.role}.svg`}
+                          className="w-5"
+                        />
                         <span className="text-sm ml-2">{project.role}</span>
                       </div>
                     </div>
