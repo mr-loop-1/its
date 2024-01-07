@@ -85,9 +85,7 @@ export default function AssignBug({
             src={`/profile/${currentAssigned.slug}.svg`}
             className="w-7 h-7 inline"
           />
-          <span className="ml-2 max-w-40">
-            {currentAssigned.name}aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          </span>
+          <span className="ml-2 max-w-40">{currentAssigned.name}</span>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
