@@ -1,5 +1,7 @@
 # Issue Tracking System with git (its-git)
 
+### !! Files named ui.jsx and ui folder are open-source ui components modified according to the app !!
+
 A full stack application using MongoDb, ReactJs and NodeJs which is a **new and innovative** approach to how bug trackers are used in the software development world.
 
 ## Inspiration
