@@ -9,7 +9,7 @@ import {
 import { Button } from '../ui/button';
 import Comment from './comment';
 
-export default function Stream({ stream, bugId }) {
+export default function Stream({ stream, bugId, refetch, toggleRefetch }) {
   return (
     <div className="mt-5">
       <span className="text-sm text-gray-600 font-semibold">
@@ -25,7 +25,11 @@ export default function Stream({ stream, bugId }) {
           </AccordionTrigger>
           <AccordionContent className="p-2">
             {/* Yes. It adheres to the WAI-ARIA design pattern. */}
-            <Comment bugId={bugId} />
+            <Comment
+              bugId={bugId}
+              refetch={refetch}
+              toggleRefetch={toggleRefetch}
+            />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

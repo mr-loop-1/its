@@ -75,7 +75,12 @@ export default function Bug() {
               className="w-[90%] mt-10 mb-5 mx-auto"
               orientation="horizontal"
             />
-            <Stream stream={bug.stream} bugId={bug.id} />
+            <Stream
+              stream={bug.stream}
+              bugId={bug.id}
+              refetch={refetch}
+              toggleRefetch={toggleFetch}
+            />
           </div>
         )
       )}

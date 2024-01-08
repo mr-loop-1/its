@@ -53,7 +53,7 @@ import { createProject } from 'api/projects';
 import { createBug } from 'api/bugs';
 import { addStreamItem } from 'api/stream';
 
-export default function Comment({ bugId }) {
+export default function Comment({ bugId, refetch, toggleRefetch }) {
   const [open, setOpen] = useState(false);
 
   const formSchema = z.object({
@@ -80,6 +80,8 @@ export default function Comment({ bugId }) {
       };
 
       await addStreamItem(localStorage.getItem('token'), data, bugId);
+      toggleRefetch(() => (refetch ? false : true));
+      form.setValue('comment', '');
       setOpen(() => false);
     } catch (err) {
       console.log(err);
