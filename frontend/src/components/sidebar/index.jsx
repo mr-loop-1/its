@@ -9,7 +9,6 @@ import {
   HomeIcon,
   InfoCircledIcon,
 } from '@radix-ui/react-icons';
-import { Avatar, AvatarFallback, AvatarImage } from './avatar';
 import { setUser } from '@/app/reducers/auth';
 
 export default function Sidebar() {
@@ -64,7 +63,7 @@ export default function Sidebar() {
             <span className="w-16">
               <InfoCircledIcon className="w-8 h-8 ml-4 text-white" />
             </span>
-            <span className="text-white font-semibold ml-4">Bugs</span>
+            <span className="text-white font-semibold ml-4">Info</span>
           </div>
         </Link>
       </div>
