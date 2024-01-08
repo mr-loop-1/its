@@ -8,6 +8,10 @@ import { Navigate, Outlet, useOutletContext } from 'react-router-dom';
 
 const RouteGuard = () => {
   const hasValidJwt = useOutletContext();
+  console.log(
+    '🚀 ~ file: route.jsx:11 ~ RouteGuard ~ hasValidJwt:',
+    hasValidJwt,
+  );
 
   return hasValidJwt ? <Outlet /> : <Navigate to="/login" />;
 };

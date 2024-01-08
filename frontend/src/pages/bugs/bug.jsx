@@ -85,7 +85,11 @@ export default function Bug() {
           />
         </div>
       ) : (
-        <h1 className="ml-16 px-8 md:px-20 mt-40 pb-96">Bug doesn't exists</h1>
+        <h1 className="ml-16 px-8 md:px-20 mt-40 pb-96">
+          Bug doesn't exists
+          <br />
+          Maybe database has reset
+        </h1>
       )}
     </>
   );

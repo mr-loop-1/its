@@ -21,15 +21,17 @@ export default function Project() {
   useEffect(() => {
     console.log('here,.............................................');
     // setIsLoading(() => true);
-    try {
-      (async () => {
+
+    (async () => {
+      try {
         const data = await getProject(localStorage.getItem('token'), projectId);
         setProject(() => data.data);
         setIsLoading(() => false);
-      })();
-    } catch (err) {
-      console.log('🚀 ~ file: index.jsx:31 ~ useEffect ~ err:', err);
-    }
+      } catch (err) {
+        setIsLoading(() => false);
+        console.log('🚀 ~ file: index.jsx:31 ~ useEffect ~ err:', err);
+      }
+    })();
   }, [refetch, projectId]);
 
   return (
@@ -37,41 +39,45 @@ export default function Project() {
     <div className="ml-16 md:ml-72 lg:ml-[22rem]">
       {isLoading ? (
         <ReloadIcon className=" h-16 w-16 animate-spin" />
+      ) : project ? (
+        <div className="mx-5 mt-8 flex flex-col">
+          <ProjectHeader
+            title={project.title}
+            id={project.id}
+            project={project}
+            refetch={refetch}
+            setProject={setProject}
+            toggleRefetch={toggleRefetch}
+            toggleRefetchParent={toggleRefetchParent}
+            refetchParent={refetchParent}
+          />
+
+          <ProjectPeople
+            project={project}
+            refetch={refetch}
+            toggleRefetch={toggleRefetch}
+          />
+          {project.isGithub ? (
+            <ProjectCommits project={project} />
+          ) : (
+            <div className="mt-5 text-sm text-gray-700">
+              No commit stats to show (Project doesn't have Github)
+            </div>
+          )}
+
+          <BugsList
+            bugs={project.bugs}
+            project={project}
+            refetch={refetch}
+            toggleRefetch={toggleRefetch}
+          />
+        </div>
       ) : (
-        project && (
-          <div className="mx-5 mt-8 flex flex-col">
-            <ProjectHeader
-              title={project.title}
-              id={project.id}
-              project={project}
-              refetch={refetch}
-              setProject={setProject}
-              toggleRefetch={toggleRefetch}
-              toggleRefetchParent={toggleRefetchParent}
-              refetchParent={refetchParent}
-            />
-
-            <ProjectPeople
-              project={project}
-              refetch={refetch}
-              toggleRefetch={toggleRefetch}
-            />
-            {project.isGithub ? (
-              <ProjectCommits project={project} />
-            ) : (
-              <div className="mt-5 text-sm text-gray-700">
-                No commit stats to show (Project doesn't have Github)
-              </div>
-            )}
-
-            <BugsList
-              bugs={project.bugs}
-              project={project}
-              refetch={refetch}
-              toggleRefetch={toggleRefetch}
-            />
-          </div>
-        )
+        <h1 className="mx-5 mt-8 flex flex-col">
+          Project doesn't exists.
+          <br />
+          Maybe database has reset
+        </h1>
       )}
     </div>
   );

@@ -14,61 +14,50 @@ const GlobalRouteGuard = ({ component: Component, ...rest }) => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log('it ran ----------------------------------------------');
-
     (async () => {
       console.log('here');
       try {
         if (localStorage.getItem('token')) {
-          console.log('here1');
           const localUser = JSON.parse(localStorage.getItem('user'));
           if (localUser && localUser.hasOwnProperty('email')) {
-            console.log('here3');
             const pingStatus = await pingUser({ email: localUser.email });
             if (pingStatus == 200) {
-              console.log('here8');
               dispatch(fillUser(JSON.parse(localStorage.getItem('user'))));
               setValidUser(() => true);
               setLoading(() => false);
             } else {
-              console.log('here7');
               localStorage.removeItem('user');
               localStorage.removeItem('token');
               setValidUser(() => false);
               setLoading(() => false);
             }
           } else {
-            console.log('here4');
             localStorage.removeItem('user');
             localStorage.removeItem('token');
             setValidUser(() => false);
             setLoading(() => false);
           }
         } else {
-          console.log('here5');
           localStorage.removeItem('user');
           setValidUser(() => false);
           setLoading(() => false);
         }
       } catch (err) {
-        console.log('here2');
         setValidUser(() => false);
         setLoading(() => false);
       }
     })();
   }, [location.pathname]);
 
-  console.log('it ran ----------------------------------------------');
-
   return loading ? <ServerLoad /> : <Outlet context={validUser} />;
 
-  return loading ? (
-    <ServerLoad />
-  ) : validUser ? (
-    <Outlet context={validUser} />
-  ) : (
-    <Navigate to="/login" />
-  );
+  // return loading ? (
+  //   <ServerLoad />
+  // ) : validUser ? (
+  //   <Outlet context={validUser} />
+  // ) : (
+  //   <Navigate to="/login" />
+  // );
 };
 
 export default GlobalRouteGuard;
