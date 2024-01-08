@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { acceptInvite, getInvites } from 'api/invites';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -56,7 +57,7 @@ export default function Home() {
         <CardHeader>
           <CardTitle>here are your project invites</CardTitle>
         </CardHeader>
-        {!isLoading && (
+        {!isLoading ? (
           <CardContent>
             {invites.length ? (
               invites.map((invite) => {
@@ -151,6 +152,8 @@ export default function Home() {
             </TableBody>
           </Table> */}
           </CardContent>
+        ) : (
+          <ReloadIcon className="animate-spin w-7 h-7 ml-2" />
         )}
       </Card>
     </div>

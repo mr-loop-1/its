@@ -60,7 +60,7 @@ export default function Project() {
               <ProjectCommits project={project} />
             ) : (
               <div className="mt-5 text-sm text-gray-700">
-                No commit stats to show
+                No commit stats to show (Project doesn't have Github)
               </div>
             )}
 

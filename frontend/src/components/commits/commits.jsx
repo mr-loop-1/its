@@ -44,7 +44,7 @@ import { Card, CardContent, CardDescription, CardTitle } from '../ui/card';
 import { getFullDate } from '@/lib/utils';
 export default function ProjectCommits({ project }) {
   const user = useSelector((state) => state.auth.userInfo);
-  const [value, setValue] = React.useState('one');
+  const [value, setValue] = React.useState('item-1');
   const [commits, setCommits] = useState([]);
   console.log('🚀 ~ file: commits.jsx:42 ~ ProjectCommits ~ commits:', commits);
   console.log('🚀 ~ file: commits.jsx:41 ~ ProjectCommits ~ value:', value);
@@ -70,6 +70,7 @@ export default function ProjectCommits({ project }) {
         collapsible
         value={value}
         onValueChange={setValue}
+        defaultValue="item-1"
       >
         <AccordionItem value="item-1" className="border-b-0">
           <AccordionTrigger className="bg-gray-100 rounded px-3">
@@ -97,7 +98,7 @@ export default function ProjectCommits({ project }) {
                               linked: {commit.bugs.open.length}
                             </div>
                             <div className="break-words">
-                              timestamp: {getFullDate(commit.timestamp)}
+                              authored: {getFullDate(commit.timestamp)}
                             </div>
                           </CardDescription>
                         </Card>
