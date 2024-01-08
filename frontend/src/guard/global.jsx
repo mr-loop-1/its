@@ -7,21 +7,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-const RouteGuard = ({ component: Component, ...rest }) => {
+const GlobalRouteGuard = ({ component: Component, ...rest }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [validUser, setValidUser] = useState(false);
   const location = useLocation();
-
-  function hasJWT() {
-    let flag = false;
-    localStorage.getItem('token') ? (flag = true) : (flag = false);
-    if (flag) {
-      dispatch(fillUser(JSON.parse(localStorage.getItem('user'))));
-    }
-    console.log('here2', flag);
-    return flag;
-  }
 
   useEffect(() => {
     console.log('it ran ----------------------------------------------');
@@ -62,15 +52,15 @@ const RouteGuard = ({ component: Component, ...rest }) => {
 
   console.log('it ran ----------------------------------------------');
 
-  // return <ServerLoad />;
+  return loading ? <ServerLoad /> : <Outlet context={validUser} />;
 
   return loading ? (
     <ServerLoad />
   ) : validUser ? (
-    <Outlet />
+    <Outlet context={validUser} />
   ) : (
     <Navigate to="/login" />
   );
 };
 
-export default RouteGuard;
+export default GlobalRouteGuard;

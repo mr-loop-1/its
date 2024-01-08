@@ -27,7 +27,9 @@ const TopBar = () => {
       const now = new Date();
       const currentMinutes = now.getMinutes();
       const nextTenMinuteMark = Math.ceil(currentMinutes / 5) * 5;
-      const minutesRemaining = nextTenMinuteMark - currentMinutes - 1;
+      const minutesRemaining =
+        currentMinutes % 5 === 0 ? 4 : nextTenMinuteMark - currentMinutes - 1;
+      // const minutesRemaining = nextTenMinuteMark - currentMinutes - 1;
       const secondsRemaining = 60 - now.getSeconds();
       setCountdown({ minutes: minutesRemaining, seconds: secondsRemaining });
     };
