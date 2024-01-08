@@ -18,6 +18,7 @@ export const getBug = async (token, bugId) => {
   const result = await axios.get(`${API_URL}/bugs/${bugId}`, {
     headers: { Authorization: `Bearer:${token}` },
   });
+  console.log('🚀 ~ file: bugs.js:20 ~ getBug ~ result:', result);
   return result;
 };
 

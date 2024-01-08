@@ -27,9 +27,11 @@ export default function Bug() {
 
   useEffect(() => {
     // setLoading(() => true);
-    try {
-      (async () => {
+
+    (async () => {
+      try {
         const data = await getBug(localStorage.getItem('token'), params.bugId);
+        console.log('🚀 ~ file: bug.jsx:33 ~ data:', data);
         // const data = await axios.get(`${backendURL}/bugs/${params.bugId}`, {
         //   headers: {
         //     Authorization: 'Bearer:' + localStorage.getItem('token'),
@@ -38,11 +40,12 @@ export default function Bug() {
         // console.log('🚀 ~ file: bug.jsx:30 ~ data.data:', data.data);
         setBug(() => data.data);
         setLoading(() => false);
-      })();
-    } catch (err) {
-      console.log('🚀 ~ file: bug.jsx:31 ~ useEffect ~ err:', err);
-      console.log('no bugs found');
-    }
+      } catch (err) {
+        setLoading(() => false);
+        console.log('🚀 ~ file: bug.jsx:31 ~ useEffect ~ err:', err);
+        console.log('no bugs found');
+      }
+    })();
   }, [refetch]);
 
   return (
@@ -50,39 +53,39 @@ export default function Bug() {
       {loading ? (
         // <ReloadIcon className=" h-40 w-40 animate-spin" />
         <></>
+      ) : bug ? (
+        <div className="ml-16 px-8 md:px-20 mt-10 pb-96">
+          <BugMain bug={bug} setBug={setBug} />
+
+          <ChangeProgress
+            bugId={bug.id}
+            currentStatus={bug.progress}
+            refetch={refetch}
+            toggleRefetch={toggleFetch}
+          />
+
+          {/* <div className=".assign&status flex flex-wrap"> */}
+          <AssignBug
+            bugId={bug.id}
+            currentAssigned={bug.assignedTo}
+            projectUsers={bug.project.members}
+            refetch={refetch}
+            toggleRefetch={toggleFetch}
+          />
+          {/* </div> */}
+          <Separator
+            className="w-[90%] mt-10 mb-5 mx-auto"
+            orientation="horizontal"
+          />
+          <Stream
+            stream={bug.stream}
+            bugId={bug.id}
+            refetch={refetch}
+            toggleRefetch={toggleFetch}
+          />
+        </div>
       ) : (
-        bug && (
-          <div className="ml-16 px-8 md:px-20 mt-10 pb-96">
-            <BugMain bug={bug} setBug={setBug} />
-
-            <ChangeProgress
-              bugId={bug.id}
-              currentStatus={bug.progress}
-              refetch={refetch}
-              toggleRefetch={toggleFetch}
-            />
-
-            {/* <div className=".assign&status flex flex-wrap"> */}
-            <AssignBug
-              bugId={bug.id}
-              currentAssigned={bug.assignedTo}
-              projectUsers={bug.project.members}
-              refetch={refetch}
-              toggleRefetch={toggleFetch}
-            />
-            {/* </div> */}
-            <Separator
-              className="w-[90%] mt-10 mb-5 mx-auto"
-              orientation="horizontal"
-            />
-            <Stream
-              stream={bug.stream}
-              bugId={bug.id}
-              refetch={refetch}
-              toggleRefetch={toggleFetch}
-            />
-          </div>
-        )
+        <h1 className="ml-16 px-8 md:px-20 mt-40 pb-96">Bug doesn't exists</h1>
       )}
     </>
   );

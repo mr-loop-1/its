@@ -14,7 +14,6 @@ import TopBar from './pages/topbar';
 import GlobalRouteGuard from './guard/global';
 
 function App() {
-  console.log('saddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
   return (
     <>
       {/* <Sidebar /> */}

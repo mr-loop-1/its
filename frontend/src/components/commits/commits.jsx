@@ -95,7 +95,7 @@ export default function ProjectCommits({ project }) {
                           </CardTitle>
                           <CardDescription>
                             <div className="">
-                              linked: {commit.bugs.open.length}
+                              linked bugs: {commit.bugs.open.length}
                             </div>
                             <div className="break-words">
                               authored: {getFullDate(commit.timestamp)}

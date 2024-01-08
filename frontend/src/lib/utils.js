@@ -6,14 +6,8 @@ export function cn(...inputs) {
 }
 
 export function getFullDate(date) {
-  console.log('🚀 ~ file: utils.js:9 ~ getFullDate ~ date:', date);
   const inputDate = new Date(date);
 
-  // Convert to IST (Indian Standard Time)
-  // const ISTOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5.5
-  // const ISTDate = new Date(inputDate.getTime() + ISTOffset);
-
-  // Format the date with IST time zone
   const formattedDate = new Intl.DateTimeFormat('en-IN', {
     hour: 'numeric',
     minute: 'numeric',
@@ -21,9 +15,8 @@ export function getFullDate(date) {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
-    timeZone: 'Asia/Kolkata', // IST time zone
+    timeZone: 'Asia/Kolkata',
   }).format(inputDate);
 
-  // console.log(formattedDate);
   return formattedDate;
 }
