@@ -66,6 +66,9 @@ export default function BugsList({ bugs, project, refetch, toggleRefetch }) {
                   </TableCell>
                   <TableCell className="w-fit break-words">
                     <span className="hover:underline">{bug.title}</span>
+                    <span className="text-xs text-lime-700 ml-2 font-bold hidden md:inline">
+                      #{bug.commits.open}
+                    </span>
                     <span className="ml-5 text-xs text-gray-400">
                       {getFullDate(bug.updatedAt)}
                     </span>
