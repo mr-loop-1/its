@@ -1,8 +1,8 @@
 # Issue Tracking System with git (its-git)
 
-### !! Files named ui.jsx and ui folder are open-source ui components modified according to the app !!
-
 A full stack application using MongoDb, ReactJs and NodeJs which is a **new and innovative** approach to how bug trackers are used in the software development world.
+
+#### !! Files named ui.jsx and ui folder are open-source ui components modified according to the app !!
 
 ## Inspiration
 During my SWE internship, I discovered that a lot of bugs that dev teams encounter are already solved some time earlier in the same project too. My reading habit then took me to these
@@ -28,3 +28,9 @@ currently using Vercel, MongoDb Atlas and Render. Will migrate shortly to AWS EB
 ### Why the app resets every 5 minutes
 To showcase correctly its working, I created three accounts as sample. I am yet to make these specific ones as readable only and hence they can be edited. Plus, as people will inspect the app, the database
 may enter paid threshold. For these reasons, I have employed a **MongoDb Atlas Trigger** to restore to my desired dataset.
+
+## Known Issues
+- the code needs refactoring
+- after logout or reset, login works in second time, it relates to how global guard is currently implemented
+- edit project modal is not fully tested
+- I want to make all the ui components myself
