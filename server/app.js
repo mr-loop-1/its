@@ -28,6 +28,10 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/projects", projectRouter);
 app.use("/bugs", bugsRouter);
+app.use("", (req, res) => {
+    console.log("here");
+    res.status(200).json({ message: "Server is now live" });
+});
 
 app.use("", (req, res) => {
     res.status(404).send("Not Found");

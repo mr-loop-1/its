@@ -24,19 +24,20 @@ function App() {
           <Route element={<GlobalRouteGuard />}>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route element={<RouteGuard />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/invites" element={<Info />} />
-
-              <Route path="/projects/*" element={<Projects />}>
-                <Route path=":projectId" element={<Project />} />
-              </Route>
-              {/* <Route path="/invites" element={<Projects />} /> */}
-              <Route path="/bugs/:bugId" element={<Bug />} />
-              <Route path="/bugs" element={<Bug />} />
-              <Route path="/info" element={<Info />} />
-            </Route>
           </Route>
+          <Route element={<RouteGuard />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/invites" element={<Info />} />
+
+            <Route path="/projects/*" element={<Projects />}>
+              <Route path=":projectId" element={<Project />} />
+            </Route>
+            {/* <Route path="/invites" element={<Projects />} /> */}
+            <Route path="/bugs/:bugId" element={<Bug />} />
+            <Route path="/bugs" element={<Bug />} />
+            <Route path="/info" element={<Info />} />
+          </Route>
+          {/* </Route> */}
         </Routes>
       </Router>
     </>
